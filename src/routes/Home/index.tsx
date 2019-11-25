@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
-import musicIcon from '../../../public/assets/images/music.png';
+import musicIcon from '../../public/assets/images/music.png';
 import goMusicIcon from '../../../public/assets/images/goMusic.png';
 import searchIcon from '../../../public/assets/images/search.png';
 import gedanIcon from '../../../public/assets/images/gedan.png';

@@ -139,7 +139,24 @@ module.exports = {
     "react-dom": "ReactDOM",
     "redux": "Redux"
   },
-  devServer: devServerConfig,
+  devServer: {
+    contentBase: path.join(__dirname, 'public'),
+    port: 3000,
+    host: '0.0.0.0',
+    hotOnly: true,
+    compress: true,
+    historyApiFallback: true,
+    quiet: false,
+    progress: true,
+    open: 'Google Chrome',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:4000',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  },
   plugins,
   performance: {
     hints: false
