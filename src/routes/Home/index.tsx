@@ -92,7 +92,7 @@ const Home: React.FC<IProps> = props => {
     >
       <header className="header">
         <img src={musicIcon} alt="" />
-        <input type="text" placeholder="请搜索" style={{ backgroundImage: `url(${searchIcon})` }} />
+        <input onClick={() => { history.push('/search') }} type="text" placeholder="请搜索" style={{ backgroundImage: `url(${searchIcon})` }} />
         <div onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
           <img style={{ display: music.isPlay ? 'none' : 'blick' }} src={goMusicIcon} alt="" />
           <RunIcon style={{ display: !music.isPlay ? 'none' : 'blick' }} />
@@ -138,7 +138,7 @@ const Home: React.FC<IProps> = props => {
                     </header>
                     <img data-src={item.picUrl} src={imgLoading} className="bgPic" />
                   </div>
-                  <span className="playsTitle">{item.name}</span>
+                  <span className="playsTitle" style={{ '-webkit-box-orient': 'vertical' }}>{item.name}</span>
                 </div>
               )
             })

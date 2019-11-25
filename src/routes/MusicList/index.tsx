@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
 import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
-import { Icon } from 'antd';
+import { Icon, message } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
 import { get_geci } from '@src/apis/home';
 import Detail from './Detail/index';
@@ -101,7 +101,7 @@ const MusicList: React.FC<IProps> = props => {
                                 </div>
                             </div>
                             <div className="right">
-                                <p className="title">
+                                <p className="title" style={{ '-webkit-box-orient': 'vertical' }}>
                                     {songList.name}
                                 </p>
                                 <div className="createor">
@@ -110,7 +110,7 @@ const MusicList: React.FC<IProps> = props => {
                                     <Icon type="right" />
                                 </div>
                                 <div className="description">
-                                    <p>
+                                    <p style={{ '-webkit-box-orient': 'vertical' }}>
                                         {songList.description}
                                     </p>
                                     <Icon type="right" />
@@ -135,13 +135,23 @@ const MusicList: React.FC<IProps> = props => {
                             <ul className="songs">
                                 {
                                     songList.tracks && songList.tracks.map((item: { name: string, ar: { name: string }[], al: { name: string } }, index: number) => {
+                                        const canPlay = item.fee === 1;
+                                        const isThis = playSong[0] ?.id === item.id;
                                         return (
-                                            <li onClick={() => { handlePlayMusic(item.id, index) }}>
+                                            <li
+                                                style={{ background: canPlay ? 'rgb(153, 153, 153, .1)' : '#fff' }}
+                                                onClick={() => { !canPlay ? handlePlayMusic(item.id, index) : message.info('此歌曲为vip专享') }}
+                                            >
                                                 <span className="index">{index + 1}</span>
-                                                <p className="songName" style={{ color: playSong[0] ?.id === item.id ? 'red' : '' }}>{item.name}</p>
-                                                <span className="songerName" style={{ color: playSong[0] ?.id === item.id ? 'red' : '' }}>{item.ar[0] ?.name}</span>
-                                                <span className="line">-</span>
-                                                <span className="albumName" style={{ color: playSong[0] ?.id === item.id ? 'red' : '' }}>{item.al ?.name}</span>
+                                                <p className="songName" style={{ color: isThis ? 'red' : '', '-webkit-box-orient': 'vertical' }}>
+                                                    {item.name}
+                                                    <span className="vip" style={{ display: canPlay ? '' : 'none' }}>vip</span>
+                                                </p>
+                                                <p className="nowrap" style={{ '-webkit-box-orient': 'vertical' }}>
+                                                    <span className="songerName" style={{ color: isThis ? 'red' : '' }}>{item.ar[0] ?.name}</span>
+                                                    <span className="line">-</span>
+                                                    <span className="albumName" style={{ color: isThis ? 'red' : '' }}>{item.al ?.name}</span>
+                                                </p>
                                                 <Icon type="dash" className="more" rotate={90} />
                                             </li>
                                         )

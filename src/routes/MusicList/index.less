@@ -56,7 +56,7 @@
 
                     .listenNum {
                         position: absolute;
-                        top: .3vh;
+                        top: 1vh;
                         right: 1vh;
                         display: flex;
                         align-items: center;
@@ -90,6 +90,11 @@
                     .title {
                         color: #FCF9FF;
                         font-size: 4vw;
+                        overflow: hidden;
+                        -webkit-line-clamp: 2;
+                        font-size: 2.8vw;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
                     }
 
                     .createor {
@@ -127,10 +132,11 @@
 
                         p {
                             color: #fff;
-                            white-space: nowrap;
                             overflow: hidden;
-                            text-overflow: ellipsis;
+                            -webkit-line-clamp: 2;
                             font-size: 2.8vw;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
                         }
 
                         .anticon {
@@ -239,6 +245,27 @@
                             color: #333;
                             font-size: 2.5vh;
                             margin-bottom: .6vh;
+                            overflow: hidden;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            padding-right: 8vw;
+
+                            .vip {
+                                color: red;
+                                font-size: 1vw;
+                                border: 1px solid red;
+                                border-radius: 4px;
+                                margin-left: 2vw;
+                                padding: 0 1vw;
+                            }
+                        }
+
+                        .nowrap {
+                            margin: 0px;
+                            overflow: hidden;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            padding-right: 8vw;
                         }
 
                         .line {
@@ -260,7 +287,7 @@
                             float: right;
                             font-size: 6vw;
                             position: relative;
-                            top: -2vh;
+                            top: -6vh;
                         }
 
                     }

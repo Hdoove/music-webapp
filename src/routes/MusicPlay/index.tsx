@@ -178,6 +178,13 @@ const Music: React.FC<IProps> = props => {
         } else if (playStatus === 2) {
             lastNum = Math.round(Math.random() * orderSongs.all);
         }
+        vip(lastNum);
+        function vip(num: number) {
+            if (songList.tracks[lastNum].fee === 1) {
+                lastNum = lastNum === 0 ? orderSongs.all - 1 : lastNum - 1;
+                vip(lastNum);
+            }
+        }
         publicChangeSong(songList.tracks[lastNum].id, lastNum);
     }
 
@@ -187,6 +194,13 @@ const Music: React.FC<IProps> = props => {
             nextNum = orderSongs.all > orderSongs.now ? orderSongs.now + 1 : 0;
         } else if (playStatus === 2) {
             nextNum = Math.round(Math.random() * orderSongs.all);
+        }
+        vip(nextNum);
+        function vip(num: number) {
+            if (songList.tracks[nextNum].fee === 1) {
+                nextNum = nextNum === orderSongs.all - 1 ? 0 : nextNum + 1;
+                vip(nextNum);
+            }
         }
         publicChangeSong(songList.tracks[nextNum].id, nextNum);
     }

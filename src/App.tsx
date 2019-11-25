@@ -46,6 +46,11 @@ const App: React.FC<AppProps> = AppProps => {
                 path="/list/:id"
                 component={LazyLoad(() => import('./routes/MusicList/index'))}
               />
+              <Route
+                exact
+                path="/search"
+                component={LazyLoad(() => import('./routes/Search/index'))}
+              />
             </Switch>
           </React.Fragment>
         </Router>
