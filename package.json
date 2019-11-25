@@ -22,7 +22,7 @@
     "echarts": "^4.4.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "immutable": "^4.0.0-rc.12",
-    "lodash": "4.17.11",
+    "lodash": "4.17.15",
     "md5": "^2.2.1",
     "prop-types": "15.7.2",
     "react": "16.8.6",
