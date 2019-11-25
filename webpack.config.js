@@ -128,6 +128,7 @@ module.exports = {
     '@babel/polyfill',
     './src/index.tsx'
   ],
+
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[id].[chunkhash].bundle.js',
