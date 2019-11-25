@@ -1,5 +1,5 @@
 {
-  "name": "xingheng-react-boilerplate",
+  "name": "musicapp",
   "version": "1.0.0",
   "description": "",
   "main": "./src/index.js",
@@ -91,6 +91,6 @@
     "build-dev": "cross-env NODE_ENV=development DEPLOY=1 webpack",
     "build-test": "cross-env NODE_ENV=production DEPLOY=1 ANALYZE=1 webpack --progress"
   },
-  "author": "xingheng",
+  "author": "lj",
   "license": "ISC"
 }

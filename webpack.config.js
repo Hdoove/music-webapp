@@ -74,19 +74,19 @@ module.exports = {
         ]
       },
       {
-        test: /\.(jpg|png|gif|svg)$/,
-        loader: 'image-webpack-loader',
-        enforce: 'pre'
-      },
-      {
         test: /\.(png|jp?g|gif)$/i,
         use: [{
           loader: 'url-loader',
           options: {
             limit: 10 * 1024,
-            outputPath: 'assets/images/'
+            outputPath: 'images/'
           }
         }]
+      },
+      {
+        test: /\.(jpg|png|gif|svg)$/,
+        loader: 'image-webpack-loader',
+        enforce: 'pre'
       },
       {
         test: /\.svg$/,
