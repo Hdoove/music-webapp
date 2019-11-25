@@ -1,0 +1,84 @@
+.listDetailRoot {
+    width: 100%;
+    height: 100vh;
+
+    .bg {
+        width: 100%;
+        height: 100vh;
+        float: left;
+        background-repeat: no-repeat;
+        background-size: 200% 200%;
+        background-position: center center;
+        filter: blur(30px);
+    }
+
+    .info {
+        position: absolute;
+        overflow: auto;
+        height: 100vh;
+
+        .anticon {
+            position: fixed;
+            top: 4vh;
+            right: 4vh;
+            font-size: 6vw;
+            color: #fff;
+        }
+
+        .top {
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 12vh;
+
+            .cover {
+                width: 40vw;
+                height: 40vw;
+                border-radius: 4px;
+            }
+
+            .title {
+                color: #fff;
+                font-size: 4vw;
+                margin-top: 2vh;
+                padding-bottom: 2vh;
+                border-bottom: 1px solid #AA9B8B;
+            }
+        }
+
+        .bottom {
+            padding: 0px 8vw;
+            margin-top: 2vh;
+            color: #fff;
+
+            .tags {
+                display: flex;
+                align-items: center;
+
+                .tagTitle {
+                    font-size: 4vw;
+                    opacity: .8;
+                }
+
+                .tag {
+                    font-size: 2vw;
+                    display: inline-block;
+                    border: 1px solid;
+                    padding: .1vh 1vw;
+                    border-radius: 4px;
+                    margin: 0 3vw;
+                    background: rgba(255, 255, 255, .1);
+                }
+            }
+
+            .text {
+                white-space: pre-line;
+                line-height: 8vh;
+                margin-top: 4vh;
+            }
+        }
+
+
+    }
+}

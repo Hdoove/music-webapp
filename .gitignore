@@ -1,0 +1,11 @@
+#node dependencies
+/node_modules
+
+#production files
+/dist
+
+#editor files
+.vscode/
+package-lock.json
+
+yarn.lock

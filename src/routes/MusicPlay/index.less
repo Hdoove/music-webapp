@@ -1,0 +1,195 @@
+.musicRoot {
+    text-align: center;
+    // padding: 0 10%;
+    position: relative;
+    height: 100vh;
+
+    .bg {
+        float: left;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        filter: blur(15px);
+        height: 100vh;
+    }
+
+    .body {
+        position: absolute;
+        width: 100%;
+
+        .musicPlayHead {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4%;
+
+            .icon {
+                color: #fff;
+                font-size: 4vw;
+            }
+
+            div {
+                display: flex;
+                flex-direction: column;
+
+                span:nth-child(1) {
+                    color: #eeefef;
+                    font-size: 3vw;
+                    text-shadow: 0px 0px 0px #000;
+                }
+
+                span:nth-child(2) {
+                    color: #DADBDC;
+                    font-size: 2vw;
+                    text-shadow: 0px 0px 0px #000;
+                }
+            }
+        }
+
+        .content {
+            text-align: center;
+            position: relative;
+            height: 54vh;
+            min-height: 54vh;
+            max-height: 54vh;
+            overflow: hidden;
+
+            .changpian {
+                width: 40%;
+                transform-origin: 10% 8%;
+                margin-top: 4px;
+                transition: transform 1s;
+            }
+
+            .cricle {
+                width: 30vh;
+                height: 30vh;
+                border-radius: 50%;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 4vh solid #000;
+                overflow: hidden;
+
+                img {
+                    height: 24vh;
+                    width: 24vh;
+                }
+            }
+
+            .animation {
+                animation: xuanzhuan 6s linear infinite;
+
+                @keyframes xuanzhuan {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            }
+
+            .nomal {
+                position: absolute;
+                transition: top 1s linear;
+                float: left;
+                width: 100%;
+            }
+
+            .active {
+                color: red;
+            }
+
+        }
+
+        .btns {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 4vh;
+
+            .anticon {
+                font-size: 1.5rem;
+            }
+        }
+
+        .prosessControl {
+            position: relative;
+            height: 14vh;
+            display: flex;
+            align-items: center;
+
+            .process {
+                height: 4px;
+                background: #707071;
+                border-radius: 4px;
+                width: 78%;
+                position: absolute;
+                left: 10%;
+            }
+
+            .dropBtn {
+                width: .75rem;
+                height: .75rem;
+                border-radius: 50%;
+                background: #fff;
+                position: absolute;
+                margin-left: 9.4%;
+            }
+
+            .currentTime {
+                position: absolute;
+                left: 2%;
+                font-size: .75rem;
+                color: #fff;
+                text-shadow: 1px 0px 0px #000;
+
+            }
+
+            .allTime {
+                position: absolute;
+                right: 2%;
+                font-size: .75rem;
+                color: #fff;
+                text-shadow: 1px 0px 0px #000;
+
+            }
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 8%;
+            width: 100%;
+            font-size: 1.5rem;
+        }
+    }
+
+    .goBack {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0px;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+
+        span {
+            font-size: 5vw;
+        }
+
+        .anticon {
+            margin-top: 14vh;
+            border: 1px solid #F85142;
+            border-radius: 50%;
+            padding: 2vh;
+            font-size: 14vw;
+        }
+    }
+}

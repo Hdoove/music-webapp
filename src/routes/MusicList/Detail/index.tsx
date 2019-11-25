@@ -1,0 +1,47 @@
+import React, { useEffect, useState, useRef } from 'react';
+import { Icon } from 'antd';
+import './index.less';
+
+interface IProps {
+    data: any;
+    isShow: boolean;
+    onClose: () => void;
+}
+const ListDetail: React.FC<IProps> = props => {
+
+    const { data, isShow, onClose } = props;
+
+    return (
+        <div className="listDetailRoot" style={{ display: isShow ? '' : 'none' }}>
+            <div className="bg" style={{ backgroundImage: `url(${data.coverImgUrl})` }} />
+            <div className="info">
+                <Icon type="close" onClick={() => { onClose() }} />
+                <div className="top">
+                    <img className="cover" src={data.coverImgUrl} alt="" />
+                    <p className="title">{data.name}</p>
+                </div>
+                <div className="bottom">
+                    <div className="tags">
+                        <span className="tagTitle">标签:</span>
+                        {
+                            data.tags && data.tags.map((item: string) => {
+                                return (
+                                    <span className="tag">{item}</span>
+                                )
+                            })
+                        }
+                    </div>
+                    <div className="text">
+                        {
+                            data.description
+                        }
+                    </div>
+                </div>
+            </div>
+        </div >
+    );
+}
+
+
+export default ListDetail;
+
