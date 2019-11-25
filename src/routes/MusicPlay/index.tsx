@@ -3,12 +3,12 @@ import { changeTime } from '@src/utilities/changeTime';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CircleIcon } from '@src/components/RunIcon/index';
-import changpianIcon from '../../../public/assets/images/changpian.jpg';
+import changpianIcon from '@src/images/changpian.jpg';
 import actions, { getSongDetail, getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
 import { Icon } from 'antd';
-import onlySong from '../../../public/assets/images/only.png';
-import sortSong from '../../../public/assets/images/sort.png';
-import xunhuanSong from '../../../public/assets/images/xunhuan.png';
+import onlySong from '@src/images/only.png';
+import sortSong from '@src/images/sort.png';
+import xunhuanSong from '@src/images/xunhuan.png';
 import SongList from "./components/songList";
 
 import './index.less';
