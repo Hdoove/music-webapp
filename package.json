@@ -91,6 +91,6 @@
     "build-dev": "cross-env NODE_ENV=development DEPLOY=1 webpack",
     "build-test": "cross-env NODE_ENV=production DEPLOY=1 ANALYZE=1 webpack --progress"
   },
-  "author": "lj",
+  "author": "ljhd",
   "license": "ISC"
 }
