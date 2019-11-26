@@ -1,6 +1,5 @@
 .musicRoot {
     text-align: center;
-    // padding: 0 10%;
     position: relative;
     height: 100vh;
 
@@ -12,6 +11,15 @@
         background-size: cover;
         filter: blur(10px) grayscale(.8);
         height: 100vh;
+
+        &::after {
+            content: '';
+            content: '';
+            width: 100%;
+            height: 100vh;
+            display: inline-block;
+            background: rgba(0, 0, 0, .5);
+        }
     }
 
     .body {

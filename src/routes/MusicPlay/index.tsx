@@ -3,12 +3,12 @@ import { changeTime } from '@src/utilities/changeTime';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CircleIcon } from '@src/components/RunIcon/index';
-import changpianIcon from '../../images/changpian.jpg';
+import changpianIcon from '../../../public/assets/images/changpian.jpg';
 import actions, { getSongDetail, getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
 import { Icon } from 'antd';
-import onlySong from '../../images/only.png';
-import sortSong from '../../images/sort.png';
-import xunhuanSong from '../../images/xunhuan.png';
+import onlySong from '../../../public/assets/images/only.png';
+import sortSong from '../../../public/assets/images/sort.png';
+import xunhuanSong from '../../../public/assets/images/xunhuan.png';
 import SongList from "./components/songList";
 
 import './index.less';
@@ -34,6 +34,11 @@ interface IProps {
     onPlay: (id: number, index: number) => void;
     onPlayAll: () => void;
 }
+
+interface IGeci {
+    time: number,
+    text: string
+}[];
 const Music: React.FC<IProps> = props => {
 
     const [playLen, setPlayLen] = useState<number>(0);// 播放进度条
@@ -42,7 +47,7 @@ const Music: React.FC<IProps> = props => {
     const [allTime, setAllTime] = useState<number>(0); // 歌曲总时长
     const [playStatus, setPlayStatus] = useState<number>(0);// 0顺序播放  1 单独播放 2 随机播放
     const [selectGeciNum, setSelectGeciNum] = useState<number>(-1);
-    const [geci, setGeci] = useState<({ time: number, text: string } | undefined)[]>([]);
+    const [geci, setGeci] = useState<(IGeci)[]>([]);
     const [isShowGeci, setIsShowGeci] = useState<boolean>(false); // 显示歌词还是转盘
     const audioRef = useRef<any>();
 
@@ -207,10 +212,16 @@ const Music: React.FC<IProps> = props => {
 
     function handlePlay(id: number, index: number) {
         publicChangeSong(id, index);
+        if (!music.isPlay) {
+            musicinfoSet({ ...music, isPlay: true });
+        }
     }
 
     function handlePlayAll() {
         publicChangeSong(songList.tracks[0].id, 0);
+        if (!music.isPlay) {
+            musicinfoSet({ ...music, isPlay: true });
+        }
     }
 
     // console.log(musicInfo[0]);
@@ -238,7 +249,7 @@ const Music: React.FC<IProps> = props => {
                     />
                     <div>
                         <span>{musicInfo[0] ?.name}</span>
-                        <span>{musicInfo[0] ?.al ?.name} > </span>
+                        <span>{musicInfo[0] ?.ar[0] ?.name} > </span>
                     </div>
                     <Icon type="share-alt" className="icon" />
                 </header>

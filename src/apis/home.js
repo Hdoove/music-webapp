@@ -1,10 +1,10 @@
 import request from "./index";
-const PORT = 'http://localhost:4000';
+const PORT = 'http://101.200.191.21:4000';
 
 export const get_banner = () =>
     request.get(`${PORT}/banner?type=2`).then(res => res);
 
-export const get_PlayList = () =>
+export const get_playList = () =>
     request.get(`${PORT}/personalized`).then(res => res);
 
 // 歌单详情

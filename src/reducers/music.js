@@ -5,6 +5,8 @@ import actions from '../actions/music';
 import Immutable from "seamless-immutable";
 
 const defaultState = Immutable({
+  banners: [],
+  songSheet: [],
   playMusicInfo: {},
   playMusicGeci: {},
   songListDetail: {},
@@ -23,6 +25,21 @@ const defaultState = Immutable({
 
 const reducer = handleActions(
   new Map([
+    [
+      actions.setBanners,
+      (state, {
+        payload
+      }) =>
+      state.set("banners", payload)
+
+    ],
+    [
+      actions.setSongSheet,
+      (state, {
+        payload
+      }) =>
+      state.set("songSheet", payload)
+    ],
     [
       actions.setMusicStatus,
       (state, {

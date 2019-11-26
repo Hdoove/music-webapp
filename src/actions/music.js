@@ -4,6 +4,8 @@ import {
 } from 'redux-actions';
 
 const actions = createActions({
+  SET_BANNERS: ban => ban,
+  SET_SONG_SHEET: sheet => sheet,
   SET_MUSIC_STATUS: music => music,
   SET_SONG_DETAIL: songDetail => songDetail, // 歌单
   SET_IS_SHOW_LIST: isShow => isShow,
@@ -13,6 +15,8 @@ const actions = createActions({
   SET_ALL_AND_THIS_SONG: num => num
 });
 
+export const getBanners = createAction('GET_BANNERS');
+export const getSongSheet = createAction('GET_SONG_SHEET');
 export const getSongDetail = createAction('GET_SONG_DETAIL');
 export const getPlaySongInfo = createAction('GET_PLAY_SONG_INFO');
 export const getPlaySongGeci = createAction('GET_PLAY_SONG_GECI');

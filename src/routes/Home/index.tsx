@@ -1,26 +1,29 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
-import musicIcon from '../../images/music.png';
-import goMusicIcon from '../../images/goMusic.png';
-import searchIcon from '../../images/search.png';
-import gedanIcon from '../../images/gedan.png';
-import paihangbangIcon from '../../images/paihangbang.png';
-import diantaiIcon from '../../images/diantai.png';
-import playIcon from '../../images/play.png';
-import imgLoading from '../../images/imgLoading.png';
-import { get_banner, get_PlayList } from '@src/apis/home';
+import musicIcon from '../../../public/assets/images/music.png';
+import goMusicIcon from '../../../public/assets/images/goMusic.png';
+import searchIcon from '../../../public/assets/images/search.png';
+import gedanIcon from '../../../public/assets/images/gedan.png';
+import paihangbangIcon from '../../../public/assets/images/paihangbang.png';
+import diantaiIcon from '../../../public/assets/images/diantai.png';
+import playIcon from '../../../public/assets/images/play.png';
+import imgLoading from '../../../public/assets/images/imgLoading.png';
 import { useHistory } from 'react-router-dom';
-import actions from '../../actions/music';
+import actions, { getBanners, getSongSheet } from '../../actions/music';
 import { connect } from 'react-redux';
 import { Carousel } from 'antd';
 import './index.less';
 
 interface IProps {
-  musicStatusSet: Function,
+  musicStatusSet: Function;
+  bannersSet: () => void;
+  songSheetSet: () => void;
   music: {
     isShow: boolean,
     isPlay: boolean
   }
+  banners: any;
+  songSheet: any;
 }
 
 const swiperOptions = {
@@ -46,20 +49,14 @@ const buttons: Ibuttons[] = [
 ];
 
 const Home: React.FC<IProps> = props => {
-
-  const [banners, setBanners] = useState([]);
-  const [playLists, setPlayList] = useState([]);
   const history = useHistory();
-  const { musicStatusSet, music } = props;
+  const { musicStatusSet, music, bannersSet, songSheetSet, banners, songSheet } = props;
 
   useEffect(() => {
-    get_banner().then((res: any) => {
-      setBanners(res.banners);
-    });
-    get_PlayList().then((res: any) => {
-      setPlayList(res.result);
-    });
-
+    if (banners.length === 0 || songSheet.length === 0) {
+      bannersSet();
+      songSheetSet();
+    }
   }, []);
 
   useEffect(() => {
@@ -68,7 +65,7 @@ const Home: React.FC<IProps> = props => {
       // 监听目标元素
       observer.observe(item);
     });
-  }, [playLists]);
+  }, [songSheet]);
 
   const observer = new IntersectionObserver(entries => {
     // 发生交叉目标元素集合
@@ -128,7 +125,7 @@ const Home: React.FC<IProps> = props => {
         <h3>推荐歌单</h3>
         <div style={{ textAlign: 'center' }}>
           {
-            playLists.map((item: { playCount: number, picUrl: string, name: string, id: number }) => {
+            songSheet.map((item: { playCount: number, picUrl: string, name: string, id: number }) => {
               return (
                 <div className="playlist" onClick={() => { history.push(`/list/${item.id}`) }}>
                   <div className="playsInfo">
@@ -150,14 +147,23 @@ const Home: React.FC<IProps> = props => {
 }
 const mapStateToProps = (state: any) => {
   const { music } = state;
+  const { musicStatus, banners, songSheet } = music;
   return {
-    music: music.musicStatus
+    music: musicStatus,
+    banners: banners,
+    songSheet: songSheet
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    musicStatusSet: (item: { isShow: false }) => {
+    musicStatusSet: (item: { isShow: boolean }) => {
       dispatch(actions.setMusicStatus(item));
+    },
+    bannersSet: () => {
+      dispatch(getBanners());
+    },
+    songSheetSet: () => {
+      dispatch(getSongSheet());
     }
   };
 };

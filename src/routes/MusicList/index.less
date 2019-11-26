@@ -8,6 +8,15 @@
         background-repeat: no-repeat;
         background-size: contain;
         filter: blur(15px);
+
+        &::after {
+            content: '';
+            content: '';
+            width: 100%;
+            height: 100vh;
+            display: inline-block;
+            background: rgba(0, 0, 0, .4);
+        }
     }
 
     .body {
@@ -68,9 +77,9 @@
                         }
 
                         img {
-                            width: .75rem;
-                            height: .75rem;
-                            margin-right: .5rem;
+                            width: 2.5vw;
+                            height: 2.5vw;
+                            margin-right: 1vw;
                         }
                     }
                 }
@@ -225,6 +234,7 @@
                     position: absolute;
                     top: 8vh;
                     width: 100%;
+                    margin: 0px;
 
                     li {
                         height: 11vh;

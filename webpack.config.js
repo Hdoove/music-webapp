@@ -79,7 +79,7 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 10 * 1024,
-            outputPath: 'images/'
+            outputPath: 'assets/images/'
           }
         }]
       },
