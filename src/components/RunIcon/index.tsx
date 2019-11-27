@@ -3,13 +3,15 @@ import './index.less';
 
 interface IProps {
     style?: any;
+    top?: number;
 }
 
 export const RunIcon: React.FC<IProps> = props => {
-    const { style } = props;
+    const { style, top } = props;
     return (
         <div
             className="barRoot"
+            style={{ top: `${top}vh` }}
         >
             {
                 [1, 2, 3, 4].map(item => {
