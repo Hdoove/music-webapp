@@ -195,8 +195,10 @@ const Music: React.FC<IProps> = props => {
 
     function handleNextSong() {
         let nextNum: number = 0;
-        if (playStatus === 0 || playStatus === 1) {
+        if (playStatus === 0) {
             nextNum = orderSongs.all > orderSongs.now ? orderSongs.now + 1 : 0;
+        } else if (playStatus === 1) {
+            nextNum = orderSongs.now;
         } else if (playStatus === 2) {
             nextNum = Math.round(Math.random() * orderSongs.all);
         }
@@ -231,6 +233,8 @@ const Music: React.FC<IProps> = props => {
         for (let i = 0, len = geci.length; i < len; i++) {
             if (geci[i] && geci[i].time <= currentTime && geci[i + 1] && geci[i + 1].time > currentTime) {
                 i !== selectGeciNum ? setSelectGeciNum(i) : '';
+            } else if (i === geci.length - 1) {
+                setSelectGeciNum(i);
             }
         }
     }, [currentTime]);

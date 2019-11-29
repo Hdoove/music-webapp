@@ -122,7 +122,7 @@ const Home: React.FC<IProps> = props => {
       </section>
       <hr />
       <section className="playlists">
-        <h3>推荐歌单</h3>
+        <h3 style={{ fontSize: '4vw' }}>推荐歌单</h3>
         <div style={{ textAlign: 'center' }}>
           {
             songSheet.map((item: { playCount: number, picUrl: string, name: string, id: number }) => {

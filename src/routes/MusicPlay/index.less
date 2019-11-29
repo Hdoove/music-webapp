@@ -71,19 +71,23 @@
             }
 
             .cricle {
-                width: 30vh;
-                height: 30vh;
+                width: 32vh;
+                height: 32vh;
                 border-radius: 50%;
                 margin: 0 auto;
+                display: -webkit-box;
                 display: flex;
+                -webkit-box-align: center;
                 align-items: center;
+                -webkit-box-pack: center;
                 justify-content: center;
-                border: 4vh solid #000;
+                border: 5vh solid #000;
                 overflow: hidden;
 
                 img {
-                    height: 24vh;
-                    width: 24vh;
+                    height: 22vh;
+                    width: 22vh;
+                    border-radius: 50%;
                 }
             }
 
@@ -106,6 +110,7 @@
                 transition: top 1s linear;
                 float: left;
                 width: 100%;
+                color: rgba(255, 255, 255, .8)
             }
 
             .active {
