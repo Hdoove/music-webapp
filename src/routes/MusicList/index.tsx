@@ -85,7 +85,7 @@ const MusicList: React.FC<IProps> = props => {
                     display: loading ? 'none' : ''
                 }}>
                     <header>
-                        <Icon type="left" onClick={() => { history.push('/home') }} />
+                        <Icon type="left" onClick={() => { history.goBack() }} />
                         <span style={{ fontSize: '4vw' }}>歌单</span>
                         <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
                             <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'blick' }} />
@@ -185,7 +185,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        musicStatusSet: (item: { isShow: false }) => {
+        musicStatusSet: (item: { isShow: boolean }) => {
             dispatch(actions.setMusicStatus(item));
         },
         playSongGeciGet: (id: number) => {

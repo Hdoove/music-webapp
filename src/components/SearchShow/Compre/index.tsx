@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { message } from 'antd';
 import './index.less';
 
 interface IProps {
     data: any;
     isShow: boolean;
+    getSong: (id: number) => void;
+    getPlayList: (id: number) => void;
+    goMore: (key: number) => void;
 }
 
 const SearechPage: React.FC<IProps> = props => {
 
-    const { data, isShow } = props;
+    const { data, isShow, getSong, getPlayList, goMore } = props;
 
     return (
         <div className="compreRoot" style={{ display: isShow ? '' : 'none' }}>
@@ -17,12 +21,15 @@ const SearechPage: React.FC<IProps> = props => {
                 <ul>
                     {
                         data.song && data.song.songs.map(song => {
+                            const canPlay = song.fee === 1;
                             return (
-                                <li>
+                                <li onClick={() => { canPlay ? message.info('此歌曲为vip专享') : getSong(song.id); }}>
                                     <span className="songName">{song.name}</span>
                                     <span className="songerName">
+                                        <span className="vip" style={{ display: canPlay ? '' : 'none' }}>vip</span>
+
                                         {
-                                            song.ar.map((item, index) => {
+                                            song.ar.map((item, index:number) => {
                                                 return index === song.ar.length - 1 ? item.name : `${item.name}/`
                                             })
                                         }
@@ -33,6 +40,7 @@ const SearechPage: React.FC<IProps> = props => {
                             )
                         })
                     }
+                    <span onClick={() => goMore(2)} className="moreText">{data.song ?.moreText}</span>
                 </ul>
             </div>
             <div className="songers">
@@ -55,6 +63,59 @@ const SearechPage: React.FC<IProps> = props => {
                             )
                         })
                     }
+                </ul>
+            </div>
+            <div className="album">
+                <span className="title">专辑</span>
+                <ul>
+                    {
+                        data.album && data.album.albums.map(album => {
+                            return (
+                                <li>
+                                    <img src={album.picUrl || album.blurPicUrl} alt="" />
+                                    <div style={{ display: 'inline-block', marginLeft: '2vw' }}>
+                                        <span style={{ color: '#000000', display: 'block' }}>{album.name}</span>
+                                        <span style={{ color: '#607685', fontSize: '3vw' }}>
+                                            {
+                                                album.artist ?.name
+                                            }
+                                        </span>
+                                        <span style={{ color: '#858687', fontSize: '2vw' }}>
+                                            {
+                                                new Date(album.publishTime).toLocaleDateString()
+                                            }
+                                        </span>
+                                    </div>
+                                </li>
+                            )
+                        })
+                    }
+                    <span className="moreText">{data.album ?.moreText}</span>
+                </ul>
+            </div>
+            <div className="playList">
+                <span className="title">歌单</span>
+                <ul>
+                    {
+                        data.playList && data.playList.playLists.map(playList => {
+                            return (
+                                <li onClick={ () => getPlayList(playList.id) }>
+                                    <img src={playList.coverImgUrl} alt="" />
+                                    <div style={{ display: 'inline-block', marginLeft: '2vw' }}>
+                                        <span style={{ color: '#000000', display: 'block' }}>{playList.name}</span>
+                                        <span style={{ color: '#858687', fontSize: '3vw' }}>
+                                            {
+                                                `
+                                                    ${playList.trackCount}首 by ${playList.creator.nickname} 播放 ${Math.floor(playList.playCount / 10000)} 万次
+                                                `
+                                            }
+                                        </span>
+                                    </div>
+                                </li>
+                            )
+                        })
+                    }
+                    <span className="moreText" onClick={() => goMore(3)}>{data.playList ?.moreText}</span>
                 </ul>
             </div>
             <div></div>

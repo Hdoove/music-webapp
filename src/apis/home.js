@@ -25,5 +25,5 @@ export const get_hot_search = (name, limit, offset) =>
 
 // 搜索详情
 // 默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
-export const get_search_detail = (name, type, limit, offset) =>
+export const get_search_detail = ({ name, type, limit, offset }) =>
     request.get(`${PORT}/search?keywords=${name}&type=${type}&limit=${limit}&offset=${offset}`).then(res => res);

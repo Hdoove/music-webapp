@@ -9,6 +9,13 @@
         margin: 1vh 0;
     }
 
+    .moreText {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        margin: 2vh 0;
+    }
+
     .songs {
         ul {
             list-style: none;
@@ -25,8 +32,19 @@
                 }
 
                 .songerName {
-                    color: #838485;
-                    font-size: 1vw;
+                    color     : #838485;
+                    font-size : 2vw;
+                    margin-top: 1vh;
+                    display   : inline-block;
+                }
+    
+                .vip {
+                    color        : red;
+                    font-size    : 1vw;
+                    border       : 1px solid red;
+                    border-radius: 4px;
+                    margin-right : 2vw;
+                    padding      : 0 1vw;
                 }
             }
         }
@@ -40,9 +58,54 @@
                 margin: 2vh 0;
 
                 img {
+                    // height: 20vw;
+                    width: 20vw;
+                    // border-radius: 50%;
+                }
+
+                span {
+                    font-size: 4vw;
+                    margin-left: 2vw;
+                }
+            }
+        }
+    }
+
+    .album{
+        ul {
+            list-style: none;
+
+            li {
+                margin: 2vh 0;
+                display: flex;
+                align-items: center;
+
+                img {
                     height: 20vw;
                     width: 20vw;
-                    border-radius: 50%;
+                    border-radius: 4px;
+                }
+
+                span {
+                    font-size: 4vw;
+                    margin-left: 2vw;
+                }
+            }
+        }
+    }
+    .playList{
+        ul {
+            list-style: none;
+
+            li {
+                margin: 2vh 0;
+                display: flex;
+                align-items: center;
+
+                img {
+                    height: 20vw;
+                    width: 20vw;
+                    border-radius: 4px;
                 }
 
                 span {

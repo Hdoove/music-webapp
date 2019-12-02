@@ -8,7 +8,6 @@ import configureStore, { history, sagaMiddleware } from './utilities/appStore';
 import './index.less';
 import rootSaga from './sagas';
 import 'typeface-roboto';
-import moment from 'moment';
 import 'moment/locale/zh-cn';
 import App from './App';
 import 'antd/dist/antd.css';

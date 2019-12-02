@@ -204,7 +204,7 @@ const Music: React.FC<IProps> = props => {
         }
         vip(nextNum);
         function vip(num: number) {
-            if (songList.tracks[nextNum].fee === 1) {
+            if (songList.tracks[nextNum]?.fee === 1) {
                 nextNum = nextNum === orderSongs.all - 1 ? 0 : nextNum + 1;
                 vip(nextNum);
             }
@@ -226,16 +226,16 @@ const Music: React.FC<IProps> = props => {
         }
     }
 
-    // console.log(musicInfo[0]);
     const moveTip = (selectGeciNum + 1) > center ? selectGeciNum - center + 1 : 0;
 
     useEffect(() => {
         for (let i = 0, len = geci.length; i < len; i++) {
             if (geci[i] && geci[i].time <= currentTime && geci[i + 1] && geci[i + 1].time > currentTime) {
                 i !== selectGeciNum ? setSelectGeciNum(i) : '';
-            } else if (i === geci.length - 1) {
-                setSelectGeciNum(i);
             }
+            //  else if (i === geci.length - 1) {
+            //     setSelectGeciNum(i);
+            // }
         }
     }, [currentTime]);
 
