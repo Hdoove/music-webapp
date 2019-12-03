@@ -4,11 +4,12 @@ import './index.less';
 interface IProps {
     data: any;
     isShow: false;
+    onChoose: (str: string) => void;
 }
 
 const HotSearch: React.FC<IProps> = props => {
 
-    const { data, isShow } = props;
+    const { data, isShow, onChoose } = props;
     return (
         <div className="hotRoot" style={{ display: isShow ? '' : 'none' }}>
             <section className="content">
@@ -17,7 +18,7 @@ const HotSearch: React.FC<IProps> = props => {
                     {
                         data.map((item, index) => {
                             return (
-                                <li>
+                                <li onClick={() => { onChoose(item.searchWord) }}>
                                     <span style={{ color: index < 3 ? '#D74C44' : '#B0B0B2' }} className="index">{index + 1}</span>
                                     <div>
                                         <span className="searchword" style={{ fontWeight: index < 3 ? 'bold' : 'normal' }}>{item.searchWord}<img src={item.iconUrl} alt="" /></span>

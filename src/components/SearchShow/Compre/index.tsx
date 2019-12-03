@@ -29,7 +29,7 @@ const SearechPage: React.FC<IProps> = props => {
                                         <span className="vip" style={{ display: canPlay ? '' : 'none' }}>vip</span>
 
                                         {
-                                            song.ar.map((item, index:number) => {
+                                            song.ar.map((item, index: number) => {
                                                 return index === song.ar.length - 1 ? item.name : `${item.name}/`
                                             })
                                         }
@@ -90,7 +90,7 @@ const SearechPage: React.FC<IProps> = props => {
                             )
                         })
                     }
-                    <span className="moreText">{data.album ?.moreText}</span>
+                    <span className="moreText" onClick={() => goMore(5)}>{data.album ?.moreText}</span>
                 </ul>
             </div>
             <div className="playList">
@@ -99,7 +99,7 @@ const SearechPage: React.FC<IProps> = props => {
                     {
                         data.playList && data.playList.playLists.map(playList => {
                             return (
-                                <li onClick={ () => getPlayList(playList.id) }>
+                                <li onClick={() => getPlayList(playList.id)}>
                                     <img src={playList.coverImgUrl} alt="" />
                                     <div style={{ display: 'inline-block', marginLeft: '2vw' }}>
                                         <span style={{ color: '#000000', display: 'block' }}>{playList.name}</span>

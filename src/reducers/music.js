@@ -19,7 +19,8 @@ const defaultState = Immutable({
   orderSongs: {
     all: 0,
     now: -1
-  }
+  },
+  toplistDetail: {}
 });
 
 
@@ -89,6 +90,13 @@ const reducer = handleActions(
         payload
       }) =>
       state.set("orderSongs", payload)
+    ],
+    [
+      actions.setToplistDetail,
+      (state, {
+        payload
+      }) =>
+      state.set("toplistDetail", payload)
     ]
   ]),
   defaultState

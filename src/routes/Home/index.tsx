@@ -31,20 +31,23 @@ const swiperOptions = {
   autoplay: 1000,
   autoplayDisableOnInteraction: true
 };
-interface Ibuttons { img: string, title: string };
+interface Ibuttons { img: string, title: string, path: string };
 
 const buttons: Ibuttons[] = [
   {
     img: gedanIcon,
-    title: '歌单'
+    title: '歌单',
+    path: ''
   },
   {
     img: paihangbangIcon,
-    title: '排行榜'
+    title: '排行榜',
+    path: '/ranking'
   },
   {
     img: diantaiIcon,
-    title: '电台'
+    title: '歌手',
+    path: '/songerlist'
   }
 ];
 
@@ -110,7 +113,7 @@ const Home: React.FC<IProps> = props => {
         {
           buttons.map((item: Ibuttons) => {
             return (
-              <div className="buttonItem">
+              <div className="buttonItem" onClick={() => history.push(item.path)}>
                 <div className="imgDiv">
                   <img src={item.img} alt={item.title} />
                 </div>

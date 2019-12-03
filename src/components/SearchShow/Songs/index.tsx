@@ -23,12 +23,12 @@ const Songs: React.FC<IProps> = props => {
                                 <span className="songerName">
                                     <span className="vip" style={{ display: canPlay ? '' : 'none' }}>vip</span>
                                     {
-                                        song.artists.map((item, index) => {
+                                        song.artists && song.artists.map((item, index) => {
                                             return index === song.artists.length - 1 ? item.name : `${item.name}/`
                                         })
                                     }
                                     -
-                                        {song.artists.name}
+                                        {song.artists ?.name}
                                 </span>
                             </li>
                         )

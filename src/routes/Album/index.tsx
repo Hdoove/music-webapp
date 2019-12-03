@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
 import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
+import { getAlbumInfo } from '@src/actions/songerDetail';
 import { Icon, message } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
 import { get_geci } from '@src/apis/home';
@@ -17,10 +18,13 @@ interface IProps {
     songListGet: (id: number) => void,
     playSong: any;
     loading: boolean;
+    albumInfo: (obj: { id: number }) => void;
+    albuminfo: any;
 }
-const MusicList: React.FC<IProps> = props => {
 
-    const { songList, music, musicStatusSet, songListGet, playSong, loading } = props;
+const Album: React.FC<IProps> = props => {
+
+    const { songList, music, musicStatusSet, songListGet, playSong, loading, albumInfo, albuminfo } = props;
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const history = useHistory();
     const location = useLocation();
@@ -28,7 +32,7 @@ const MusicList: React.FC<IProps> = props => {
     useEffect(() => {
         const id = location.pathname.split('/')[2];
         if (id && id != songList.id) {
-            songListGet(Number(id));
+            albumInfo({ id: Number(id) });
         }
     }, []);
 
@@ -38,11 +42,11 @@ const MusicList: React.FC<IProps> = props => {
 
     return (
         <div
-            className="musicListRoot"
+            className="albumRoot"
         >
             <div style={{ display: isShowDetail ? 'none' : '' }}>
                 <div className="bgImg" style={{
-                    backgroundImage: `url(${songList.coverImgUrl})`,
+                    backgroundImage: `url(${albuminfo ?.album ?.picUrl})`,
                     display: loading ? 'none' : ''
                 }} />
                 <div className="body" style={{
@@ -50,7 +54,7 @@ const MusicList: React.FC<IProps> = props => {
                 }}>
                     <header>
                         <Icon type="left" onClick={() => { history.goBack() }} />
-                        <span style={{ fontSize: '4vw' }}>歌单</span>
+                        <span style={{ fontSize: '4vw' }}>专辑</span>
                         <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
                             <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'blick' }} />
                             <RunIcon style={{ display: !music.isPlay ? 'none' : 'blick', background: '#fff' }} />
@@ -58,30 +62,27 @@ const MusicList: React.FC<IProps> = props => {
                     </header>
                     <section className="content">
                         <section className="listDetail" onClick={() => { setIsShowDetail(true) }}>
-                            <div className="left" style={{ backgroundImage: `url(${songList.coverImgUrl})` }}>
-                                <div className="listenNum">
-                                    <img src={playIcon} />
-                                    <span>{Math.ceil(songList.playCount / 10000)}万</span>
-                                </div>
-                            </div>
+                            <div className="left" style={{ backgroundImage: `url(${albuminfo ?.album ?.picUrl})` }} />
                             <div className="right">
                                 <p className="title" style={{ '-webkit-box-orient': 'vertical' }}>
-                                    {songList.name}
+                                    {albuminfo ?.album ?.name}
                                 </p>
                                 <div className="createor">
-                                    <img src={songList.creator ?.avatarUrl} alt="" />
-                                    <span>{songList.creator ?.nickname}</span>
+                                    <span>歌手：{albuminfo ?.album ?.artist ?.name}</span>
                                     <Icon type="right" />
+                                </div>
+                                <div className="createor">
+                                    <span>发行时间：{new Date(albuminfo ?.album ?.publishTime).toLocaleDateString()}</span>
                                 </div>
                                 <div className="description">
                                     <p style={{ '-webkit-box-orient': 'vertical' }}>
-                                        {songList.description || '暂无简介'}
+                                        {albuminfo ?.album ?.description}
                                     </p>
                                     <Icon type="right" />
                                 </div>
                             </div>
                         </section>
-                        <List data={songList.tracks} title="listRoot" />
+                        <List data={albuminfo.songs} title="listRoot" />
                     </section>
                 </div>
                 <CircleIcon style={{
@@ -92,18 +93,19 @@ const MusicList: React.FC<IProps> = props => {
                 }} />
             </div>
 
-            <Detail data={songList} isShow={isShowDetail} onClose={handleClose} />
+            <Detail data={albuminfo.album} isShow={isShowDetail} onClose={handleClose} />
         </div >
     );
 }
 
 const mapStateToProps = (state: any) => {
-    const { music } = state;
+    const { music, songerDetail } = state;
     return {
         songList: music.songListDetail,
         music: music.musicStatus,
         playSong: music.playMusicInfo,
-        loading: music.loading
+        loading: songerDetail.loading,
+        albuminfo: songerDetail.albumInfo
     };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -113,13 +115,16 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         songListGet: (id: number) => {
             dispatch(getSongDetail(id));
+        },
+        albumInfo: (obj: { id: number }) => {
+            dispatch(getAlbumInfo(obj));
         }
     };
 };
-const ConMusicList = connect(
+const ConAlbum = connect(
     mapStateToProps,
     mapDispatchToProps
-)(MusicList);
+)(Album);
 
-export default ConMusicList;
+export default ConAlbum;
 

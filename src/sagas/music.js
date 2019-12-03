@@ -11,14 +11,16 @@ import actions, {
   getPlaySongGeci,
   getPlaySongInfo,
   getBanners,
-  getSongSheet
+  getSongSheet,
+  getToplistDetail
 } from '@src/actions/music';
 import {
   get_banner,
   get_playList,
   get_song_list_detail,
   get_geci,
-  get_song_detail
+  get_song_detail,
+  get_toplist_detail
 } from '@src/apis/home';
 import store from '../utilities/appStore';
 
@@ -95,10 +97,28 @@ function* fetchPlaySongDetail(action) {
   }
 }
 
+// 获取榜单详情
+function* fetchToplistDetail(action) {
+  try {
+    yield put(actions.setLoading(true));
+    const data = yield call(get_toplist_detail, action.payload);
+    if (data.code === 200 && data.playlist) {
+      yield put(actions.setSongDetail(data.playlist));
+      yield put(actions.setLoading(false));
+    } else {
+      yield put(actions.setSongDetail({}));
+      yield put(actions.setLoading(false));
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
 export default function* musicSaga() {
   yield takeLatest(getBanners().type, fetchBanners);
   yield takeLatest(getSongSheet().type, fetchSongSheet);
   yield takeLatest(getSongDetail().type, fetchSongDetail);
   yield takeLatest(getPlaySongGeci().type, fetchSongGeci);
   yield takeLatest(getPlaySongInfo().type, fetchPlaySongDetail);
+  yield takeLatest(getToplistDetail().type, fetchToplistDetail);
 }

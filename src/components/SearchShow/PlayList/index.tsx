@@ -17,7 +17,7 @@ const PlayLists: React.FC<IProps> = props => {
                 {
                     data && data.map(playList => {
                         return (
-                            <li onClick={ () => getPlayList(playList.id) }>
+                            <li onClick={() => getPlayList(playList.id)}>
                                 <img src={playList.coverImgUrl} alt="" />
                                 <div style={{ display: 'inline-block', marginLeft: '2vw' }}>
                                     <span style={{ color: '#000000', display: 'block' }}>{playList.name}</span>

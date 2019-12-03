@@ -185,7 +185,7 @@ const Music: React.FC<IProps> = props => {
         }
         vip(lastNum);
         function vip(num: number) {
-            if (songList.tracks[lastNum].fee === 1) {
+            if (songList.tracks[lastNum].fee === 1 || songList.tracks[lastNum] ?.fee === 0) {
                 lastNum = lastNum === 0 ? orderSongs.all - 1 : lastNum - 1;
                 vip(lastNum);
             }
@@ -204,7 +204,7 @@ const Music: React.FC<IProps> = props => {
         }
         vip(nextNum);
         function vip(num: number) {
-            if (songList.tracks[nextNum]?.fee === 1) {
+            if (songList.tracks[nextNum] ?.fee === 1 || songList.tracks[nextNum] ?.fee === 0) {
                 nextNum = nextNum === orderSongs.all - 1 ? 0 : nextNum + 1;
                 vip(nextNum);
             }
@@ -365,7 +365,6 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(actions.setIsShowList(isShow));
         },
         playSongGeciGet: (id: number) => {
-            // console.log(actions);
             dispatch(getPlaySongGeci(id));
         },
         playSongInfoGet: (id: number) => {

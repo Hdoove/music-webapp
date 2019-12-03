@@ -1,0 +1,227 @@
+.songerRoot {
+    height: 100vh;
+
+    .bgImg {
+        width: 100%;
+        height: 100vh;
+        float: left;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        &::after {
+            content: '';
+            content: '';
+            width: 100%;
+            height: 100vh;
+            display: inline-block;
+            background: rgba(0, 0, 0, .1);
+        }
+    }
+
+    .body {
+        position: absolute;
+        width: 100%;
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 8vh;
+            width: 100%;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            color: #fff;
+            padding: 0px 2vh;
+
+            .anticon {
+                font-size: 2.8vh;
+            }
+        }
+
+        .content {
+            overflow: auto;
+            width: 100%;
+            height: 92vh;
+            margin-top: 8vh;
+            float: left;
+
+            .listDetail {
+                height: 50vw;
+                padding: 6vw 4vw;
+                position: relative;
+
+                .songerName {
+                    font-size: 6vw;
+                    font-weight: bold;
+                    color: #fff;
+                    position: absolute;
+                    bottom: 2vh;
+                    left: 6vw;
+                }
+            }
+
+            .ant-tabs-tab-active {
+                color: #E44448;
+            }
+
+            .ant-tabs-tab:hover {
+                color: #E44448;
+            }
+
+            .ant-tabs-ink-bar {
+                background: #E44448;
+            }
+
+            .list {
+                position: relative;
+                background: #fff;
+                border-radius: 6vw 6vw 0 0;
+                padding: 0 4vw;
+
+                .fixedTop {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 3.4vw;
+                    background: #fff;
+                    height: 8vh;
+                    overflow: hidden;
+                    z-index: 10;
+
+                }
+
+                .fixed {
+                    position: fixed;
+                    top: 8vh;
+                }
+
+                .left {
+                    display: flex;
+                    align-items: center;
+                    padding: 1.5vh 0;
+
+                    .anticon {
+                        margin-right: 2vw;
+                        font-size: 3.5vh;
+                    }
+
+                    span:nth-child(2) {
+                        font-weight: bold;
+                        color: #000;
+                        font-size: 2.5vh;
+                    }
+
+                    span:nth-child(3) {
+                        color: #9B9C9C;
+                        font-size: 2vh;
+                    }
+                }
+
+                .songs {
+                    // padding: 0 6vw;
+                    list-style: none;
+                    background: #fff;
+                    width: 100%;
+                    margin: 0px;
+
+
+                    li {
+                        height: 11vh;
+                        padding: 2vh 0;
+
+                        .index {
+                            float: left;
+                            height: 9vh;
+                            display: flex;
+                            align-items: center;
+                            font-size: 2.5vh;
+                            color: #999;
+                            margin-right: 2vh;
+                        }
+
+                        .songName {
+                            margin: 0px;
+                            color: #333;
+                            font-size: 2.5vh;
+                            margin-bottom: .6vh;
+                            overflow: hidden;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            padding-right: 8vw;
+
+                            .vip {
+                                color: red;
+                                font-size: 1vw;
+                                border: 1px solid red;
+                                border-radius: 4px;
+                                margin-left: 2vw;
+                                padding: 0 1vw;
+                            }
+                        }
+
+                        .nowrap {
+                            margin: 0px;
+                            overflow: hidden;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            padding-right: 8vw;
+                        }
+
+                        .line {
+                            display: inline-block;
+                            margin: 0px .4vh;
+                        }
+
+                        .songerName {
+                            color: #959697;
+                            font-size: 1.6vh;
+                        }
+
+                        .albumName {
+                            color: #959697;
+                            font-size: 1.6vh;
+                        }
+
+                        .more {
+                            float: right;
+                            font-size: 6vw;
+                            position: relative;
+                            top: -6vh;
+                        }
+
+                    }
+                }
+
+                .albums {
+                    list-style: none;
+                    background: #fff;
+                    width: 100%;
+                    margin: 0px;
+
+
+                    li {
+                        margin: 2vh 0;
+                        display: flex;
+                        align-items: center;
+
+                        img {
+                            height: 20vw;
+                            width: 20vw;
+                            border-radius: 4px;
+                        }
+
+                        span {
+                            font-size: 4vw;
+                            margin-left: 2vw;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+
+}

@@ -12,7 +12,8 @@ const actions = createActions({
   SET_PLAY_MUSIC_INFO: info => info,
   SET_PLAY_MUSIC_GECI: info => info,
   SET_LOADING: loading => loading,
-  SET_ALL_AND_THIS_SONG: num => num
+  SET_ALL_AND_THIS_SONG: num => num,
+  SET_TOPLIST_DETAIL: detail => detail
 });
 
 export const getBanners = createAction('GET_BANNERS');
@@ -20,5 +21,6 @@ export const getSongSheet = createAction('GET_SONG_SHEET');
 export const getSongDetail = createAction('GET_SONG_DETAIL');
 export const getPlaySongInfo = createAction('GET_PLAY_SONG_INFO');
 export const getPlaySongGeci = createAction('GET_PLAY_SONG_GECI');
+export const getToplistDetail = createAction('GET_TOPLIST_DETAIL');
 
 export default actions;

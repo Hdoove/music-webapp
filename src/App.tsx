@@ -51,6 +51,31 @@ const App: React.FC<AppProps> = AppProps => {
                 path="/search"
                 component={LazyLoad(() => import('./routes/Search/index'))}
               />
+              <Route
+                exact
+                path="/songer/:id"
+                component={LazyLoad(() => import('./routes/SongerDetail/index'))}
+              />
+              <Route
+                exact
+                path="/album/:id"
+                component={LazyLoad(() => import('./routes/Album/index'))}
+              />
+              <Route
+                exact
+                path="/ranking"
+                component={LazyLoad(() => import('./routes/RankingList/index'))}
+              />
+              <Route
+                exact
+                path="/ranking/:id"
+                component={LazyLoad(() => import('./routes/RankingList/Detail/index'))}
+              />
+              <Route
+                exact
+                path="/songerlist"
+                component={LazyLoad(() => import('./routes/Songers/index'))}
+              />
             </Switch>
           </React.Fragment>
         </Router>

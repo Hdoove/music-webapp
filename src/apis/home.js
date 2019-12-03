@@ -25,5 +25,44 @@ export const get_hot_search = (name, limit, offset) =>
 
 // 搜索详情
 // 默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
-export const get_search_detail = ({ name, type, limit, offset }) =>
+export const get_search_detail = ({
+        name,
+        type,
+        limit,
+        offset
+    }) =>
     request.get(`${PORT}/search?keywords=${name}&type=${type}&limit=${limit}&offset=${offset}`).then(res => res);
+
+//获取歌手单曲
+export const get_songer_song = ({
+        id
+    }) =>
+    request.get(`${PORT}/artists?id=${id}`).then(res => res);
+
+//获取歌手专辑
+export const get_songer_album = ({
+        id
+    }) =>
+    request.get(`${PORT}/artist/album?id=${id}`).then(res => res);
+
+//获取专辑详情
+export const get_album_detail = ({
+        id
+    }) =>
+    request.get(`${PORT}/album?id=${id}`).then(res => res);
+
+//获取榜单
+export const get_toplist = () =>
+    request.get(`${PORT}/toplist`).then(res => res);
+
+//获取榜单详情
+export const get_toplist_detail = (id) =>
+    request.get(`${PORT}/top/list?idx=${id}`).then(res => res);
+
+//获取热门歌手
+export const get_hot_songers = (offset) =>
+    request.get(`${PORT}/top/artists?offset=${offset}&limit=15`).then(res => res);
+
+//获取歌手列表
+export const get_songers_list = (type, offset) =>
+    request.get(`${PORT}/artist/list?cat=${type}&offset=${offset}&limit=15`).then(res => res);
