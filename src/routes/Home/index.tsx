@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
+import React, { useEffect } from 'react';
+import { RunIcon } from '@src/components/RunIcon/index';
 import musicIcon from '../../../public/assets/images/music.png';
 import goMusicIcon from '../../../public/assets/images/goMusic.png';
 import searchIcon from '../../../public/assets/images/search.png';
@@ -26,11 +26,6 @@ interface IProps {
   songSheet: any;
 }
 
-const swiperOptions = {
-  preloadImages: false,
-  autoplay: 1000,
-  autoplayDisableOnInteraction: true
-};
 interface Ibuttons { img: string, title: string, path: string };
 
 const buttons: Ibuttons[] = [

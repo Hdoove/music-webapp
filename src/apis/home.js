@@ -64,5 +64,5 @@ export const get_hot_songers = (offset) =>
     request.get(`${PORT}/top/artists?offset=${offset}&limit=15`).then(res => res);
 
 //获取歌手列表
-export const get_songers_list = (type, offset) =>
+export const get_songers_list = ({type, offset}) =>
     request.get(`${PORT}/artist/list?cat=${type}&offset=${offset}&limit=15`).then(res => res);

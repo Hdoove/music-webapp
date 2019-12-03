@@ -85,7 +85,7 @@ const List: React.FC<IProps> = props => {
             <ul className="songs">
                 {
                     data && data.map((item: { name: string, ar: { name: string }[], al: { name: string } }, index: number) => {
-                        const canPlay = item.fee === 1 || item.fee === 0;
+                        const canPlay = item.fee === 1 ;
                         const isThis = playSong[0] ?.id === item.id;
                         return (
                             <li

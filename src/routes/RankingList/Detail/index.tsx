@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
 import actions, { getToplistDetail } from '@src/actions/music';
@@ -6,7 +6,6 @@ import { Icon } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
 import List from '@src/components/SongList/index';
 import './index.less';
-import SongerList from 'components/SearchShow/Songers';
 
 interface IProps {
     songList: any;

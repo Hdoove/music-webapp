@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CircleIcon } from '@src/components/RunIcon/index';
 import changpianIcon from '../../../public/assets/images/changpian.jpg';
-import actions, { getSongDetail, getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
+import actions, { getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
 import { Icon } from 'antd';
 import onlySong from '../../../public/assets/images/only.png';
 import sortSong from '../../../public/assets/images/sort.png';

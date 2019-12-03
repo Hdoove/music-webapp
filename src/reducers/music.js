@@ -20,7 +20,11 @@ const defaultState = Immutable({
     all: 0,
     now: -1
   },
-  toplistDetail: {}
+  toplistDetail: {},
+  songers: {
+    offset: 0,
+    data: []
+  }
 });
 
 
@@ -97,6 +101,18 @@ const reducer = handleActions(
         payload
       }) =>
       state.set("toplistDetail", payload)
+    ],
+    [
+      actions.setSongers,
+      (state, {
+        payload
+      }) => {
+        console.log(payload);
+        return state.set("songers", {
+          ...payload,
+          data: payload.offset === 15 ? payload.data : state.songers.data.concat(payload.data)
+        })
+      }
     ]
   ]),
   defaultState

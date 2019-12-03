@@ -1,10 +1,7 @@
 import {
-  takeEvery,
   put,
   takeLatest,
-  call,
-  all,
-  delay
+  call
 } from 'redux-saga/effects';
 import actions, {
   getSongDetail,
@@ -12,7 +9,9 @@ import actions, {
   getPlaySongInfo,
   getBanners,
   getSongSheet,
-  getToplistDetail
+  getToplistDetail,
+  getSongers,
+  getTopSongers
 } from '@src/actions/music';
 import {
   get_banner,
@@ -20,12 +19,13 @@ import {
   get_song_list_detail,
   get_geci,
   get_song_detail,
-  get_toplist_detail
+  get_toplist_detail,
+  get_hot_songers,
+  get_songers_list
 } from '@src/apis/home';
-import store from '../utilities/appStore';
 
 // 获取轮播图
-function* fetchBanners(action) {
+function* fetchBanners() {
   try {
     const data = yield call(get_banner);
     if (data.code === 200 && data.banners) {
@@ -114,6 +114,41 @@ function* fetchToplistDetail(action) {
   }
 }
 
+// 获取top歌手
+function* fetchSongers(action) {
+  try {
+    yield put(actions.setLoading(true));
+    const data = yield call(get_hot_songers, action.payload);
+    if (data.code === 200 && data.artists) {
+      yield put(actions.setSongers({ offset: action.payload + 15, data: data.artists }));
+      yield put(actions.setLoading(false));
+    } else {
+      yield put(actions.setSongers([]));
+      yield put(actions.setLoading(false));
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
+// 获取歌手列表
+function* fetchTopSongers(action) {
+  try {
+    yield put(actions.setLoading(true));
+    const data = yield call(get_songers_list, action.payload);
+    if (data.code === 200 && data.artists) {
+      console.log(data);
+      yield put(actions.setSongers({ offset: action.payload.offset + 15, data: data.artists }));
+      yield put(actions.setLoading(false));
+    } else {
+      yield put(actions.setSongers([]));
+      yield put(actions.setLoading(false));
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
 export default function* musicSaga() {
   yield takeLatest(getBanners().type, fetchBanners);
   yield takeLatest(getSongSheet().type, fetchSongSheet);
@@ -121,4 +156,6 @@ export default function* musicSaga() {
   yield takeLatest(getPlaySongGeci().type, fetchSongGeci);
   yield takeLatest(getPlaySongInfo().type, fetchPlaySongDetail);
   yield takeLatest(getToplistDetail().type, fetchToplistDetail);
+  yield takeLatest(getSongers().type, fetchSongers);
+  yield takeLatest(getTopSongers().type, fetchTopSongers);
 }

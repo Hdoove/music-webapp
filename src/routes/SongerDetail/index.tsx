@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
 import { getSongerSongs, getSongerAlbum } from '@src/actions/songerDetail';
-import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
-import { Icon, message, Tabs } from 'antd';
+import actions from '@src/actions/music';
+import { Icon, Tabs } from 'antd';
 const { TabPane } = Tabs;
 import { useHistory, useLocation } from 'react-router-dom';
-import playIcon from '../../../public/assets/images/play.png';
 import List from '@src/components/SongList/index';
 import './index.less';
 
@@ -26,7 +25,7 @@ interface IProps {
 }
 const SongerDetail: React.FC<IProps> = props => {
 
-    const { songList, music, musicStatusSet, songListGet, playSong, loading, songerSongsGet, songerDetail, songerAlbumGet } = props;
+    const { music, musicStatusSet, loading, songerSongsGet, songerDetail, songerAlbumGet } = props;
     const history = useHistory();
     const location = useLocation();
     const [tab, setTab] = useState<string>('1');

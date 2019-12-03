@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './index.less';
 import { get_toplist } from '@src/apis/home';
 import { useHistory } from 'react-router-dom';
-import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
+import { RunIcon } from '@src/components/RunIcon/index';
 import { Icon } from 'antd';
 import imgLoading from '../../../public/assets/images/imgLoading.png';
 import { connect } from 'react-redux';

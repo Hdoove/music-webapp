@@ -13,7 +13,8 @@ const actions = createActions({
   SET_PLAY_MUSIC_GECI: info => info,
   SET_LOADING: loading => loading,
   SET_ALL_AND_THIS_SONG: num => num,
-  SET_TOPLIST_DETAIL: detail => detail
+  SET_TOPLIST_DETAIL: detail => detail,
+  SET_SONGERS: songers => songers
 });
 
 export const getBanners = createAction('GET_BANNERS');
@@ -22,5 +23,7 @@ export const getSongDetail = createAction('GET_SONG_DETAIL');
 export const getPlaySongInfo = createAction('GET_PLAY_SONG_INFO');
 export const getPlaySongGeci = createAction('GET_PLAY_SONG_GECI');
 export const getToplistDetail = createAction('GET_TOPLIST_DETAIL');
+export const getSongers = createAction('GET_SONGERS');
+export const getTopSongers = createAction('GET_TOP_SONGERS');
 
 export default actions;

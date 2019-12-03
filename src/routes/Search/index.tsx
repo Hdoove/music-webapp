@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Input, Icon, Tabs } from 'antd';
-const { Search } = Input;
 const { TabPane } = Tabs;
 import { get_hot_search, get_search_detail } from '@src/apis/home';
 import HostSeatch from './component/HotSearch/index';
@@ -13,7 +12,7 @@ import AlbumsComp from '@src/components/SearchShow/Albums/index';
 import { RunIcon } from '@src/components/RunIcon/index';
 import { connect } from 'react-redux';
 import { getSearchSongs, getSearchPlayLists, getSearchSonger, getSearchAlbums } from '@src/actions/search';
-import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
+import actions, { getPlaySongGeci, getPlaySongInfo } from '@src/actions/music';
 
 import './index.less';
 

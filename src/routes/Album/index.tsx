@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
-import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
+import actions, { getSongDetail } from '@src/actions/music';
 import { getAlbumInfo } from '@src/actions/songerDetail';
-import { Icon, message } from 'antd';
+import { Icon } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
-import { get_geci } from '@src/apis/home';
 import Detail from './Detail/index';
-import playIcon from '../../../public/assets/images/play.png';
 import List from '@src/components/SongList/index';
 import './index.less';
 
@@ -24,7 +22,7 @@ interface IProps {
 
 const Album: React.FC<IProps> = props => {
 
-    const { songList, music, musicStatusSet, songListGet, playSong, loading, albumInfo, albuminfo } = props;
+    const { songList, music, musicStatusSet, loading, albumInfo, albuminfo } = props;
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const history = useHistory();
     const location = useLocation();

@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
-import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
-import { Icon, message } from 'antd';
+import actions, { getSongDetail } from '@src/actions/music';
+import { Icon } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
-import { get_geci } from '@src/apis/home';
 import Detail from './Detail/index';
 import playIcon from '../../../public/assets/images/play.png';
 import List from '@src/components/SongList/index';
@@ -20,7 +19,7 @@ interface IProps {
 }
 const MusicList: React.FC<IProps> = props => {
 
-    const { songList, music, musicStatusSet, songListGet, playSong, loading } = props;
+    const { songList, music, musicStatusSet, songListGet, loading } = props;
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const history = useHistory();
     const location = useLocation();

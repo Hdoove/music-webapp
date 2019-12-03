@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { message } from 'antd';
+import React from 'react';
 import './index.less';
 
 export interface IProps {

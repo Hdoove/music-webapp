@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { get_hot_songers, get_songers_list } from '@src/apis/home';
 import { useHistory } from 'react-router-dom';
-import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
+import { RunIcon } from '@src/components/RunIcon/index';
 import { Icon } from 'antd';
 import { connect } from 'react-redux';
-import actions from '@src/actions/music';
+import actions, { getSongers, getTopSongers } from '@src/actions/music';
 
 interface IProps {
     music: any;
-    musicStatusSet: Function,
+    musicStatusSet: Function;
+    songers: any;
+    loading: boolean;
+    songerGet: (num: number) => void;
+    topSongerGet: (obj: {type: string, offset: number}) => void;
 }
 interface IArr {
     [name: string]: number | string
@@ -26,23 +29,16 @@ const songerType: IArr = {
 }
 
 const SongerList: React.FC<IProps> = props => {
-    const [topList, setTopList] = useState([]);
     const [type, setType] = useState<number>(0);
     const [sex, setSex] = useState<string>('');
     const history = useHistory();
-    const { music, musicStatusSet } = props;
-    const [songers, setSongers] = useState([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [offset, setOffset] = useState<number>(0);
+    const { music, musicStatusSet, songerGet, songers, loading, topSongerGet } = props;
     const [isSearch, setIsSearch] = useState<boolean>(false);
 
     useEffect(() => {
-        setLoading(true);
-        get_hot_songers(offset).then(res => {
-            res.code === 200 && setSongers(res.artists);
-            setOffset(15);
-            setLoading(false);
-        });
+        songerGet(songers.offset);
+        sessionStorage.removeItem('type');
+        sessionStorage.removeItem('isSearch');
     }, []);
 
     useEffect(() => {
@@ -51,45 +47,30 @@ const SongerList: React.FC<IProps> = props => {
     }, [songers, loading]);
 
     const observer = new IntersectionObserver(entries => {
-        const bottom = document.querySelector('#albumsBottom');
         // 发生交叉目标元素集合
         entries.forEach((item: any) => {
             // 判断是否发生交叉
             if (item.isIntersecting) {
-                setLoading(true);
-                if (loading) {
-                    console.log(11);
-                    // if (isSearch) {
-                    //     get_songers_list(type + sex, offset).then(res => {
-                    //         res.code === 200 && setSongers(songers.concat(res.artists));
-                    //         setOffset(offset + 15);
-                    //         setLoading(false);
-                    //     });
-                    // } else {
-                    //     get_hot_songers(offset).then(res => {
-                    //         res.code === 200 && setSongers(songers.concat(res.artists));
-                    //         setOffset(offset + 15);
-                    //         setLoading(false);
-                    //     });
-                    // }
+                if (!loading) {
+                    if (sessionStorage.getItem('isSearch')) {
+                        topSongerGet({type: sessionStorage.getItem('type'), offset: songers.offset });
+                    } else {
+                        songerGet(songers.offset);
+                    }
                 }
             }
         });
     }, {
-            root: null, // 父级元素
-            rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
-        });
+        root: null, // 父级元素
+        rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
+    });
 
     useEffect(() => {
-        setLoading(true);
-        setOffset(0);
         if (type !== 0 && sex !== '') {
             !isSearch && setIsSearch(true);
-            get_songers_list(type + sex, offset).then(res => {
-                res.code === 200 && setSongers(res.artists);
-                setOffset(15);
-                setLoading(false);
-            });
+            sessionStorage.setItem('type', type + sex);
+            sessionStorage.setItem('isSearch', true);
+            topSongerGet({type: type + sex, offset: 0 });
         }
 
     }, [type, sex]);
@@ -129,11 +110,11 @@ const SongerList: React.FC<IProps> = props => {
                             })
                         }
                     </div>
-                    <div style={{ position: 'relative', top: '10vh' }}>
+                    <div style={{ position: 'relative', top: '10vh', height: '82vh', overflow: 'auto' }} >
                         <h4>热门歌手</h4>
                         <ul>
                             {
-                                songers && songers.map(songer => {
+                                songers && songers.data.map(songer => {
                                     return (
                                         <li key={songer.id} onClick={() => history.push(`/songer/${songer.id}`)}>
                                             <img src={songer.picUrl || songer.img1v1Url} alt="" />
@@ -149,9 +130,9 @@ const SongerList: React.FC<IProps> = props => {
                                     )
                                 })
                             }
-                            <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }} />
-                            <div id="playListsBottom" style={{ border: '1px solid transparent' }}></div>
                         </ul>
+                        <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }} />
+                        <div id="playListsBottom" style={{ border: '1px solid transparent' }}></div>
                     </div>
                 </div>
             </section>
@@ -162,13 +143,21 @@ const SongerList: React.FC<IProps> = props => {
 const mapStateToProps = (state: any) => {
     const { music } = state;
     return {
-        music
+        music,
+        songers: music.songers,
+        loading: music.loading
     };
 };
 const mapDispatchToProps = (dispatch: any) => {
     return {
         musicStatusSet: (item: { isShow: boolean }) => {
             dispatch(actions.setMusicStatus(item));
+        },
+        songerGet: (num: number) => {
+            dispatch(getSongers(num));
+        },
+        topSongerGet: (obj: {type: string, offset: number}) => {
+            dispatch(getTopSongers(obj));
         }
     };
 };
