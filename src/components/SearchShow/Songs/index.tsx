@@ -7,6 +7,19 @@ export interface IProps {
     getSong: (id: number) => void;
 }
 
+export interface ISongs {
+    fee: number,
+    name: string,
+    artists: {
+        name: string
+    }[],
+    id: number,
+    ar: { name: string }[],
+    al: {
+        name: string
+    }
+}
+
 const Songs: React.FC<IProps> = props => {
 
     const { data, getSong } = props;
@@ -15,7 +28,7 @@ const Songs: React.FC<IProps> = props => {
         <div className="songsRoot">
             <ul>
                 {
-                    data && data.map(song => {
+                    data && data.map((song: ISongs) => {
                         const canPlay = song.fee === 1;
                         return (
                             <li onClick={() => { canPlay ? message.info('此歌曲为vip专享') : getSong(song.id); }}>
@@ -23,7 +36,7 @@ const Songs: React.FC<IProps> = props => {
                                 <span className="songerName">
                                     <span className="vip" style={{ display: canPlay ? '' : 'none' }}>vip</span>
                                     {
-                                        song.artists && song.artists.map((item, index) => {
+                                        song.artists && song.artists.map((item, index: number) => {
                                             return index === song.artists.length - 1 ? item.name : `${item.name}/`
                                         })
                                     }

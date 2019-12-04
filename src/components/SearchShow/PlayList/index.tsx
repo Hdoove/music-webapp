@@ -6,6 +6,17 @@ export interface IProps {
     getPlayList: (id: number) => void;
 }
 
+export interface IPlayList {
+    id: number,
+    coverImgUrl: string,
+    name: string,
+    trackCount: number,
+    creator: {
+        nickname: string
+    },
+    playCount: number
+}
+
 const PlayLists: React.FC<IProps> = props => {
 
     const { data, getPlayList } = props;
@@ -14,7 +25,7 @@ const PlayLists: React.FC<IProps> = props => {
         <div className="playListsRoot">
             <ul>
                 {
-                    data && data.map(playList => {
+                    data && data.map((playList: IPlayList) => {
                         return (
                             <li onClick={() => getPlayList(playList.id)}>
                                 <img src={playList.coverImgUrl} alt="" />

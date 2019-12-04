@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import './index.less';
 
 interface IProps {
-    data: any;
-    isShow: false;
+    data: IItem[];
+    isShow: boolean;
     onChoose: (str: string) => void;
+}
+export interface IItem {
+    searchWord: string,
+    iconUrl: string,
+    content: string,
+    score: number
 }
 
 const HotSearch: React.FC<IProps> = props => {
@@ -16,7 +22,7 @@ const HotSearch: React.FC<IProps> = props => {
                 <span className="title">热搜榜</span>
                 <ul className="searchList">
                     {
-                        data.map((item, index) => {
+                        data.map((item: IItem, index: number) => {
                             return (
                                 <li onClick={() => { onChoose(item.searchWord) }}>
                                     <span style={{ color: index < 3 ? '#D74C44' : '#B0B0B2' }} className="index">{index + 1}</span>

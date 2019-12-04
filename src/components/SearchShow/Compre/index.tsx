@@ -1,5 +1,9 @@
 import React from 'react';
 import { message } from 'antd';
+import { IAlbum } from '../Albums/index';
+import { IPlayList } from '../PlayList/index';
+import { ISongers } from '../Songers/index';
+import { ISongs } from '../Songs/index';
 import './index.less';
 
 interface IProps {
@@ -20,7 +24,7 @@ const SearechPage: React.FC<IProps> = props => {
                 <span className="title">单曲</span>
                 <ul>
                     {
-                        data.song && data.song.songs.map(song => {
+                        data.song && data.song.songs.map((song: ISongs) => {
                             const canPlay = song.fee === 1;
                             return (
                                 <li onClick={() => { canPlay ? message.info('此歌曲为vip专享') : getSong(song.id); }}>
@@ -47,10 +51,10 @@ const SearechPage: React.FC<IProps> = props => {
                 <span className="title">歌手</span>
                 <ul>
                     {
-                        data.artist && data.artist.artists.map(songer => {
+                        data.artist && data.artist.artists.map((songer: ISongers) => {
                             return (
                                 <li>
-                                    <img src={songer.picUrl || songer.img1v1Url} alt="" />
+                                    <div className="img" style={{ backgroundImage: `url(${songer.picUrl || songer.img1v1Url})` }}></div>
                                     <span>
                                         <span style={{ color: '#607685' }}>{songer.name}</span>
                                         <span style={{ color: '#818284' }}>
@@ -69,7 +73,7 @@ const SearechPage: React.FC<IProps> = props => {
                 <span className="title">专辑</span>
                 <ul>
                     {
-                        data.album && data.album.albums.map(album => {
+                        data.album && data.album.albums.map((album: IAlbum) => {
                             return (
                                 <li>
                                     <img src={album.picUrl || album.blurPicUrl} alt="" />
@@ -97,7 +101,7 @@ const SearechPage: React.FC<IProps> = props => {
                 <span className="title">歌单</span>
                 <ul>
                     {
-                        data.playList && data.playList.playLists.map(playList => {
+                        data.playList && data.playList.playLists.map((playList: IPlayList) => {
                             return (
                                 <li onClick={() => getPlayList(playList.id)}>
                                     <img src={playList.coverImgUrl} alt="" />

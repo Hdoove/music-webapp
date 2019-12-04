@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
+import { RunIcon } from '@src/components/RunIcon/index';
 import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
 import { Icon, message } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -79,13 +79,13 @@ const List: React.FC<IProps> = props => {
                 <div className="left">
                     <Icon type="play-circle" onClick={handlePlayAll} />
                     <span>播放全部</span>
-                    <span>(共 {`${data && data.length} 首`})</span>
+                    <span>(共{`${data && data.length}首`})</span>
                 </div>
             </div>
             <ul className="songs">
                 {
-                    data && data.map((item: { name: string, ar: { name: string }[], al: { name: string } }, index: number) => {
-                        const canPlay = item.fee === 1 ;
+                    data && data.map((item: { name: string, ar: { name: string }[], al: { name: string }, fee: number, id: number }, index: number) => {
+                        const canPlay = item.fee === 1;
                         const isThis = playSong[0] ?.id === item.id;
                         return (
                             <li
@@ -102,7 +102,7 @@ const List: React.FC<IProps> = props => {
                                     <span className="line">-</span>
                                     <span className="albumName" style={{ color: isThis ? 'red' : '' }}>{item.al ?.name}</span>
                                 </p>
-                                <Icon type="dash" className="more" rotate={90} />
+                                {/* <Icon type="dash" className="more" rotate={90} /> */}
                             </li>
                         )
                     })

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { CircleIcon } from '@src/components/RunIcon/index';
 import changpianIcon from '../../../public/assets/images/changpian.jpg';
 import actions, { getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
-import { Icon } from 'antd';
+import { Icon, message } from 'antd';
 import onlySong from '../../../public/assets/images/only.png';
 import sortSong from '../../../public/assets/images/sort.png';
 import xunhuanSong from '../../../public/assets/images/xunhuan.png';
@@ -226,6 +226,10 @@ const Music: React.FC<IProps> = props => {
         }
     }
 
+    function handleNoSupport() {
+        alert('开发中..敬请期待');
+    }
+
     const moveTip = (selectGeciNum + 1) > center ? selectGeciNum - center + 1 : 0;
 
     useEffect(() => {
@@ -233,18 +237,20 @@ const Music: React.FC<IProps> = props => {
             if (geci[i] && geci[i].time <= currentTime && geci[i + 1] && geci[i + 1].time > currentTime) {
                 i !== selectGeciNum ? setSelectGeciNum(i) : '';
             }
-            //  else if (i === geci.length - 1) {
-            //     setSelectGeciNum(i);
-            // }
         }
     }, [currentTime]);
+
+    function handleGoSonger(id: number) {
+        musicinfoSet({ ...music, isShow: false });
+        history.push(`/songer/${id}`);
+    }
 
     return (
         <div
             className="musicRoot"
         >
             <div className="bg" style={{ backgroundImage: `url(${musicInfo[0] ?.al ?.picUrl})` }} />
-            <div className="body" style={{ display: allTime <= 0 ? 'none' : '' }}>
+            <div className="body" >
                 <header className="musicPlayHead">
                     <Icon
                         type="left"
@@ -253,18 +259,18 @@ const Music: React.FC<IProps> = props => {
                     />
                     <div>
                         <span>{musicInfo[0] ?.name}</span>
-                        <span>{musicInfo[0] ?.ar[0] ?.name} > </span>
+                        <span onClick={() => { handleGoSonger(musicInfo[0] ?.ar[0] ?.id) }}>{musicInfo[0] ?.ar[0] ?.name} > </span>
                     </div>
-                    <Icon type="share-alt" className="icon" />
+                    <Icon type="share-alt" className="icon" onClick={handleNoSupport} />
                 </header>
-                <div className="content" onClick={() => { setIsShowGeci(!isShowGeci) }}>
+                <div className="content">
                     <div style={{ display: isShowGeci ? 'none' : '' }}>
                         <img className="changpian" src={changpianIcon} alt="" style={{ transform: `translate(42%) rotate(${music.isPlay ? 30 : 0}deg)` }} />
-                        <div className='cricle' >
+                        <div className='cricle' onClick={() => { setIsShowGeci(!isShowGeci) }}>
                             <img className="animation" src={musicInfo[0] ?.al ?.picUrl} style={{ animationPlayState: music.isPlay ? 'running' : 'paused' }} />
                         </div>
                     </div>
-                    <div style={{ display: !isShowGeci ? 'none' : '' }}>
+                    <div style={{ display: !isShowGeci ? 'none' : '' }} onClick={() => { setIsShowGeci(!isShowGeci) }}>
                         {
                             geci && geci.map((item: { text: string }, index: number) => {
                                 return (
@@ -283,10 +289,10 @@ const Music: React.FC<IProps> = props => {
 
                 </div>
                 <div className="btns">
-                    <Icon type="heart" style={{ color: '#fff' }} />
-                    <Icon type="cloud-download" style={{ color: '#fff' }} />
-                    <Icon type="form" style={{ color: '#fff' }} />
-                    <Icon type="dash" style={{ color: '#fff' }} rotate={90} />
+                    <Icon onClick={handleNoSupport} type="heart" style={{ color: '#fff' }} />
+                    <Icon onClick={handleNoSupport} type="cloud-download" style={{ color: '#fff' }} />
+                    <Icon onClick={handleNoSupport} type="form" style={{ color: '#fff' }} />
+                    <Icon onClick={handleNoSupport} type="dash" style={{ color: '#fff' }} rotate={90} />
                 </div>
                 <div className="prosessControl">
                     <audio autoplay='autoplay' ref={audioRef} src={`https://music.163.com/song/media/outer/url?id=${musicInfo[0] ?.id}.mp3`}></audio>

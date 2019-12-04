@@ -7,6 +7,7 @@ import { Icon, Tabs } from 'antd';
 const { TabPane } = Tabs;
 import { useHistory, useLocation } from 'react-router-dom';
 import List from '@src/components/SongList/index';
+import { IAlbum } from '@src/components/SearchShow/Albums/index';
 import './index.less';
 
 interface IObj {
@@ -14,10 +15,12 @@ interface IObj {
 }
 interface IProps {
     songList: any;
-    music: any;
-    musicStatusSet: Function,
+    music: {
+        isPlay: boolean,
+        isShow: boolean
+    };
+    musicStatusSet: (item: { isShow: boolean, isPlay: boolean }) => void,
     songListGet: (id: number) => void,
-    playSong: any;
     loading: boolean;
     songerSongsGet: (obj: IObj) => void;
     songerAlbumGet: (obj: IObj) => void;
@@ -59,12 +62,9 @@ const SongerDetail: React.FC<IProps> = props => {
         >
             <div>
                 <div className="bgImg" style={{
-                    backgroundImage: `url(${songerDetail.info ?.picUrl})`,
-                    display: loading ? 'none' : ''
+                    backgroundImage: `url(${songerDetail.info ?.picUrl})`
                 }} />
-                <div className="body" style={{
-                    display: loading ? 'none' : ''
-                }}>
+                <div className="body">
                     <header>
                         <Icon type="left" onClick={() => { history.goBack() }} />
                         <span style={{ fontSize: '4vw' }}>歌手</span>
@@ -85,7 +85,7 @@ const SongerDetail: React.FC<IProps> = props => {
                                 <TabPane tab="专辑" key="2">
                                     <ul className="albums">
                                         {
-                                            songerDetail.album && songerDetail.album.map((item, index: number) => {
+                                            songerDetail.album && songerDetail.album.map((item: IAlbum, index: number) => {
                                                 return (
                                                     <li onClick={() => { history.push(`/album/${item.id}`) }}>
                                                         <img src={item.picUrl} alt="" />
@@ -126,7 +126,6 @@ const mapStateToProps = (state: any) => {
         songerDetail,
         songList: music.songListDetail,
         music: music.musicStatus,
-        playSong: music.playMusicInfo,
         loading: songerDetail.loading
     };
 };

@@ -3,7 +3,12 @@ import { Icon } from 'antd';
 import './index.less';
 
 interface IProps {
-    data: any;
+    data: {
+        coverImgUrl: string,
+        name: string,
+        tags: Array<string>,
+        description: string
+    };
     isShow: boolean;
     onClose: () => void;
 }

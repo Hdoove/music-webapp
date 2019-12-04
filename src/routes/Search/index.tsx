@@ -53,7 +53,7 @@ interface IProps {
 const SearechPage: React.FC<IProps> = props => {
 
     const [searchList, setSearchList] = useState([]);
-    const [allData, setAllData] = useState([]);
+    const [allData, setAllData] = useState<any>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [value, setValue] = useState<string>('');
     const [tab, setTab] = useState<string>('1');

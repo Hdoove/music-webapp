@@ -6,6 +6,18 @@ export interface IProps {
     getAlbums: (id: number) => void;
 }
 
+export interface IAlbum {
+    id: number,
+    picUrl: string,
+    blurPicUrl: string,
+    name: string,
+    artist: {
+        name: string
+    },
+    publishTime: number,
+    size: number
+}
+
 const Albums: React.FC<IProps> = props => {
 
     const { data, getAlbums } = props;
@@ -15,7 +27,7 @@ const Albums: React.FC<IProps> = props => {
         <div className="albumsRoot">
             <ul style={{ padding: '0 6vw' }}>
                 {
-                    data && data.map(album => {
+                    data && data.map((album: IAlbum) => {
                         return (
                             <li onClick={() => { getAlbums(album.id) }} key={album.id}>
                                 <img src={album ?.picUrl || album ?.blurPicUrl} alt="" />

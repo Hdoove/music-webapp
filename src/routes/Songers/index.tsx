@@ -5,6 +5,7 @@ import { RunIcon } from '@src/components/RunIcon/index';
 import { Icon } from 'antd';
 import { connect } from 'react-redux';
 import actions, { getSongers, getTopSongers } from '@src/actions/music';
+import { ISongers } from '@src/components/SearchShow/Songers/index';
 
 interface IProps {
     music: any;
@@ -12,7 +13,7 @@ interface IProps {
     songers: any;
     loading: boolean;
     songerGet: (num: number) => void;
-    topSongerGet: (obj: {type: string, offset: number}) => void;
+    topSongerGet: (obj: { type: string, offset: number }) => void;
 }
 interface IArr {
     [name: string]: number | string
@@ -53,7 +54,7 @@ const SongerList: React.FC<IProps> = props => {
             if (item.isIntersecting) {
                 if (!loading) {
                     if (sessionStorage.getItem('isSearch')) {
-                        topSongerGet({type: sessionStorage.getItem('type'), offset: songers.offset });
+                        topSongerGet({ type: sessionStorage.getItem('type') as string, offset: songers.offset });
                     } else {
                         songerGet(songers.offset);
                     }
@@ -61,16 +62,16 @@ const SongerList: React.FC<IProps> = props => {
             }
         });
     }, {
-        root: null, // 父级元素
-        rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
-    });
+            root: null, // 父级元素
+            rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
+        });
 
     useEffect(() => {
         if (type !== 0 && sex !== '') {
             !isSearch && setIsSearch(true);
             sessionStorage.setItem('type', type + sex);
             sessionStorage.setItem('isSearch', true);
-            topSongerGet({type: type + sex, offset: 0 });
+            topSongerGet({ type: type + sex, offset: 0 });
         }
 
     }, [type, sex]);
@@ -114,7 +115,7 @@ const SongerList: React.FC<IProps> = props => {
                         <h4>热门歌手</h4>
                         <ul>
                             {
-                                songers && songers.data.map(songer => {
+                                songers && songers.data.map((songer: ISongers) => {
                                     return (
                                         <li key={songer.id} onClick={() => history.push(`/songer/${songer.id}`)}>
                                             <img src={songer.picUrl || songer.img1v1Url} alt="" />
@@ -156,7 +157,7 @@ const mapDispatchToProps = (dispatch: any) => {
         songerGet: (num: number) => {
             dispatch(getSongers(num));
         },
-        topSongerGet: (obj: {type: string, offset: number}) => {
+        topSongerGet: (obj: { type: string, offset: number }) => {
             dispatch(getTopSongers(obj));
         }
     };

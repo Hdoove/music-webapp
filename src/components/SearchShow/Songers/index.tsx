@@ -6,6 +6,14 @@ interface IProps {
     getSonger: (id: number) => void;
 }
 
+export interface ISongers {
+    id: number,
+    picUrl: string,
+    img1v1Url: string,
+    name: string,
+    alias: Array<any>
+}
+
 const SongerList: React.FC<IProps> = props => {
 
     const { data, getSonger } = props;
@@ -14,7 +22,7 @@ const SongerList: React.FC<IProps> = props => {
         <div className="songers" style={{ padding: '0 6vw' }}>
             <ul>
                 {
-                    data && data.map(songer => {
+                    data && data.map((songer: ISongers) => {
                         return (
                             <li onClick={() => { getSonger(songer.id) }}>
                                 <img src={songer.picUrl || songer.img1v1Url} alt="" />
