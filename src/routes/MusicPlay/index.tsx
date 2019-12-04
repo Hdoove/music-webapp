@@ -281,7 +281,14 @@ const Music: React.FC<IProps> = props => {
                     />
                     <div>
                         <span>{musicInfo[0] ?.name}</span>
-                        <span onClick={() => { handleGoSonger(musicInfo[0] ?.ar[0] ?.id); }}>{musicInfo[0] ?.ar[0] ?.name} > </span>
+                        {/* <span onClick={() => { handleGoSonger(musicInfo[0] ?.ar[0] ?.id); }}>{musicInfo[0] ?.ar[0] ?.name} > </span> */}
+                        <span>
+                            {
+                                musicInfo[0]?.ar && musicInfo[0]?.ar.map((ars, index: number) => {
+                                    return index === musicInfo[0].ar.length - 1 ? ars.name : `${ars.name}/`
+                                })
+                            }
+                        </span>
                     </div>
                     <Icon type="share-alt" className="icon" onClick={handleNoSupport} />
                 </header>

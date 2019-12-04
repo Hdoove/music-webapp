@@ -98,7 +98,11 @@ const List: React.FC<IProps> = props => {
                                 </p>
                                 <p className="nowrap" style={{ '-webkit-box-orient': 'vertical' }}>
                                     <span className="vip" style={{ display: !canPlay ? '' : 'none' }}>vip</span>
-                                    <span className="songerName" style={{ color: isThis ? 'red' : '' }}>{item.ar[0] ?.name}</span>
+                                    {
+                                        item.ar && item.ar.map((ars, index: number) => {
+                                            return index === item.ar.length - 1 ? ars.name : `${ars.name}/`
+                                        })
+                                    }
                                     <span className="line">-</span>
                                     <span className="albumName" style={{ color: isThis ? 'red' : '' }}>{item.al ?.name}</span>
                                 </p>
