@@ -43,7 +43,9 @@ const MusicList: React.FC<IProps> = props => {
                 <div className="bgImg" style={{
                     backgroundImage: `url(${songList.coverImgUrl})`,
                     display: loading ? 'none' : ''
-                }} />
+                }}>
+                    <img src={songList.coverImgUrl} alt=""/>    
+                </div>
                 <div className="body" style={{
                     display: loading ? 'none' : ''
                 }}>

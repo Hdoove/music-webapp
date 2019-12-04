@@ -29,7 +29,7 @@ const ListDetail: React.FC<IProps> = props => {
                     <div className="tags">
                         <span className="tagTitle">标签:</span>
                         {
-                            data.tags.length > 0 ? data.tags.map((item: string) => {
+                            data.tags && data?.tags.length > 0 ? data.tags.map((item: string) => {
                                 return (
                                     <span className="tag">{item}</span>
                                 )

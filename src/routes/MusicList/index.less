@@ -2,38 +2,45 @@
     height: 100vh;
 
     .bgImg {
-        width: 100%;
-        height: 100vh;
-        float: left;
+        width            : 100%;
+        height           : 100vh;
+        float            : left;
         background-repeat: no-repeat;
-        background-size: contain;
-        filter: blur(15px);
+        background-size  : contain;
+        // filter        : blur(15px);
+
+        img {
+            vertical-align : middle;
+            width          : 100%;
+            background-size: contain;
+            filter         : blur(10px);
+        }
 
         &::after {
-            content: '';
-            content: '';
-            width: 100%;
-            height: 100vh;
-            display: inline-block;
+            content   : '';
+            content   : '';
+            width     : 100%;
+            height    : 100vh;
+            display   : inline-block;
             background: rgba(0, 0, 0, .4);
         }
     }
 
     .body {
         position: absolute;
-        width: 100%;
+        width   : 100%;
 
         header {
-            display: flex;
+            display        : flex;
             justify-content: space-between;
-            align-items: center;
-            height: 8vh;
-            width: 100%;
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            color: #fff;
-            padding: 0px 2vh;
+            align-items    : center;
+            height         : 8vh;
+            width          : 100%;
+            position       : fixed;
+            top            : 0px;
+            left           : 0px;
+            color          : #fff;
+            padding        : 0px 2vh;
 
             .anticon {
                 font-size: 2.8vh;
@@ -41,44 +48,44 @@
         }
 
         .content {
-            overflow: auto;
-            width: 100%;
-            height: 92vh;
+            overflow  : auto;
+            width     : 100%;
+            height    : 92vh;
             margin-top: 8vh;
-            float: left;
+            float     : left;
 
             .listDetail {
-                height: 50vw;
-                padding: 6vw 4vw;
+                height  : 50vw;
+                padding : 6vw 4vw;
                 position: relative;
 
                 .left {
-                    position: absolute;
-                    width: 36vw;
-                    height: 37vw;
-                    border-radius: 4px;
-                    overflow: hidden;
-                    float: left;
-                    top: 6vw;
-                    left: 2vh;
+                    position       : absolute;
+                    width          : 36vw;
+                    height         : 37vw;
+                    border-radius  : 4px;
+                    overflow       : hidden;
+                    float          : left;
+                    top            : 6vw;
+                    left           : 2vh;
                     background-size: cover;
 
                     .listenNum {
-                        position: absolute;
-                        top: 1vh;
-                        right: 1vh;
-                        display: flex;
+                        position   : absolute;
+                        top        : 1vh;
+                        right      : 1vh;
+                        display    : flex;
                         align-items: center;
 
                         span {
-                            color: #fff;
-                            font-size: 1.8vh;
+                            color      : #fff;
+                            font-size  : 1.8vh;
                             text-shadow: 1px 0px 0px #000;
                         }
 
                         img {
-                            width: 2.5vw;
-                            height: 2.5vw;
+                            width       : 2.5vw;
+                            height      : 2.5vw;
                             margin-right: 1vw;
                         }
                     }
@@ -86,64 +93,64 @@
 
                 .right {
                     vertical-align: top;
-                    height: 37vw;
-                    padding: 0 2vh;
-                    position: absolute;
-                    left: 40vw;
-                    // width: 59vw;
+                    height        : 37vw;
+                    padding       : 0 2vh;
+                    position      : absolute;
+                    left          : 40vw;
+                    // width      : 59vw;
 
                     p {
                         margin: 0px;
                     }
 
                     .title {
-                        color: #FCF9FF;
-                        overflow: hidden;
+                        color             : #FCF9FF;
+                        overflow          : hidden;
                         -webkit-line-clamp: 2;
-                        font-size: 3.8vw;
-                        display: -webkit-box;
+                        font-size         : 3.8vw;
+                        display           : -webkit-box;
                         -webkit-box-orient: vertical;
                     }
 
                     .createor {
-                        display: flex;
+                        display    : flex;
                         align-items: center;
-                        color: #fff;
+                        color      : #fff;
                         margin-left: 2vw;
-                        margin-top: 4vw;
+                        margin-top : 4vw;
 
                         img {
-                            width: 6vw;
-                            height: 6vw;
+                            width        : 6vw;
+                            height       : 6vw;
                             border-radius: 50%;
-                            margin-right: 1vh;
+                            margin-right : 1vh;
                         }
 
                         span {
                             font-size: 3vw;
-                            opacity: .6;
+                            opacity  : .6;
                         }
 
                         .anticon {
                             margin-left: 1vh;
-                            opacity: .6;
+                            opacity    : .6;
                         }
                     }
 
                     .description {
-                        display: flex;
+                        display    : flex;
                         align-items: center;
-                        width: 54vw;
-                        position: absolute;
-                        bottom: 2vw;
-                        opacity: .6;
+                        width      : 54vw;
+                        position   : absolute;
+                        bottom     : 2vw;
+                        opacity    : .6;
 
                         p {
-                            color: #fff;
-                            overflow: hidden;
+                            color             : #fff;
+                            overflow          : hidden;
                             -webkit-line-clamp: 2;
-                            font-size: 2.8vw;
-                            display: -webkit-box;
+                            font-size         : 2.8vw;
+                            display           : -webkit-box;
                             -webkit-box-orient: vertical;
                         }
 

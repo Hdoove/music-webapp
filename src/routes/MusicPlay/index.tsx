@@ -130,16 +130,20 @@ const Music: React.FC<IProps> = props => {
                 let list = gecisplit[i].split(']');
                 if (list.length > 2) {
                     for (let j = 0, len = list.length - 1; j < len; j++) {
-                        newArr.push({
-                            time: changeTimeToSplit(list[j].replace('[', '')),
-                            text: list[list.length - 1]
-                        });
+                        if (list[list.length - 1] !== '') {
+                            newArr.push({
+                                time: changeTimeToSplit(list[j].replace('[', '')),
+                                text: list[list.length - 1]
+                            })
+                        }
                     }
                 } else {
-                    newArr.push({
-                        time: changeTimeToSplit(list[0].replace('[', '')),
-                        text: list[1] || ''
-                    });
+                    if (list[1] !== '') {
+                        newArr.push({
+                            time: changeTimeToSplit(list[0].replace('[', '')),
+                            text: list[1]
+                        });
+                    }
                 }
             }
             newArr.sort((a, b) => a.time - b.time);
@@ -340,7 +344,6 @@ const Music: React.FC<IProps> = props => {
                             !music.isPlay ? audioRef.current.play() : audioRef.current.pause();
                             musicinfoSet({ ...music, isPlay: !music.isPlay })
                         }}
-                        // type={allTime <= 0 && music.isPlay ? 'play-circle' : 'pause'}
                         type={allTime > 0 ? music.isPlay ? 'pause' : 'play-circle' : 'play-circle'}
                         style={{ color: '#fff', fontSize: '6vh' }}
                     />
@@ -349,7 +352,7 @@ const Music: React.FC<IProps> = props => {
                 </footer>
             </div>
             <div className="goBack" style={{ display: orderSongs.now === -1 ? 'flex' : 'none' }}>
-                <span>请先去音乐库寻找自己的歌曲~</span>
+                <span>先去挑一首自己喜欢的歌吧~</span>
                 <Icon type="left" onClick={() => { musicinfoSet({ ...music, isShow: false }); }} />
             </div>
 
