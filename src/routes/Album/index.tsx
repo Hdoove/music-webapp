@@ -38,6 +38,10 @@ const Album: React.FC<IProps> = props => {
         setIsShowDetail(false);
     }
 
+    function goSonger(id: number) {
+        history.push(`/songer/${id}`);
+    }
+
     return (
         <div
             className="albumRoot"
@@ -59,20 +63,20 @@ const Album: React.FC<IProps> = props => {
                         </div>
                     </header>
                     <section className="content">
-                        <section className="listDetail" onClick={() => { setIsShowDetail(true) }}>
+                        <section className="listDetail">
                             <div className="left" style={{ backgroundImage: `url(${albuminfo ?.album ?.picUrl})` }} />
                             <div className="right">
                                 <p className="title" style={{ '-webkit-box-orient': 'vertical' }}>
                                     {albuminfo ?.album ?.name}
                                 </p>
                                 <div className="createor">
-                                    <span>歌手：{albuminfo ?.album ?.artist ?.name}</span>
+                                    <span onClick={() => { goSonger(albuminfo ?.album ?.artist ?.id) }}>歌手：{albuminfo ?.album ?.artist ?.name}</span>
                                     <Icon type="right" />
                                 </div>
                                 <div className="createor">
                                     <span>发行时间：{new Date(albuminfo ?.album ?.publishTime).toLocaleDateString()}</span>
                                 </div>
-                                <div className="description">
+                                <div className="description" onClick={() => { setIsShowDetail(true) }}>
                                     <p style={{ '-webkit-box-orient': 'vertical' }}>
                                         {albuminfo ?.album ?.description}
                                     </p>

@@ -9,10 +9,21 @@ interface IProps {
     playId: number;
     onPlay: (id: number, index: number) => void;
     onPlayAll: () => void;
+    status: number;
+}
+
+interface IArr {
+    [props: number]: string
+}
+
+const statustext: IArr = {
+    0: '列表循环',
+    1: '单曲循环',
+    2: '随机播放'
 }
 
 const SongList: React.FC<IProps> = props => {
-    const { songList, isShow, onClose, playId, onPlay, onPlayAll } = props;
+    const { songList, isShow, onClose, playId, onPlay, onPlayAll, status } = props;
     return (
         <div
             className="SongList"
@@ -23,13 +34,13 @@ const SongList: React.FC<IProps> = props => {
                     <header className="listHeader">
                         <div className="left" onClick={() => { onPlayAll() }}>
                             <Icon type="reload" />
-                            <span>{`列表循环(${songList.tracks && songList.tracks.length})`}</span>
+                            <span>{`${statustext[status]}(${songList.tracks && songList.tracks.length})`}</span>
                         </div>
-                        <div className="right">
+                        {/* <div className="right">
                             <Icon type="folder-add" />
                             <span>收藏全部</span>
                             <Icon type="delete" />
-                        </div>
+                        </div> */}
                     </header>
                     <section className="content">
                         <ul>
@@ -46,7 +57,7 @@ const SongList: React.FC<IProps> = props => {
                                                 <span style={{ margin: '0 0.25rem', color: isThis ? 'red' : '' }}>-</span>
                                                 <span className="songerName" style={{ color: isThis ? 'red' : '' }}>{item.ar[0].name}</span>
                                             </p>
-                                            <Icon className="right icon" type="close" />
+                                            {/* <Icon className="right icon" type="close" /> */}
                                         </li>
                                     )
                                 })

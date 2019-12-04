@@ -23,7 +23,6 @@ const Toplist: React.FC<IProps> = props => {
     useEffect(() => {
         const id = location.pathname.split('/')[2];
         if (id && id != songList.id) {
-            console.log(11);
             toplistDetailGet(Number(id));
         }
     }, []);

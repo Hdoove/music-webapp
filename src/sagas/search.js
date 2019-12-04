@@ -12,6 +12,7 @@ import actions, {
 import {
     get_search_detail
 } from '@src/apis/home';
+import musicAction from '@src/actions/music';
 
 // 获取搜索单曲
 function* fetchSearchSongs(action) {
@@ -26,6 +27,9 @@ function* fetchSearchSongs(action) {
                 allCount: data.result.songCount
             }));
             yield put(actions.setLoading(false));
+            // yield put(musicAction.setSongDetail({
+            //     tracks: data.result.songs
+            // }));
         } else {
             yield put(actions.setSearchSongs({}));
             yield put(actions.setLoading(false));
@@ -80,7 +84,6 @@ function* fetchSearchAlbums(action) {
         yield put(actions.setLoading(true));
         const data = yield call(get_search_detail, action.payload);
         if (data.code === 200 && data.result) {
-            console.log(data);
             yield put(actions.setSearchAlbums({
                 limit: 20,
                 offset: action.payload.offset + 20,

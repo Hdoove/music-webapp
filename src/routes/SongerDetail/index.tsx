@@ -76,10 +76,13 @@ const SongerDetail: React.FC<IProps> = props => {
                     <section className="content">
                         <section className="listDetail">
                             <span className="songerName">{songerDetail.info ?.name }</span>
+                            <span className="detailName">
+                                {`单曲数 ${songerDetail ?.info ?.musicSize || 0} 专辑数 ${songerDetail ?.info ?.albumSize || 0} MV数 ${songerDetail ?.info ?.mvSize || 0}`}
+                            </span>
                         </section>
                         <section className="list">
                             <Tabs defaultActiveKey="1" onChange={handleTabChange} activeKey={tab}>
-                                <TabPane tab="单曲" key="1">
+                                <TabPane tab="热门单曲" key="1">
                                     <List data={songerDetail.songs} title="" />
                                 </TabPane>
                                 <TabPane tab="专辑" key="2">

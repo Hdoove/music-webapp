@@ -29,7 +29,7 @@ const Songs: React.FC<IProps> = props => {
             <ul>
                 {
                     data && data.map((song: ISongs) => {
-                        const canPlay = song.fee === 1;
+                        const canPlay = song.fee === 1 || song.fee === 4;
                         return (
                             <li onClick={() => { canPlay ? message.info('此歌曲为vip专享') : getSong(song.id); }}>
                                 <span className="songName">{song.name}</span>
@@ -41,7 +41,7 @@ const Songs: React.FC<IProps> = props => {
                                         })
                                     }
                                     -
-                                        {song.artists ?.name}
+                                        {song.album ?.name}
                                 </span>
                             </li>
                         )

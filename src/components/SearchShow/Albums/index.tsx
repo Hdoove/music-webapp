@@ -21,7 +21,6 @@ export interface IAlbum {
 const Albums: React.FC<IProps> = props => {
 
     const { data, getAlbums } = props;
-    console.log(data);
 
     return (
         <div className="albumsRoot">

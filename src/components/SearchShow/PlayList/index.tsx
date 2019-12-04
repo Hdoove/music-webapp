@@ -34,7 +34,7 @@ const PlayLists: React.FC<IProps> = props => {
                                     <span style={{ color: '#858687', fontSize: '3vw' }}>
                                         {
                                             `
-                                                    ${playList.trackCount}首 by ${playList.creator.nickname} 播放 ${Math.floor(playList.playCount / 10000)} 万次
+                                                    ${playList.trackCount}首 by ${playList.creator.nickname} 播放 ${Math.ceil(playList.playCount / 10000)} 万次
                                                 `
                                         }
                                     </span>

@@ -3,15 +3,12 @@ import { RunIcon } from '@src/components/RunIcon/index';
 import musicIcon from '../../../public/assets/images/music.png';
 import goMusicIcon from '../../../public/assets/images/goMusic.png';
 import searchIcon from '../../../public/assets/images/search.png';
-import gedanIcon from '../../../public/assets/images/gedan.png';
-import paihangbangIcon from '../../../public/assets/images/paihangbang.png';
-import diantaiIcon from '../../../public/assets/images/diantai.png';
 import playIcon from '../../../public/assets/images/play.png';
 import imgLoading from '../../../public/assets/images/imgLoading.png';
 import { useHistory } from 'react-router-dom';
-import actions, { getBanners, getSongSheet } from '../../actions/music';
+import actions, { getBanners, getSongSheet, getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
 import { connect } from 'react-redux';
-import { Carousel } from 'antd';
+import { Carousel, Icon } from 'antd';
 import './index.less';
 
 interface IProps {
@@ -21,26 +18,29 @@ interface IProps {
   music: {
     isShow: boolean,
     isPlay: boolean
-  }
+  };
   banners: any;
   songSheet: any;
+  playSongGeciGet: (id: number) => void;
+  playSongInfoGet: (id: number) => void;
+  changeSongOrder: (obj: { all: number, now: number }) => void;
 }
 
 interface Ibuttons { img: string, title: string, path: string };
 
 const buttons: Ibuttons[] = [
   {
-    img: gedanIcon,
+    img: 'appstore',
     title: '歌单',
     path: ''
   },
   {
-    img: paihangbangIcon,
+    img: 'rise',
     title: '排行榜',
     path: '/ranking'
   },
   {
-    img: diantaiIcon,
+    img: 'user',
     title: '歌手',
     path: '/songerlist'
   }
@@ -48,7 +48,7 @@ const buttons: Ibuttons[] = [
 
 const Home: React.FC<IProps> = props => {
   const history = useHistory();
-  const { musicStatusSet, music, bannersSet, songSheetSet, banners, songSheet } = props;
+  const { musicStatusSet, music, bannersSet, songSheetSet, banners, songSheet, playSongGeciGet, playSongInfoGet, changeSongOrder } = props;
 
   useEffect(() => {
     if (banners.length === 0 || songSheet.length === 0) {
@@ -81,6 +81,16 @@ const Home: React.FC<IProps> = props => {
       rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
     });
 
+  function handleGoMisic(item: any) {
+    if (item.song) {
+      const id = item.song.id;
+      playSongGeciGet(id);
+      playSongInfoGet(id);
+      musicStatusSet({ isPlay: true, isShow: true });
+      changeSongOrder({ all: 1, now: 0 });
+    }
+  }
+
   return (
     <div
       className="loginRoot"
@@ -98,7 +108,7 @@ const Home: React.FC<IProps> = props => {
           {
             banners.map((item: { pic: string }) => {
               return (
-                <img src={item.pic} />
+                <img src={item.pic} onClick={() => { handleGoMisic(item) }} />
               )
             })
           }
@@ -110,7 +120,7 @@ const Home: React.FC<IProps> = props => {
             return (
               <div className="buttonItem" onClick={() => history.push(item.path)}>
                 <div className="imgDiv">
-                  <img src={item.img} alt={item.title} />
+                  <Icon type={item.img} />
                 </div>
                 <span>{item.title}</span>
               </div>
@@ -162,6 +172,15 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     songSheetSet: () => {
       dispatch(getSongSheet());
+    },
+    playSongGeciGet: (id: number) => {
+      dispatch(getPlaySongGeci(id));
+    },
+    playSongInfoGet: (id: number) => {
+      dispatch(getPlaySongInfo(id));
+    },
+    changeSongOrder: (obj: { all: number, now: number }) => {
+      dispatch(actions.setAllAndThisSong(obj));
     }
   };
 };

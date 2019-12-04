@@ -85,19 +85,19 @@ const List: React.FC<IProps> = props => {
             <ul className="songs">
                 {
                     data && data.map((item: { name: string, ar: { name: string }[], al: { name: string }, fee: number, id: number }, index: number) => {
-                        const canPlay = item.fee === 1;
+                        const canPlay = item.fee === 8;
                         const isThis = playSong[0] ?.id === item.id;
                         return (
                             <li
-                                style={{ background: canPlay ? 'rgb(153, 153, 153, .1)' : '#fff' }}
-                                onClick={() => { !canPlay ? handlePlayMusic(item.id, index) : message.info('此歌曲为vip专享') }}
+                                style={{ background: !canPlay ? 'rgb(153, 153, 153, .1)' : '#fff' }}
+                                onClick={() => { canPlay ? handlePlayMusic(item.id, index) : message.info('此歌曲为vip专享') }}
                             >
                                 <span className="index">{index + 1}</span>
                                 <p className="songName" style={{ color: isThis ? 'red' : '', '-webkit-box-orient': 'vertical' }}>
                                     {item.name}
-                                    <span className="vip" style={{ display: canPlay ? '' : 'none' }}>vip</span>
                                 </p>
                                 <p className="nowrap" style={{ '-webkit-box-orient': 'vertical' }}>
+                                    <span className="vip" style={{ display: !canPlay ? '' : 'none' }}>vip</span>
                                     <span className="songerName" style={{ color: isThis ? 'red' : '' }}>{item.ar[0] ?.name}</span>
                                     <span className="line">-</span>
                                     <span className="albumName" style={{ color: isThis ? 'red' : '' }}>{item.al ?.name}</span>
@@ -127,7 +127,6 @@ const mapDispatchToProps = (dispatch: any) => {
             dispatch(actions.setMusicStatus(item));
         },
         playSongGeciGet: (id: number) => {
-            // console.log(actions);
             dispatch(getPlaySongGeci(id));
         },
         playSongInfoGet: (id: number) => {

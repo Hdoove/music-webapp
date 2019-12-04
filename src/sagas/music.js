@@ -120,7 +120,10 @@ function* fetchSongers(action) {
     yield put(actions.setLoading(true));
     const data = yield call(get_hot_songers, action.payload);
     if (data.code === 200 && data.artists) {
-      yield put(actions.setSongers({ offset: action.payload + 15, data: data.artists }));
+      yield put(actions.setSongers({
+        offset: action.payload + 15,
+        data: data.artists
+      }));
       yield put(actions.setLoading(false));
     } else {
       yield put(actions.setSongers([]));
@@ -137,8 +140,10 @@ function* fetchTopSongers(action) {
     yield put(actions.setLoading(true));
     const data = yield call(get_songers_list, action.payload);
     if (data.code === 200 && data.artists) {
-      console.log(data);
-      yield put(actions.setSongers({ offset: action.payload.offset + 15, data: data.artists }));
+      yield put(actions.setSongers({
+        offset: action.payload.offset + 15,
+        data: data.artists
+      }));
       yield put(actions.setLoading(false));
     } else {
       yield put(actions.setSongers([]));

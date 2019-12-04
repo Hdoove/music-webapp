@@ -12,11 +12,13 @@ interface IProps {
     getSong: (id: number) => void;
     getPlayList: (id: number) => void;
     goMore: (key: number) => void;
+    getSonger: (key: number) => void;
+    getAlbums: (key: number) => void;
 }
 
 const SearechPage: React.FC<IProps> = props => {
 
-    const { data, isShow, getSong, getPlayList, goMore } = props;
+    const { data, isShow, getSong, getPlayList, goMore, getSonger, getAlbums } = props;
 
     return (
         <div className="compreRoot" style={{ display: isShow ? '' : 'none' }}>
@@ -24,8 +26,8 @@ const SearechPage: React.FC<IProps> = props => {
                 <span className="title">单曲</span>
                 <ul>
                     {
-                        data.song && data.song.songs.map((song: ISongs) => {
-                            const canPlay = song.fee === 1;
+                        data ?.song ?.songs.map((song: ISongs) => {
+                            const canPlay = song.fee === 1 || song.fee === 4;
                             return (
                                 <li onClick={() => { canPlay ? message.info('此歌曲为vip专享') : getSong(song.id); }}>
                                     <span className="songName">{song.name}</span>
@@ -44,16 +46,16 @@ const SearechPage: React.FC<IProps> = props => {
                             )
                         })
                     }
-                    <span onClick={() => goMore(2)} className="moreText">{data.song ?.moreText}</span>
+                    <span onClick={() => goMore(2)} className="moreText">{data ?.song ?.moreText}</span>
                 </ul>
             </div>
             <div className="songers">
                 <span className="title">歌手</span>
                 <ul>
                     {
-                        data.artist && data.artist.artists.map((songer: ISongers) => {
+                        data && data.artist && data.artist.artists.map((songer: ISongers) => {
                             return (
-                                <li>
+                                <li onClick={() => getSonger(songer.id)}>
                                     <div className="img" style={{ backgroundImage: `url(${songer.picUrl || songer.img1v1Url})` }}></div>
                                     <span>
                                         <span style={{ color: '#607685' }}>{songer.name}</span>
@@ -73,9 +75,9 @@ const SearechPage: React.FC<IProps> = props => {
                 <span className="title">专辑</span>
                 <ul>
                     {
-                        data.album && data.album.albums.map((album: IAlbum) => {
+                        data ?.album ?.albums.map((album: IAlbum) => {
                             return (
-                                <li>
+                                <li onClick={() => { getAlbums(album.id) }}>
                                     <img src={album.picUrl || album.blurPicUrl} alt="" />
                                     <div style={{ display: 'inline-block', marginLeft: '2vw' }}>
                                         <span style={{ color: '#000000', display: 'block' }}>{album.name}</span>
@@ -94,14 +96,14 @@ const SearechPage: React.FC<IProps> = props => {
                             )
                         })
                     }
-                    <span className="moreText" onClick={() => goMore(5)}>{data.album ?.moreText}</span>
+                    <span className="moreText" onClick={() => goMore(5)}>{data ?.album ?.moreText}</span>
                 </ul>
             </div>
             <div className="playList">
                 <span className="title">歌单</span>
                 <ul>
                     {
-                        data.playList && data.playList.playLists.map((playList: IPlayList) => {
+                        data ?.playList ?.playLists.map((playList: IPlayList) => {
                             return (
                                 <li onClick={() => getPlayList(playList.id)}>
                                     <img src={playList.coverImgUrl} alt="" />
@@ -110,7 +112,7 @@ const SearechPage: React.FC<IProps> = props => {
                                         <span style={{ color: '#858687', fontSize: '3vw' }}>
                                             {
                                                 `
-                                                    ${playList.trackCount}首 by ${playList.creator.nickname} 播放 ${Math.floor(playList.playCount / 10000)} 万次
+                                                    ${playList.trackCount}首 by ${playList.creator.nickname} 播放 ${Math.ceil(playList.playCount / 10000)} 万次
                                                 `
                                             }
                                         </span>
@@ -119,7 +121,7 @@ const SearechPage: React.FC<IProps> = props => {
                             )
                         })
                     }
-                    <span className="moreText" onClick={() => goMore(3)}>{data.playList ?.moreText}</span>
+                    <span className="moreText" onClick={() => goMore(3)}>{data ?.playList ?.moreText}</span>
                 </ul>
             </div>
             <div></div>

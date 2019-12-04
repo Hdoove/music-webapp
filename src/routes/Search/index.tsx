@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { ChangeEvent, useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Input, Icon, Tabs } from 'antd';
+import { Input, Icon, Tabs, message } from 'antd';
 const { TabPane } = Tabs;
 import { get_hot_search, get_search_detail } from '@src/apis/home';
 import HostSeatch from './component/HotSearch/index';
@@ -57,6 +57,7 @@ const SearechPage: React.FC<IProps> = props => {
     const [loading, setLoading] = useState<boolean>(false);
     const [value, setValue] = useState<string>('');
     const [tab, setTab] = useState<string>('1');
+    const [isSearch, setIsSearch] = useState<boolean>(false);
 
     const {
         searchSongsGet,
@@ -112,7 +113,6 @@ const SearechPage: React.FC<IProps> = props => {
                             searchSongerGet({ name: value, type: seatchKey[Number(tab)], limit: 20, offset: 0 });
                             break;
                         case 5:
-                            console.log(albums.offset, albums.allCount);
                             albums.offset < albums.allCount && searchAlbumsGet({ name: value, type: seatchKey[Number(tab)], limit: 20, offset: albums.offset });
                             break;
                         default:
@@ -132,13 +132,20 @@ const SearechPage: React.FC<IProps> = props => {
 
 
     function handleSearch(e: ChangeEvent<HTMLInputElement>) {
+        isSearch && setIsSearch(false);
         setValue(e.target.value);
     }
 
     function handleSearchKeyWord() {
-        setTab('1');
-        setLoading(true);
-        get_search_detail({ name: value, type: 1018, limit: 20, offset: 0 }).then(res => { setAllData(res.result); setLoading(false) });
+        if (value) {
+            setTab('1');
+            setLoading(true);
+            setIsSearch(true);
+            get_search_detail({ name: value, type: 1018, limit: 20, offset: 0 }).then(res => { setAllData(res.result); setLoading(false) });
+        } else {
+            message.info('请输入内容');
+        }
+
     }
 
     function handleTabChange(num: number) {
@@ -184,10 +191,12 @@ const SearechPage: React.FC<IProps> = props => {
         setValue(str);
         setTab('1');
         setLoading(true);
+        setIsSearch(true);
         get_search_detail({ name: str, type: 1018, limit: 20, offset: 0 }).then(res => { setAllData(res.result); setLoading(false) });
     }
 
     const history = useHistory();
+
     return (
         <div className="searchRoot">
             <section className="head">
@@ -197,36 +206,48 @@ const SearechPage: React.FC<IProps> = props => {
                     className="searchInput"
                     prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     value={value}
+                    onPressEnter={handleSearchKeyWord}
                 />
-                <span onClick={handleSearchKeyWord}>搜索</span>
                 <span onClick={() => { history.push('/home') }}>取消</span>
             </section>
             <RunIcon style={{ display: loading ? '' : 'none', background: 'red' }} top={12} />
-            <Tabs defaultActiveKey="1" style={{ display: value !== '' && allData.song ? '' : 'none' }} activeKey={tab} onChange={handleTabChange}>
-                <TabPane tab="综合" key="1">
-                    <CompreComp goMore={(num: number) => handleTabChange(num)} data={allData} isShow={!loading} getSong={handleGetSong} getPlayList={handleGetPlayList} />
-                </TabPane>
-                <TabPane tab="单曲" key="2">
-                    <SongsComp data={songs.data} getSong={handleGetSong} />
-                    <div id="songBottom" style={{ border: '1px solid transparent' }}></div>
-                    <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
-                </TabPane>
-                <TabPane tab="歌单" key="3">
-                    <PlayListComp data={playLists.data} getPlayList={handleGetPlayList} />
-                    <div id="playListsBottom" style={{ border: '1px solid transparent' }}></div>
-                    <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
-                </TabPane>
-                <TabPane tab="歌手" key="4">
-                    <SongersComp data={songers} getSonger={handleGetSonger} />
-                    <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
-                </TabPane>
-                <TabPane tab="专辑" key="5">
-                    <AlbumsComp data={albums.data} getAlbums={handleGetAlbums} />
-                    <div id="albumsBottom" style={{ border: '1px solid transparent' }}></div>
-                    <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
-                </TabPane>
-            </Tabs>
-            <HostSeatch data={searchList} isShow={allData.song === undefined} onChoose={handleHotSearch} />
+            {
+                allData ? (
+                    <Tabs defaultActiveKey="1" style={{ display: isSearch ? '' : 'none' }} activeKey={tab} onChange={handleTabChange}>
+                        <TabPane tab="综合" key="1">
+                            <CompreComp
+                                goMore={(num: number) => handleTabChange(num)}
+                                data={allData}
+                                isShow={!loading}
+                                getSong={handleGetSong}
+                                getPlayList={handleGetPlayList}
+                                getSonger={handleGetSonger}
+                                getAlbums={handleGetAlbums}
+                            />
+                        </TabPane>
+                        <TabPane tab="单曲" key="2">
+                            <SongsComp data={songs.data} getSong={handleGetSong} />
+                            <div id="songBottom" style={{ border: '1px solid transparent' }}></div>
+                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
+                        </TabPane>
+                        <TabPane tab="歌单" key="3">
+                            <PlayListComp data={playLists.data} getPlayList={handleGetPlayList} />
+                            <div id="playListsBottom" style={{ border: '1px solid transparent' }}></div>
+                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
+                        </TabPane>
+                        <TabPane tab="歌手" key="4">
+                            <SongersComp data={songers} getSonger={handleGetSonger} />
+                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
+                        </TabPane>
+                        <TabPane tab="专辑" key="5">
+                            <AlbumsComp data={albums.data} getAlbums={handleGetAlbums} />
+                            <div id="albumsBottom" style={{ border: '1px solid transparent' }}></div>
+                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
+                        </TabPane>
+                    </Tabs>
+                ) : <p style={{ marginTop: '6vh', textAlign: 'center', display: isSearch ? '' : 'none' }}>暂无数据</p>
+            }
+            <HostSeatch data={searchList} isShow={!isSearch} onChoose={handleHotSearch} />
         </div>
     )
 }

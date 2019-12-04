@@ -10,7 +10,6 @@ import onlySong from '../../../public/assets/images/only.png';
 import sortSong from '../../../public/assets/images/sort.png';
 import xunhuanSong from '../../../public/assets/images/xunhuan.png';
 import SongList from "./components/songList";
-
 import './index.less';
 
 interface IProps {
@@ -19,6 +18,7 @@ interface IProps {
     playSongInfoGet: (id: number) => void;
     setIsShowList: (isShow: boolean) => void;
     changeSongOrder: (obj: { all: number, now: number }) => void;
+    clearMusicInfo: () => void;
     music: {
         isShow: boolean;
         isPlay: boolean;
@@ -40,7 +40,6 @@ interface IGeci {
     text: string
 }[];
 const Music: React.FC<IProps> = props => {
-
     const [playLen, setPlayLen] = useState<number>(0);// 播放进度条
     const [bufferLen, setBufferLen] = useState<number>(0); // 缓存时长    
     const [currentTime, setCurrentTiem] = useState<number>(0); // 歌曲总时长歌曲播放时长
@@ -61,7 +60,8 @@ const Music: React.FC<IProps> = props => {
         songGeci,
         musicInfo,
         orderSongs,
-        changeSongOrder
+        changeSongOrder,
+        clearMusicInfo
     } = props;
 
     const width: number = document.documentElement.clientWidth;
@@ -76,7 +76,6 @@ const Music: React.FC<IProps> = props => {
     }
     const history = useHistory();
 
-
     function timeupdate() {
         const current = audioRef.current;
         if (current) {
@@ -85,7 +84,7 @@ const Music: React.FC<IProps> = props => {
             //获取以缓冲部分的timeRanges对象
             const timeRanges = current.buffered;
             //获取已缓存时间
-            const timeBuffered = timeRanges.end(timeRanges.length - 1);
+            const timeBuffered = timeRanges.length > 0 && timeRanges.end(timeRanges.length - 1);
             //获取缓存进度
             const bufferPercent = timeBuffered / current.duration;
             setBufferLen(bufferPercent * 78);
@@ -115,21 +114,36 @@ const Music: React.FC<IProps> = props => {
         }
     }, [orderSongs]);
 
+    function changeTimeToSplit(time: string): number {
+        if (time) {
+            const [minute, secont] = time.slice(1).split(':');
+            return Number(minute) * 60 + parseFloat(secont);
+        }
+        return 0;
+    }
+
     useEffect(() => {
         const gecisplit = songGeci.lyric ?.split('\n');
         if (gecisplit) {
-            const newGeci = gecisplit.map(item => {
-                const [time, text] = item.split(']');
-                const [minute, secont] = time.slice(1).split(':');
-                if (text !== undefined && minute !== undefined && secont !== undefined) {
-                    return {
-                        time: Number(minute) * 60 + parseFloat(secont),
-                        text
+            let newArr: any = [];
+            for (let i = 0; i < gecisplit.length; i++) {
+                let list = gecisplit[i].split(']');
+                if (list.length > 2) {
+                    for (let j = 0, len = list.length - 1; j < len; j++) {
+                        newArr.push({
+                            time: changeTimeToSplit(list[j].replace('[', '')),
+                            text: list[list.length - 1]
+                        });
                     }
+                } else {
+                    newArr.push({
+                        time: changeTimeToSplit(list[0].replace('[', '')),
+                        text: list[1] || ''
+                    });
                 }
-            });
-            newGeci.pop();
-            setGeci(newGeci);
+            }
+            newArr.sort((a, b) => a.time - b.time);
+            setGeci(newArr);
         }
     }, [songGeci]);
 
@@ -171,6 +185,8 @@ const Music: React.FC<IProps> = props => {
     }
 
     function publicChangeSong(songId: number, songIndex: number) {
+        musicinfoSet({ ...music, isPlay: true });
+        clearMusicInfo();
         changeSongOrder({ ...orderSongs, now: songIndex });
         playSongGeciGet(songId);
         playSongInfoGet(songId);
@@ -178,8 +194,10 @@ const Music: React.FC<IProps> = props => {
 
     function handleLastSong() {
         let lastNum: number = 0;
-        if (playStatus === 0 || playStatus === 1) {
-            lastNum = orderSongs.now === 0 ? orderSongs.all - 1 : orderSongs.now - 1;
+        if (playStatus === 0) {
+            lastNum = orderSongs.now > 0 ? orderSongs.now - 1 : orderSongs.all
+        } else if (playStatus === 1) {
+            lastNum = orderSongs.now;
         } else if (playStatus === 2) {
             lastNum = Math.round(Math.random() * orderSongs.all);
         }
@@ -241,8 +259,8 @@ const Music: React.FC<IProps> = props => {
     }, [currentTime]);
 
     function handleGoSonger(id: number) {
-        musicinfoSet({ ...music, isShow: false });
-        history.push(`/songer/${id}`);
+        // history.push(`/songer/${id}`);
+        // musicinfoSet({ ...music, isShow: false });
     }
 
     return (
@@ -259,7 +277,7 @@ const Music: React.FC<IProps> = props => {
                     />
                     <div>
                         <span>{musicInfo[0] ?.name}</span>
-                        <span onClick={() => { handleGoSonger(musicInfo[0] ?.ar[0] ?.id) }}>{musicInfo[0] ?.ar[0] ?.name} > </span>
+                        <span onClick={() => { handleGoSonger(musicInfo[0] ?.ar[0] ?.id); }}>{musicInfo[0] ?.ar[0] ?.name} > </span>
                     </div>
                     <Icon type="share-alt" className="icon" onClick={handleNoSupport} />
                 </header>
@@ -280,7 +298,7 @@ const Music: React.FC<IProps> = props => {
                                             top: `${index * 2.8 - (moveTip) * 2.8}rem`
                                         }}
                                     >
-                                        {item.text}
+                                        {item ?.text}
                                     </p>
                                 )
                             })
@@ -322,7 +340,8 @@ const Music: React.FC<IProps> = props => {
                             !music.isPlay ? audioRef.current.play() : audioRef.current.pause();
                             musicinfoSet({ ...music, isPlay: !music.isPlay })
                         }}
-                        type={!music.isPlay ? 'play-circle' : 'pause'}
+                        // type={allTime <= 0 && music.isPlay ? 'play-circle' : 'pause'}
+                        type={allTime > 0 ? music.isPlay ? 'pause' : 'play-circle' : 'play-circle'}
                         style={{ color: '#fff', fontSize: '6vh' }}
                     />
                     <Icon type="right" style={{ color: '#fff' }} onClick={handleNextSong} />
@@ -347,6 +366,7 @@ const Music: React.FC<IProps> = props => {
                 onClose={handleCloseList}
                 onPlay={handlePlay}
                 onPlayAll={handlePlayAll}
+                status={playStatus}
             />
         </div >
     );
@@ -378,6 +398,9 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         changeSongOrder: (obj: { all: number, now: number }) => {
             dispatch(actions.setAllAndThisSong(obj));
+        },
+        clearMusicInfo: () => {
+            dispatch(actions.setPlayMusicInfo({}));
         }
     };
 };

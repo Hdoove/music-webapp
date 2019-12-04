@@ -33,51 +33,49 @@ const App: React.FC<AppProps> = AppProps => {
       </div>
       <div style={{ display: !music.isShow ? '' : 'none' }}>
         <Router>
-          <React.Fragment>
-            <Switch>
-              <Redirect exact from="/" to="/home" />
-              <Route
-                exact
-                path="/home"
-                component={LazyLoad(() => import('./routes/Home/index'))}
-              />
-              <Route
-                exact
-                path="/list/:id"
-                component={LazyLoad(() => import('./routes/MusicList/index'))}
-              />
-              <Route
-                exact
-                path="/search"
-                component={LazyLoad(() => import('./routes/Search/index'))}
-              />
-              <Route
-                exact
-                path="/songer/:id"
-                component={LazyLoad(() => import('./routes/SongerDetail/index'))}
-              />
-              <Route
-                exact
-                path="/album/:id"
-                component={LazyLoad(() => import('./routes/Album/index'))}
-              />
-              <Route
-                exact
-                path="/ranking"
-                component={LazyLoad(() => import('./routes/RankingList/index'))}
-              />
-              <Route
-                exact
-                path="/ranking/:id"
-                component={LazyLoad(() => import('./routes/RankingList/Detail/index'))}
-              />
-              <Route
-                exact
-                path="/songerlist"
-                component={LazyLoad(() => import('./routes/Songers/index'))}
-              />
-            </Switch>
-          </React.Fragment>
+          <Switch>
+            <Redirect exact from="/" to="/home" />
+            <Route
+              exact
+              path="/home"
+              component={LazyLoad(() => import('./routes/Home/index'))}
+            />
+            <Route
+              exact
+              path="/songer/:id"
+              component={LazyLoad(() => import('./routes/SongerDetail/index'))}
+            />
+            <Route
+              exact
+              path="/list/:id"
+              component={LazyLoad(() => import('./routes/MusicList/index'))}
+            />
+            <Route
+              exact
+              path="/search"
+              component={LazyLoad(() => import('./routes/Search/index'))}
+            />
+            <Route
+              exact
+              path="/album/:id"
+              component={LazyLoad(() => import('./routes/Album/index'))}
+            />
+            <Route
+              exact
+              path="/ranking"
+              component={LazyLoad(() => import('./routes/RankingList/index'))}
+            />
+            <Route
+              exact
+              path="/ranking/:id"
+              component={LazyLoad(() => import('./routes/RankingList/Detail/index'))}
+            />
+            <Route
+              exact
+              path="/songerlist"
+              component={LazyLoad(() => import('./routes/Songers/index'))}
+            />
+          </Switch>
         </Router>
       </div>
     </div>
@@ -92,14 +90,10 @@ const mapStateToProps = (state: any) => {
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
-  return {
-    // getUserinfo: () => {
-    //   dispatch(userinfo());
-    // }
-  };
+  return {};
 };
 const connectApp = connect(
   mapStateToProps,
   mapDispatchToProps
 )(App);
-export default hot(module)(withRouter(connectApp));
+export default hot(module)(connectApp);

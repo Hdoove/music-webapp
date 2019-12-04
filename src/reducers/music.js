@@ -107,7 +107,6 @@ const reducer = handleActions(
       (state, {
         payload
       }) => {
-        console.log(payload);
         return state.set("songers", {
           ...payload,
           data: payload.offset === 15 ? payload.data : state.songers.data.concat(payload.data)

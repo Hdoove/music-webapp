@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { useHistory } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import { RunIcon } from '@src/components/RunIcon/index';
 import { Icon } from 'antd';
 import { connect } from 'react-redux';
 import actions, { getSongers, getTopSongers } from '@src/actions/music';
 import { ISongers } from '@src/components/SearchShow/Songers/index';
+import imgLoading from '../../../public/assets/images/imgLoading.png';
 
 interface IProps {
     music: any;
@@ -14,6 +15,7 @@ interface IProps {
     loading: boolean;
     songerGet: (num: number) => void;
     topSongerGet: (obj: { type: string, offset: number }) => void;
+    clearSonger: () => void;
 }
 interface IArr {
     [name: string]: number | string
@@ -33,7 +35,7 @@ const SongerList: React.FC<IProps> = props => {
     const [type, setType] = useState<number>(0);
     const [sex, setSex] = useState<string>('');
     const history = useHistory();
-    const { music, musicStatusSet, songerGet, songers, loading, topSongerGet } = props;
+    const { music, musicStatusSet, songerGet, songers, loading, topSongerGet, clearSonger } = props;
     const [isSearch, setIsSearch] = useState<boolean>(false);
 
     useEffect(() => {
@@ -41,6 +43,30 @@ const SongerList: React.FC<IProps> = props => {
         sessionStorage.removeItem('type');
         sessionStorage.removeItem('isSearch');
     }, []);
+
+    useEffect(() => {
+        const imgs = document.querySelectorAll('.bgPic');
+        imgs.forEach(item => {
+            // 监听目标元素
+            observer1.observe(item);
+        });
+    }, [songers]);
+
+    const observer1 = new IntersectionObserver(entries => {
+        // 发生交叉目标元素集合
+        entries.forEach((item: any) => {
+            // 判断是否发生交叉
+            if (item.isIntersecting) {
+                // 替换目标元素Url
+                item.target.src = item.target.dataset.src;
+                // 取消监听此目标元素
+                observer.unobserve(item.target);
+            }
+        });
+    }, {
+            root: null, // 父级元素
+            rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
+        });
 
     useEffect(() => {
         const bottom = document.querySelector('#playListsBottom');
@@ -76,15 +102,17 @@ const SongerList: React.FC<IProps> = props => {
 
     }, [type, sex]);
 
+    console.log(music);
+
     return (
         <div className="songerrsRoot">
             <section className="playlists">
                 <header>
-                    <Icon type="left" onClick={() => { history.goBack() }} />
+                    <Icon type="left" onClick={() => { history.goBack(); clearSonger(); }} />
                     <span style={{ fontSize: '4vw' }}>歌手分类</span>
                     <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
                         <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'blick' }} />
-                        <RunIcon style={{ display: !music.isPlay ? 'none' : 'blick', background: '#fff' }} />
+                        <RunIcon style={{ display: !music.isPlay ? 'none' : 'blick', background: '#000' }} />
                     </div>
                 </header>
                 <div className="content">
@@ -118,7 +146,7 @@ const SongerList: React.FC<IProps> = props => {
                                 songers && songers.data.map((songer: ISongers) => {
                                     return (
                                         <li key={songer.id} onClick={() => history.push(`/songer/${songer.id}`)}>
-                                            <img src={songer.picUrl || songer.img1v1Url} alt="" />
+                                            <img alt="" data-src={songer.picUrl || songer.img1v1Url} src={imgLoading} className="bgPic" />
                                             <span>
                                                 <span style={{ color: '#607685' }}>{songer.name}</span>
                                                 <span style={{ color: '#818284' }}>
@@ -144,7 +172,7 @@ const SongerList: React.FC<IProps> = props => {
 const mapStateToProps = (state: any) => {
     const { music } = state;
     return {
-        music,
+        music: music.musicStatus,
         songers: music.songers,
         loading: music.loading
     };
@@ -159,6 +187,9 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         topSongerGet: (obj: { type: string, offset: number }) => {
             dispatch(getTopSongers(obj));
+        },
+        clearSonger: () => {
+            dispatch(actions.setSongers({ offset: 0, data: [] }));
         }
     };
 };

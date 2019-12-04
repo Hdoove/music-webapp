@@ -22,6 +22,7 @@ const AlbumDetail: React.FC<IProps> = props => {
                 <div className="bottom">
                     <div className="tags">
                         <span className="tagTitle">发行公司:{data ?.company}</span>
+                        <br />
                         <span className="tagTitle">专辑类别:{data ?.subType}</span>
                     </div>
                     <div className="text">

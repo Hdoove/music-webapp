@@ -20,7 +20,6 @@ function* fetchSongerSongs(action) {
     try {
         yield put(actions.setLoading(true));
         const data = yield call(get_songer_song, action.payload);
-        console.log(data);
         if (data.code === 200 && data.artist) {
             yield put(actions.setSongerSongs(data.hotSongs));
             yield put(actions.setSongerInfo(data.artist));
