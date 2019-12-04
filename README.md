@@ -1,5 +1,6 @@
-## 仿网易云webApp
-### （持续更新中）
+### 仿网易云webApp（持续更新中）
+
+在线访问地址 http://101.200.191.21:8081
 
 ### 配置安装
 
@@ -38,7 +39,6 @@ Npm Latest
 * [redux-saga](https://github.com/redux-saga/redux-saga) - redux中间件
 * [axios](https://github.com/axios/axios) 请求库
 * [antd](https://ant.design/index-cn) - UI组件库
-* [lodash](https://lodash.com/) 通用函数库
 
 ### 开发环境依赖
   * [less](http://lesscss.org/) - css预处理
