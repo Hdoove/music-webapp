@@ -5,7 +5,7 @@ import actions from '@src/actions/music';
 import sheetAction, { getSheetHotType, getSheetList, getSheetType } from '@src/actions/songSheet';
 import './index.less';
 import { connect } from 'react-redux';
-import { RunIcon } from '@src/components/RunIcon/index';
+import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
 import SongSheet from '@src/components/SongSheet';
 
 interface IProps {
@@ -34,6 +34,7 @@ const SongSheetList: React.FC<IProps> = props => {
 
     const [tag, setTag] = useState<string>('华语');
     const [showMore, setShowMore] = useState<boolean>(false);
+    const [isSearch, setIsSearch] = useState<boolean>(false);
 
     useEffect(() => {
         getHotType();
@@ -41,6 +42,7 @@ const SongSheetList: React.FC<IProps> = props => {
     }, []);
 
     function handleGetSheet(name: string) {
+        setIsSearch(true);
         setShowMore(false);
         setTag(name);
         getSheetList({ text: name, offset: 0 });
@@ -54,6 +56,7 @@ const SongSheetList: React.FC<IProps> = props => {
     useEffect(() => {
         const bottom = document.querySelector('#sheetListsBottom');
         bottom && observer.observe(bottom);
+        setIsSearch(false);
     }, [list, loading]);
 
     const observer = new IntersectionObserver(entries => {
@@ -73,7 +76,7 @@ const SongSheetList: React.FC<IProps> = props => {
 
     return (
         <div className="songSheetListRoot">
-            <header className="header">
+            <header className="header" style={{ display: !showMore ? '' : 'none' }}>
                 <Icon type="left" onClick={() => { history.goBack() }} />
                 <span style={{ fontSize: '4vw' }}>歌单广场</span>
                 <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
@@ -82,7 +85,7 @@ const SongSheetList: React.FC<IProps> = props => {
                 </div>
             </header>
             <section className="moreTags" style={{ display: showMore ? '' : 'none' }}>
-                <Icon type="close" style={{ float: 'right', fontSize: '5vw', margin: '2vh 2vw 0 0 ' }} onClick={() => setShowMore(false)} />
+                <Icon type="close" style={{ float: 'right', fontSize: '5vw', position: 'relative', top: '-4vh' }} onClick={() => setShowMore(false)} />
                 <div style={{ marginTop: '8vh' }}>
                     {
                         Object.keys(types).map(item => {
@@ -128,6 +131,12 @@ const SongSheetList: React.FC<IProps> = props => {
                 <div id="sheetListsBottom" style={{ border: '1px solid transparent' }}></div>
             </section>
             <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }} />
+            <CircleIcon style={{
+                position: 'absolute',
+                top: '30vh',
+                left: '46%',
+                display: isSearch ? '' : 'none'
+            }} />
         </div>
     )
 }
