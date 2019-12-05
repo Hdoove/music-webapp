@@ -31,6 +31,7 @@ function* fetchSheetHotType(action) {
 // 获取全部歌单类型
 function* fetchSheetType(action) {
     try {
+        yield put(actions.setLoading(true));
         const data = yield call(get_playlist_type);
         if (data.code === 200 && data.sub) {
             const sub = data.sub;
@@ -39,8 +40,10 @@ function* fetchSheetType(action) {
             for (let i = 0, len = sub.length; i < len; i++) {
                 newObj[cate[sub[i].category]] = newObj[cate[sub[i].category]] ? newObj[cate[sub[i].category]].concat(sub[i]) : [].concat(sub[i]);
             }
+            yield put(actions.setLoading(false));
             yield put(actions.setSheetType(newObj));
         } else {
+            yield put(actions.setLoading(false));
             yield put(actions.setSheetType([]));
         }
     } catch (error) {
