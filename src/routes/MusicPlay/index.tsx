@@ -130,7 +130,7 @@ const Music: React.FC<IProps> = props => {
                 let list = gecisplit[i].split(']');
                 if (list.length > 2) {
                     for (let j = 0, len = list.length - 1; j < len; j++) {
-                        if (list[list.length - 1] !== '') {
+                        if (list[list.length - 1] !== '' && list[list.length - 1] !== undefined) {
                             newArr.push({
                                 time: changeTimeToSplit(list[j].replace('[', '')),
                                 text: list[list.length - 1]
@@ -138,7 +138,7 @@ const Music: React.FC<IProps> = props => {
                         }
                     }
                 } else {
-                    if (list[1] !== '') {
+                    if (list[1] !== '' && list[1] !== undefined) {
                         newArr.push({
                             time: changeTimeToSplit(list[0].replace('[', '')),
                             text: list[1]
@@ -207,7 +207,7 @@ const Music: React.FC<IProps> = props => {
         }
         vip(lastNum);
         function vip(num: number) {
-            if (songList.tracks[lastNum].fee === 1 || songList.tracks[lastNum] ?.fee === 0) {
+            if (songList.tracks[lastNum].fee !== 8 && songList.tracks[lastNum].fee !== 0) {
                 lastNum = lastNum === 0 ? orderSongs.all - 1 : lastNum - 1;
                 vip(lastNum);
             }
@@ -220,13 +220,14 @@ const Music: React.FC<IProps> = props => {
         if (playStatus === 0) {
             nextNum = orderSongs.all > orderSongs.now ? orderSongs.now + 1 : 0;
         } else if (playStatus === 1) {
-            nextNum = orderSongs.now;
+            nextNum = orderSongs.now - 1;
         } else if (playStatus === 2) {
             nextNum = Math.round(Math.random() * orderSongs.all);
         }
         vip(nextNum);
         function vip(num: number) {
-            if (songList.tracks[nextNum] ?.fee === 1 || songList.tracks[nextNum] ?.fee === 0) {
+            const choose = songList.tracks[nextNum];
+            if (choose ?.fee !== 8 && choose ?.fee !== 0) {
                 nextNum = nextNum === orderSongs.all - 1 ? 0 : nextNum + 1;
                 vip(nextNum);
             }
@@ -259,6 +260,9 @@ const Music: React.FC<IProps> = props => {
             if (geci[i] && geci[i].time <= currentTime && geci[i + 1] && geci[i + 1].time > currentTime) {
                 i !== selectGeciNum ? setSelectGeciNum(i) : '';
             }
+            if (currentTime > geci[geci.length - 1].time) {
+                i !== geci.length - 1 ? setSelectGeciNum(geci.length - 1) : '';
+            }
         }
     }, [currentTime]);
 
@@ -284,7 +288,7 @@ const Music: React.FC<IProps> = props => {
                         {/* <span onClick={() => { handleGoSonger(musicInfo[0] ?.ar[0] ?.id); }}>{musicInfo[0] ?.ar[0] ?.name} > </span> */}
                         <span>
                             {
-                                musicInfo[0]?.ar && musicInfo[0]?.ar.map((ars, index: number) => {
+                                musicInfo[0] ?.ar && musicInfo[0] ?.ar.map((ars, index: number) => {
                                     return index === musicInfo[0].ar.length - 1 ? ars.name : `${ars.name}/`
                                 })
                             }

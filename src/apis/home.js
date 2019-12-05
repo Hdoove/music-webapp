@@ -64,5 +64,23 @@ export const get_hot_songers = (offset) =>
     request.get(`${PORT}/top/artists?offset=${offset}&limit=15`).then(res => res);
 
 //获取歌手列表
-export const get_songers_list = ({type, offset}) =>
+export const get_songers_list = ({
+        type,
+        offset
+    }) =>
     request.get(`${PORT}/artist/list?cat=${type}&offset=${offset}&limit=15`).then(res => res);
+
+//获取热门歌单类型
+export const get_playlist_hot_type = () =>
+    request.get(`${PORT}/playlist/hot`).then(res => res);
+
+//获取歌单列表
+export const get_playlist_type = () =>
+    request.get(`${PORT}/playlist/catlist`).then(res => res);
+
+//获取歌单列表
+export const get_sheet_list = ({
+        text,
+        offset
+    }) =>
+    request.get(`${PORT}/top/playlist?cat=${text}&limit=30&offset=${offset}`).then(res => res);

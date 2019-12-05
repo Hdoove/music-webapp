@@ -102,8 +102,6 @@ const SongerList: React.FC<IProps> = props => {
 
     }, [type, sex]);
 
-    console.log(music);
-
     return (
         <div className="songerrsRoot">
             <section className="playlists">

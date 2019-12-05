@@ -31,7 +31,7 @@ const App: React.FC<AppProps> = AppProps => {
       <div className="bofangqi" style={{ visibility: music.isShow ? 'visible' : 'hidden' }}>
         <Music />
       </div>
-      <div style={{ display: !music.isShow ? '' : 'none' }}>
+      <div style={{ display: !music.isShow ? '' : 'none', overflow: 'hidden' }}>
         <Router>
           <Switch>
             <Redirect exact from="/" to="/home" />
@@ -74,6 +74,11 @@ const App: React.FC<AppProps> = AppProps => {
               exact
               path="/songerlist"
               component={LazyLoad(() => import('./routes/Songers/index'))}
+            />
+            <Route
+              exact
+              path="/songsheetlist"
+              component={LazyLoad(() => import('./routes/SongSheetList/index'))}
             />
           </Switch>
         </Router>

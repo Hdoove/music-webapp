@@ -59,7 +59,7 @@ const Toplist: React.FC<IProps> = props => {
                                 </div>
                             </div>
                         </section>
-                        <List data={songList.tracks} title="listRoot" />
+                        <List data={songList.tracks} title="listRoot" ratio={songList.trackIds} />
                     </section>
                 </div>
                 <CircleIcon style={{

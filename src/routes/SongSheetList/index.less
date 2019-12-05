@@ -1,0 +1,79 @@
+.songSheetListRoot {
+    position: relative;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 8vh;
+        width: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        color: #000;
+        padding: 0px 2vh;
+        background: #fff;
+        z-index: 10;
+
+        .anticon {
+            font-size: 2.8vh;
+        }
+    }
+
+
+    .tags {
+        margin-top: 8vh;
+        padding: 2vh 4vw;
+
+        h4 {
+            font-size: 4.5vw;
+            display: inline-block;
+        }
+
+        .more {
+            margin-left: 4vw;
+            color: #000;
+        }
+
+        .tag {
+            color: #000;
+            background: #e1e1e1;
+            border-radius: 4px;
+            padding: .5vh 2vw;
+            margin: 1vh 2vw;
+            display: inline-block;
+            width: 20%;
+            font-size: 2vw;
+            text-align: center;
+        }
+
+        .active {
+            color: red;
+        }
+
+    }
+
+    .moreTags {
+        position: absolute;
+        background: #fff;
+        width: 100%;
+        padding: 0 4vw;
+        z-index: 10;
+        height: 100vh;
+
+        .tag {
+            color: #000;
+            background: #e1e1e1;
+            border-radius: 4px;
+            padding: .5vh 2vw;
+            margin: 1vh 2vw;
+            display: inline-block;
+            font-size: 2vw;
+            text-align: center;
+        }
+
+        .active {
+            color: red;
+        }
+    }
+}

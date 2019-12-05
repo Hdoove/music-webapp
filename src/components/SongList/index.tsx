@@ -20,10 +20,11 @@ interface IProps {
     loading: boolean;
     data: any;
     title: string;
+    ratio?: any;
 }
 const List: React.FC<IProps> = props => {
 
-    const { songList, music, playSongGeciGet, playSongInfoGet, musicStatusSet, songListGet, playSong, loading, changeSongOrder, data, title } = props;
+    const { songList, music, playSongGeciGet, playSongInfoGet, musicStatusSet, songListGet, playSong, loading, changeSongOrder, data, title, ratio } = props;
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const history = useHistory();
     const location = useLocation();
@@ -67,7 +68,7 @@ const List: React.FC<IProps> = props => {
 
     function handlePlayAll() {
         const okPlay = data.filter(item => {
-            return item.fee !== 0 && item.fee !== 1
+            return item.fee === 8 || item.fee === 0
         });
         publicPlay(okPlay[0].id, okPlay[0].no, true, false);
     }
@@ -85,25 +86,34 @@ const List: React.FC<IProps> = props => {
             <ul className="songs">
                 {
                     data && data.map((item: { name: string, ar: { name: string }[], al: { name: string }, fee: number, id: number }, index: number) => {
-                        const canPlay = item.fee === 8;
+                        const canPlay = item.fee === 8 || item.fee === 0;
                         const isThis = playSong[0] ?.id === item.id;
                         return (
                             <li
                                 style={{ background: !canPlay ? 'rgb(153, 153, 153, .1)' : '#fff' }}
                                 onClick={() => { canPlay ? handlePlayMusic(item.id, index) : message.info('此歌曲为vip专享') }}
                             >
-                                <span className="index">{index + 1}</span>
+                                <span className="index" style={{ color: index < 3 ? 'red' : '' }}>{index + 1}</span>
                                 <p className="songName" style={{ color: isThis ? 'red' : '', '-webkit-box-orient': 'vertical' }}>
                                     {item.name}
                                 </p>
                                 <p className="nowrap" style={{ '-webkit-box-orient': 'vertical' }}>
-                                    <span className="vip" style={{ display: !canPlay ? '' : 'none' }}>vip</span>
                                     {
-                                        item.ar && item.ar.map((ars, index: number) => {
-                                            return index === item.ar.length - 1 ? ars.name : `${ars.name}/`
-                                        })
+                                        ratio !== undefined && ratio[index].ratio !== undefined &&
+                                        <span className="ratio">
+                                            <Icon type="arrow-up" />
+                                            {`${ratio[index].ratio}%`}
+                                        </span>
                                     }
-                                    <span className="line">-</span>
+                                    <span className="vip" style={{ display: !canPlay ? '' : 'none' }}>vip</span>
+                                    <span style={{ color: isThis ? 'red' : '' }}>
+                                        {
+                                            item.ar && item.ar.map((ars, index: number) => {
+                                                return index === item.ar.length - 1 ? ars.name : `${ars.name}/`
+                                            })
+                                        }
+                                    </span>
+                                    <span className="line" style={{ color: isThis ? 'red' : '' }}>-</span>
                                     <span className="albumName" style={{ color: isThis ? 'red' : '' }}>{item.al ?.name}</span>
                                 </p>
                                 {/* <Icon type="dash" className="more" rotate={90} /> */}
