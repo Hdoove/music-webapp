@@ -173,16 +173,33 @@ const Music: React.FC<IProps> = props => {
 
     function handleTouchMove(e: any) {
         const ev = e || window.event;
-        const oLeft = ev.targetTouches[0].clientX;
-        if (oLeft < width * 0.094) {
-            setPlayLen(0);
-        } else if (oLeft > width * 0.894) {
-            setPlayLen(78);
-        } else {
-            setPlayLen((oLeft - width * 0.094) * 100 / width);
+        if (ev.targetTouches) {
+            const oLeft = ev.targetTouches[0].clientX;
+            if (oLeft < width * 0.094) {
+                setPlayLen(0);
+            } else if (oLeft > width * 0.894) {
+                setPlayLen(78);
+            } else {
+                setPlayLen((oLeft - width * 0.094) * 100 / width);
+            }
+        } 
+        else {
+            if (sessionStorage.getItem('isMove') == 1) {
+                const oLeft = ev.clientX;
+                console.log(oLeft)
+                if (oLeft < width * 0.094) {
+                    setPlayLen(0);
+                } else if (oLeft > width * 0.894) {
+                    setPlayLen(78);
+                } else {
+                    setPlayLen((oLeft - width * 0.1) * 100 / width);
+                }
+            }
         }
+
     }
     function handleTouchEnd() {
+        console.log(1);
         const current = audioRef.current;
         current.currentTime = allTime * (playLen / 78);
         sessionStorage.setItem('isMove', '0');
@@ -304,9 +321,9 @@ const Music: React.FC<IProps> = props => {
                 </header>
                 <div className="content">
                     <div style={{ display: isShowGeci ? 'none' : '' }}>
-                        <img className="changpian" src={changpianIcon} alt="" style={{ transform: `translate(42%) rotate(${music.isPlay ? 30 : 0}deg)` }} />
+                        <img className="changpian" src={changpianIcon} alt="" style={{ transform: `translate(42%) rotate(${music.isPlay && allTime > 0 ? 30 : 0}deg)` }} />
                         <div className='cricle' onClick={() => { setIsShowGeci(!isShowGeci) }}>
-                            <img className="animation" src={musicInfo[0] ?.al ?.picUrl} style={{ animationPlayState: music.isPlay ? 'running' : 'paused' }} />
+                            <img className="animation" src={musicInfo[0] ?.al ?.picUrl} style={{ animationPlayState: music.isPlay && allTime > 0 ? 'running' : 'paused' }} />
                         </div>
                     </div>
                     <div style={{ display: !isShowGeci ? 'none' : '' }} onClick={() => { setIsShowGeci(!isShowGeci) }}>
@@ -344,6 +361,9 @@ const Music: React.FC<IProps> = props => {
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
+                        onMouseDown={handleTouchStart}
+                        onMouseMove={handleTouchMove}
+                        onMouseUp={handleTouchEnd}
                     />
                     <span className="currentTime">{changeTime(currentTime)}</span>
                     <span className="allTime">{changeTime(allTime)}</span>

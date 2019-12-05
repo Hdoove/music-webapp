@@ -120,7 +120,7 @@ const CommitsList: React.FC<IProps> = props => {
                                             <img src={item.user.avatarUrl} alt="" />
                                             <div className="userinfo">
                                                 <span>{item.user.nickname}</span>
-                                                <span>{new Date(item.time).toLocaleDateString()}</span>
+                                                <span>{new Date(item.time).toLocaleString()}</span>
                                             </div>
                                             <span className="count">
                                                 {item.likedCount}

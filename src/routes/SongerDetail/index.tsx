@@ -94,7 +94,7 @@ const SongerDetail: React.FC<IProps> = props => {
                                                         <img src={item.picUrl} alt="" />
                                                         <div style={{ display: 'inline-block', marginLeft: '2vw' }}>
                                                             <span style={{ color: '#000000', display: 'block' }}>{item.name}</span>
-                                                            <span style={{ color: '#858687', fontSize: '3vw' }}>
+                                                            <span style={{ color: '#858687', fontSize: '3vw' }} className="songerName">
                                                                 {
                                                                     `
                                                                     ${new Date(item.publishTime).toLocaleDateString()} ${item.size}首

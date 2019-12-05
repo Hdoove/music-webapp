@@ -106,7 +106,7 @@ const List: React.FC<IProps> = props => {
                                         </span>
                                     }
                                     <span className="vip" style={{ display: !canPlay ? '' : 'none' }}>vip</span>
-                                    <span style={{ color: isThis ? 'red' : '' }}>
+                                    <span style={{ color: isThis ? 'red' : '' }} className="songerName">
                                         {
                                             item.ar && item.ar.map((ars, index: number) => {
                                                 return index === item.ar.length - 1 ? ars.name : `${ars.name}/`
