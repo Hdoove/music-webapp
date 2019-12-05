@@ -27,9 +27,6 @@ function* fetchSearchSongs(action) {
                 allCount: data.result.songCount
             }));
             yield put(actions.setLoading(false));
-            // yield put(musicAction.setSongDetail({
-            //     tracks: data.result.songs
-            // }));
         } else {
             yield put(actions.setSearchSongs({}));
             yield put(actions.setLoading(false));

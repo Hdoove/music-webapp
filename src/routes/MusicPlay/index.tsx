@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { changeTime } from '@src/utilities/changeTime';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -9,7 +9,8 @@ import { Icon, message } from 'antd';
 import onlySong from '../../../public/assets/images/only.png';
 import sortSong from '../../../public/assets/images/sort.png';
 import xunhuanSong from '../../../public/assets/images/xunhuan.png';
-import SongList from "./components/songList";
+import SongList from "./components/SongList/index";
+import Commits from "./components/Commits/index";
 import './index.less';
 
 interface IProps {
@@ -48,6 +49,7 @@ const Music: React.FC<IProps> = props => {
     const [selectGeciNum, setSelectGeciNum] = useState<number>(-1);
     const [geci, setGeci] = useState<(IGeci)[]>([]);
     const [isShowGeci, setIsShowGeci] = useState<boolean>(false); // 显示歌词还是转盘
+    const [isShowCommit, setIsShowCommit] = useState<boolean>(false); // 是否显示评论
     const audioRef = useRef<any>();
 
     const { music,
@@ -121,6 +123,12 @@ const Music: React.FC<IProps> = props => {
         }
         return 0;
     }
+
+    const commits = useMemo(() => {
+        return (
+            <Commits isShowCommit={isShowCommit} onClose={handleCloseCommit} data={musicInfo[0]} />
+        )
+    }, [musicInfo[0], isShowCommit])
 
     useEffect(() => {
         const gecisplit = songGeci.lyric ?.split('\n');
@@ -253,6 +261,10 @@ const Music: React.FC<IProps> = props => {
         alert('开发中..敬请期待');
     }
 
+    function handleCloseCommit() {
+        setIsShowCommit(false);
+    }
+
     const moveTip = (selectGeciNum + 1) > center ? selectGeciNum - center + 1 : 0;
 
     useEffect(() => {
@@ -265,11 +277,6 @@ const Music: React.FC<IProps> = props => {
             }
         }
     }, [currentTime]);
-
-    function handleGoSonger(id: number) {
-        // history.push(`/songer/${id}`);
-        // musicinfoSet({ ...music, isShow: false });
-    }
 
     return (
         <div
@@ -285,7 +292,6 @@ const Music: React.FC<IProps> = props => {
                     />
                     <div>
                         <span>{musicInfo[0] ?.name}</span>
-                        {/* <span onClick={() => { handleGoSonger(musicInfo[0] ?.ar[0] ?.id); }}>{musicInfo[0] ?.ar[0] ?.name} > </span> */}
                         <span>
                             {
                                 musicInfo[0] ?.ar && musicInfo[0] ?.ar.map((ars, index: number) => {
@@ -322,10 +328,10 @@ const Music: React.FC<IProps> = props => {
 
                 </div>
                 <div className="btns">
-                    <Icon onClick={handleNoSupport} type="heart" style={{ color: '#fff' }} />
-                    <Icon onClick={handleNoSupport} type="cloud-download" style={{ color: '#fff' }} />
-                    <Icon onClick={handleNoSupport} type="form" style={{ color: '#fff' }} />
-                    <Icon onClick={handleNoSupport} type="dash" style={{ color: '#fff' }} rotate={90} />
+                    <Icon onClick={handleNoSupport} type="heart" style={{ color: '#000' }} />
+                    <Icon onClick={handleNoSupport} type="cloud-download" style={{ color: '#000' }} />
+                    <Icon onClick={() => { setIsShowCommit(true) }} type="form" style={{ color: '#fff' }} />
+                    <Icon onClick={handleNoSupport} type="dash" style={{ color: '#000' }} rotate={90} />
                 </div>
                 <div className="prosessControl">
                     <audio autoplay='autoplay' ref={audioRef} src={`https://music.163.com/song/media/outer/url?id=${musicInfo[0] ?.id}.mp3`}></audio>
@@ -382,6 +388,7 @@ const Music: React.FC<IProps> = props => {
                 onPlayAll={handlePlayAll}
                 status={playStatus}
             />
+            {musicInfo[0] ?.id ? commits : ''}
         </div >
     );
 }

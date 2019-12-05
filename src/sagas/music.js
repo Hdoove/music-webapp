@@ -11,7 +11,8 @@ import actions, {
   getSongSheet,
   getToplistDetail,
   getSongers,
-  getTopSongers
+  getTopSongers,
+  getPlaySongCommit
 } from '@src/actions/music';
 import {
   get_banner,
@@ -21,7 +22,8 @@ import {
   get_song_detail,
   get_toplist_detail,
   get_hot_songers,
-  get_songers_list
+  get_songers_list,
+  get_song_commits
 } from '@src/apis/home';
 
 // 获取轮播图
@@ -154,6 +156,28 @@ function* fetchTopSongers(action) {
   }
 }
 
+// 获取歌曲评论
+function* fetchSongCommit(action) {
+  try {
+    yield put(actions.setLoading(true));
+    const data = yield call(get_song_commits, action.payload);
+    if (data.code === 200 && data.comments) {
+      yield put(actions.setPlayMusicCommit({
+        offset: action.payload.offset + 30,
+        time: data.comments,
+        hot: data.hotComments,
+        total: data.total
+      }));
+      yield put(actions.setLoading(false));
+    } else {
+      yield put(actions.setPlayMusicCommit([]));
+      yield put(actions.setLoading(false));
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
 export default function* musicSaga() {
   yield takeLatest(getBanners().type, fetchBanners);
   yield takeLatest(getSongSheet().type, fetchSongSheet);
@@ -163,4 +187,5 @@ export default function* musicSaga() {
   yield takeLatest(getToplistDetail().type, fetchToplistDetail);
   yield takeLatest(getSongers().type, fetchSongers);
   yield takeLatest(getTopSongers().type, fetchTopSongers);
+  yield takeLatest(getPlaySongCommit().type, fetchSongCommit);
 }

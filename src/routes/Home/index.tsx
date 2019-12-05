@@ -74,8 +74,8 @@ const Home: React.FC<IProps> = props => {
         <img src={musicIcon} alt="" />
         <input onClick={() => { history.push('/search') }} type="text" placeholder="请搜索" style={{ backgroundImage: `url(${searchIcon})` }} />
         <div onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
-          <img style={{ display: music.isPlay ? 'none' : 'blick' }} src={goMusicIcon} alt="" />
-          <RunIcon style={{ display: !music.isPlay ? 'none' : 'blick' }} />
+          <img style={{ display: music.isPlay ? 'none' : 'block' }} src={goMusicIcon} alt="" />
+          <RunIcon style={{ display: !music.isPlay ? 'none' : 'block' }} />
         </div>
       </header>
       <section className="banners">

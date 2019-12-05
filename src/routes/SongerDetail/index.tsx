@@ -69,8 +69,8 @@ const SongerDetail: React.FC<IProps> = props => {
                         <Icon type="left" onClick={() => { history.goBack() }} />
                         <span style={{ fontSize: '4vw' }}>歌手</span>
                         <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
-                            <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'blick' }} />
-                            <RunIcon style={{ display: !music.isPlay ? 'none' : 'blick', background: '#fff' }} />
+                            <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'block' }} />
+                            <RunIcon style={{ display: !music.isPlay ? 'none' : 'block', background: '#fff' }} />
                         </div>
                     </header>
                     <section className="content">

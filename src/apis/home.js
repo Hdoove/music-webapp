@@ -84,3 +84,10 @@ export const get_sheet_list = ({
         offset
     }) =>
     request.get(`${PORT}/top/playlist?cat=${text}&limit=30&offset=${offset}`).then(res => res);
+
+//获取歌单评论
+export const get_song_commits = ({
+        id,
+        offset
+    }) =>
+    request.get(`${PORT}/comment/music?id=${id}&limit=30&offset=${offset}`).then(res => res);

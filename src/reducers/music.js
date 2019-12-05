@@ -24,6 +24,12 @@ const defaultState = Immutable({
   songers: {
     offset: 0,
     data: []
+  },
+  commits: {
+    hot: [],
+    time: [],
+    offset: 0,
+    total: 0
   }
 });
 
@@ -110,6 +116,18 @@ const reducer = handleActions(
         return state.set("songers", {
           ...payload,
           data: payload.offset === 15 ? payload.data : state.songers.data.concat(payload.data)
+        })
+      }
+    ],
+    [
+      actions.setPlayMusicCommit,
+      (state, {
+        payload
+      }) => {
+        return state.set("commits", {
+          ...payload,
+          hot: payload.hot ? payload.hot : state.commits.hot,
+          time: payload.offset === 30 ? payload.time : state.commits.time.concat(payload.time)
         })
       }
     ]
