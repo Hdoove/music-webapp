@@ -8,6 +8,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Detail from './Detail/index';
 import List from '@src/components/SongList/index';
 import './index.less';
+import Header from '@src/components/Header/index';
 
 interface IProps {
     songList: any;
@@ -54,14 +55,7 @@ const Album: React.FC<IProps> = props => {
                 <div className="body" style={{
                     display: loading ? 'none' : ''
                 }}>
-                    <header>
-                        <Icon type="left" onClick={() => { history.goBack() }} />
-                        <span style={{ fontSize: '4vw' }}>专辑</span>
-                        <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
-                            <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'block' }} />
-                            <RunIcon style={{ display: !music.isPlay ? 'none' : 'block', background: '#fff' }} />
-                        </div>
-                    </header>
+                    <Header title="专辑" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: true }) }} />
                     <section className="content">
                         <section className="listDetail">
                             <div className="left" style={{ backgroundImage: `url(${albuminfo ?.album ?.picUrl})` }} />

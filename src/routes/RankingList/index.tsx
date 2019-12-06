@@ -7,6 +7,7 @@ import { Icon } from 'antd';
 import imgLoading from '../../../public/assets/images/imgLoading.png';
 import { connect } from 'react-redux';
 import actions from '@src/actions/music';
+import Header from '@src/components/Header/index';
 
 interface IProps {
     music: any;
@@ -88,14 +89,7 @@ const Ranking: React.FC<IProps> = props => {
     return (
         <div className="rangkingRoot">
             <section className="playlists">
-                <header>
-                    <Icon type="left" onClick={() => { history.goBack() }} />
-                    <span style={{ fontSize: '4vw' }}>榜单</span>
-                    <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
-                        <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'block' }} />
-                        <RunIcon style={{ display: !music.isPlay ? 'none' : 'block', background: '#fff' }} />
-                    </div>
-                </header>
+                <Header title="榜单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: true }) }} />
                 <div style={{ textAlign: 'center', marginTop: '8vh' }}>
                     {
                         topList.map((item: { playCount: number, picUrl: string, name: string, id: number }) => {

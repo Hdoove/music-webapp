@@ -7,6 +7,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Detail from './Detail/index';
 import playIcon from '../../../public/assets/images/play.png';
 import List from '@src/components/SongList/index';
+import Header from '@src/components/Header/index';
 import './index.less';
 
 interface IProps {
@@ -47,14 +48,7 @@ const MusicList: React.FC<IProps> = props => {
                 <div className="body" style={{
                     display: loading ? 'none' : ''
                 }}>
-                    <header>
-                        <Icon type="left" onClick={() => { history.goBack() }} />
-                        <span style={{ fontSize: '4vw' }}>歌单</span>
-                        <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
-                            <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'block' }} />
-                            <RunIcon style={{ display: !music.isPlay ? 'none' : 'block', background: '#fff' }} />
-                        </div>
-                    </header>
+                    <Header title="歌单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: true }) }} />
                     <section className="content">
                         <section className="listDetail" onClick={() => { setIsShowDetail(true) }}>
                             <div className="left" style={{ backgroundImage: `url(${songList.coverImgUrl})` }}>

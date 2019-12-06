@@ -182,11 +182,10 @@ const Music: React.FC<IProps> = props => {
             } else {
                 setPlayLen((oLeft - width * 0.094) * 100 / width);
             }
-        } 
+        }
         else {
             if (sessionStorage.getItem('isMove') == 1) {
                 const oLeft = ev.clientX;
-                console.log(oLeft)
                 if (oLeft < width * 0.094) {
                     setPlayLen(0);
                 } else if (oLeft > width * 0.894) {
@@ -199,7 +198,6 @@ const Music: React.FC<IProps> = props => {
 
     }
     function handleTouchEnd() {
-        console.log(1);
         const current = audioRef.current;
         current.currentTime = allTime * (playLen / 78);
         sessionStorage.setItem('isMove', '0');
@@ -364,6 +362,7 @@ const Music: React.FC<IProps> = props => {
                         onMouseDown={handleTouchStart}
                         onMouseMove={handleTouchMove}
                         onMouseUp={handleTouchEnd}
+                        onMouseOut={handleTouchEnd}
                     />
                     <span className="currentTime">{changeTime(currentTime)}</span>
                     <span className="allTime">{changeTime(allTime)}</span>

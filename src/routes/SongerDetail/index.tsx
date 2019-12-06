@@ -8,6 +8,7 @@ const { TabPane } = Tabs;
 import { useHistory, useLocation } from 'react-router-dom';
 import List from '@src/components/SongList/index';
 import { IAlbum } from '@src/components/SearchShow/Albums/index';
+import Header from '@src/components/Header/index';
 import './index.less';
 
 interface IObj {
@@ -65,14 +66,7 @@ const SongerDetail: React.FC<IProps> = props => {
                     backgroundImage: `url(${songerDetail.info ?.picUrl})`
                 }} />
                 <div className="body">
-                    <header>
-                        <Icon type="left" onClick={() => { history.goBack() }} />
-                        <span style={{ fontSize: '4vw' }}>歌手</span>
-                        <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
-                            <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'block' }} />
-                            <RunIcon style={{ display: !music.isPlay ? 'none' : 'block', background: '#fff' }} />
-                        </div>
-                    </header>
+                    <Header title="歌手" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: true }) }} />
                     <section className="content">
                         <section className="listDetail">
                             <span className="songerName">{songerDetail.info ?.name }</span>

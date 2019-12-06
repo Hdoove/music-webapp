@@ -45,8 +45,6 @@ const CommitsList: React.FC<IProps> = props => {
         entries.forEach((item: any) => {
             // 判断是否发生交叉
             if (item.isIntersecting) {
-                console.log(commit);
-
                 if (!loading) {
                     commitsGet({ offset: commit.offset, id: data.id });
                 }

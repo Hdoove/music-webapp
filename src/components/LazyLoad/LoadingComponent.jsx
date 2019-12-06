@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { Spin } from 'antd';
+import { CircleIcon } from '@src/components/RunIcon/index';
 
-const LoadingComponent = () => <Spin />;
+const LoadingComponent = () => <CircleIcon style={{
+    position: 'absolute',
+    top: '46%',
+    left: '46%'
+}} />;
 
 export default LoadingComponent;

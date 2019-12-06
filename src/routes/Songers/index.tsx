@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import actions, { getSongers, getTopSongers } from '@src/actions/music';
 import { ISongers } from '@src/components/SearchShow/Songers/index';
 import imgLoading from '../../../public/assets/images/imgLoading.png';
+import Header from '@src/components/Header/index';
 
 interface IProps {
     music: any;
@@ -105,14 +106,7 @@ const SongerList: React.FC<IProps> = props => {
     return (
         <div className="songerrsRoot">
             <section className="playlists">
-                <header>
-                    <Icon type="left" onClick={() => { history.goBack(); clearSonger(); }} />
-                    <span style={{ fontSize: '4vw' }}>歌手分类</span>
-                    <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
-                        <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'block' }} />
-                        <RunIcon style={{ display: !music.isPlay ? 'none' : 'block', background: '#000' }} />
-                    </div>
-                </header>
+                <Header title="歌手分类" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: true }) }} />
                 <div className="content">
                     <div className="header">
                         {
