@@ -7,11 +7,12 @@ interface IProps {
     title: string;
     isPlay: boolean;
     goBack: () => void;
+    color?:string;
 }
 
 const Header: React.FC<IProps> = props => {
 
-    const { title, isPlay, goBack } = props;
+    const { title, isPlay, goBack, color } = props;
     const history = useHistory();
 
     return (
@@ -20,7 +21,7 @@ const Header: React.FC<IProps> = props => {
             <span style={{ fontSize: '4vw' }}>{title}</span>
             <div style={{ display: 'flex' }} onClick={() => goBack()}>
                 <Icon type="align-left" rotate={-90} style={{ display: isPlay ? 'none' : 'block' }} />
-                <RunIcon style={{ display: !isPlay ? 'none' : 'block', background: '#fff' }} />
+                <RunIcon style={{ display: !isPlay ? 'none' : 'block', background: color || '#fff' }} />
             </div>
         </header>
     )

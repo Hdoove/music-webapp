@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { CircleIcon } from '@src/components/RunIcon/index';
 import changpianIcon from '../../../public/assets/images/changpian.jpg';
 import actions, { getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
-import { Icon, message } from 'antd';
+import { Icon } from 'antd';
 import onlySong from '../../../public/assets/images/only.png';
 import sortSong from '../../../public/assets/images/sort.png';
 import xunhuanSong from '../../../public/assets/images/xunhuan.png';
@@ -111,10 +111,18 @@ const Music: React.FC<IProps> = props => {
                 handleNextSong();
             });
             current.addEventListener("ended", function () {
-                handleNextSong();
+                if (songList.tracks) {
+                    handleNextSong();
+                }else if(playStatus === 1){
+                    publicChangeSong(musicInfo[0].id, 1);
+                } else {
+                    setPlayLen(0);
+                    setCurrentTiem(0);
+                    musicinfoSet({ ...music, isPlay: false });
+                }
             });
         }
-    }, [orderSongs]);
+    }, [orderSongs, playStatus]);
 
     function changeTimeToSplit(time: string): number {
         if (time) {
@@ -243,7 +251,7 @@ const Music: React.FC<IProps> = props => {
         if (playStatus === 0) {
             nextNum = orderSongs.all > orderSongs.now ? orderSongs.now + 1 : 0;
         } else if (playStatus === 1) {
-            nextNum = orderSongs.now - 1;
+            nextNum = orderSongs.now;
         } else if (playStatus === 2) {
             nextNum = Math.round(Math.random() * orderSongs.all);
         }
