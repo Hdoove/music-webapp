@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   contentBase: path.join(__dirname, 'public'),
-  port: 8081,
+  port: 80,
   host: '0.0.0.0',
   hotOnly: true,
   compress: true,
