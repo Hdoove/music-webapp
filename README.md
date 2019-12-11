@@ -13,9 +13,9 @@ Npm Latest
 ### Installing
 使用npm安装依赖  
   
-```npm install —unsafe-perm```
+```npm install```
 
-#### 本地服务运行在 http://localhost:8018  
+#### 本地服务运行在 http://localhost:8081  
 
 ```npm start 或 npm run start```  
 
@@ -55,9 +55,11 @@ Npm Latest
 | +-- actions /全局action
 | +-- apis /axios请求文件
 | +-- components /公用组件
+| | +-- Header 公共头部
 | | +-- RunIcon 动态图标
 | | +-- SearchShow 搜索组件
 | | +-- SongList 歌曲列表组件
+| | +-- SongSheet 歌单列表
 | +-- reducers /全局reducer
 | | +-- index.js /根reducer
 | +-- routes /路径文件入口
@@ -69,6 +71,7 @@ Npm Latest
 | | +-- Search 搜索页
 | | +-- SongerDetail 歌手详情页
 | | +-- Songers 歌手页
+| | +-- SongSheetList 歌单广场
 | +-- sagas /全局saga
 | +-- utilities 工具
 | | +-- index.js /根saga
@@ -96,16 +99,6 @@ Npm Latest
  5. html-loader/ejs-loader (html/ejs模版)
  6. file-loader(字体及其他文件类型)
 
-## Css Module
-默认开启CSS module，如需要关闭设置 module为false
-```
-{
-  loader: 'css-loader',
-  options: {
-    modules: ture
-  }
-}
-```
 
 
 
