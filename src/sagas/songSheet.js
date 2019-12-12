@@ -60,7 +60,8 @@ function* fetchSheetList(action) {
             yield put(actions.setSheetList({
                 offset: action.payload.offset + 30,
                 data: data.playlists,
-                total: data.total
+                total: data.total,
+                type: action.payload.text
             }));
             yield put(actions.setLoading(false));
         } else {

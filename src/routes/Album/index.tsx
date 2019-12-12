@@ -55,7 +55,7 @@ const Album: React.FC<IProps> = props => {
                 <div className="body" style={{
                     display: loading ? 'none' : ''
                 }}>
-                    <Header title="专辑" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: true }) }} />
+                    <Header title="专辑" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} />
                     <section className="content">
                         <section className="listDetail">
                             <div className="left" style={{ backgroundImage: `url(${albuminfo ?.album ?.picUrl})` }} />

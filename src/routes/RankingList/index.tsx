@@ -89,7 +89,7 @@ const Ranking: React.FC<IProps> = props => {
     return (
         <div className="rangkingRoot">
             <section className="playlists">
-                <Header title="榜单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: true }) }} color="#000"/>
+                <Header title="榜单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} color="#000" />
                 <div style={{ textAlign: 'center', marginTop: '8vh' }}>
                     {
                         topList.map((item: { playCount: number, picUrl: string, name: string, id: number }) => {

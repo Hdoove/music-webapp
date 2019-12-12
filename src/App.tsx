@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
-import LazyLoad from './components/LazyLoad';
+import LazyLoad from './components/LazyLoad/index.tsx';
 import PrivateRoute from './components/PrivateRoute';
 import Music from './routes/MusicPlay/index';
 import './App.css';

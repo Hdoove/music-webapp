@@ -8,11 +8,12 @@ const defaultState = Immutable({
     sheets: {
         offset: 0,
         total: 0,
+        type: '华语',
         data: []
     },
     type: {},
     hotType: [],
-    loading: false
+    loading: false,
 });
 
 

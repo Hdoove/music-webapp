@@ -48,7 +48,7 @@ const MusicList: React.FC<IProps> = props => {
                 <div className="body" style={{
                     display: loading ? 'none' : ''
                 }}>
-                    <Header title="歌单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: true }) }} />
+                    <Header title="歌单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} />
                     <section className="content">
                         <section className="listDetail" onClick={() => { setIsShowDetail(true) }}>
                             <div className="left" style={{ backgroundImage: `url(${songList.coverImgUrl})` }}>

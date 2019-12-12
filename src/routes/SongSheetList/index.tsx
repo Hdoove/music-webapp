@@ -37,8 +37,9 @@ const SongSheetList: React.FC<IProps> = props => {
     const [isSearch, setIsSearch] = useState<boolean>(false);
 
     useEffect(() => {
-        getHotType();
-        getSheetList({ text: '华语', offset: 0 });
+        hotType.length === 0 && getHotType();
+        list.offset === 0 && getSheetList({ text: '华语', offset: 0 });
+        setTag(list.type);
     }, []);
 
     function handleGetSheet(name: string) {
