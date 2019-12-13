@@ -1,9 +1,10 @@
-import React, { ChangeEvent, useState, useEffect, useMemo } from 'react';
+import React, { ChangeEvent, useState, useEffect, useMemo, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Input, Icon, Tabs, message } from 'antd';
 const { TabPane } = Tabs;
 import { get_hot_search, get_search_detail } from '@src/apis/home';
 import HostSeatch from './component/HotSearch/index';
+import SeatchSuggest from './component/Suggest';
 import CompreComp from '@src/components/SearchShow/Compre/index';
 import SongsComp from '@src/components/SearchShow/Songs/index';
 import PlayListComp from '@src/components/SearchShow/PlayList/index';
@@ -11,7 +12,7 @@ import SongersComp from '@src/components/SearchShow/Songers/index';
 import AlbumsComp from '@src/components/SearchShow/Albums/index';
 import { RunIcon } from '@src/components/RunIcon/index';
 import { connect } from 'react-redux';
-import { getSearchSongs, getSearchPlayLists, getSearchSonger, getSearchAlbums } from '@src/actions/search';
+import searchActions, { getSearchSongs, getSearchPlayLists, getSearchSonger, getSearchAlbums, getSearchDefault, getSearchSuggest } from '@src/actions/search';
 import actions, { getPlaySongGeci, getPlaySongInfo } from '@src/actions/music';
 
 import './index.less';
@@ -43,11 +44,30 @@ interface IProps {
     playLists: any;
     songers: any;
     albums: any;
+    suggest: any;
+    searchDefault: {
+        realkeyword: string,
+        showKeyword: string
+    };
     searchLoading: boolean;
+    getSuggest: (text: string) => void;
     playSongGeciGet: (id: number) => void;
     playSongInfoGet: (id: number) => void;
+    getDefault: () => void;
     musicStatusSet: Function,
-    changeSongOrder: (obj: { all: number, now: number }) => void
+    changeSongOrder: (obj: { all: number, now: number }) => void;
+    clearSuggest: () => void;
+}
+
+let timer: any = null;
+
+function fangdou(fn: Function, text: string) {
+    return function () {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn(text);
+        }, 500);
+    }
 }
 
 const SearechPage: React.FC<IProps> = props => {
@@ -58,6 +78,10 @@ const SearechPage: React.FC<IProps> = props => {
     const [value, setValue] = useState<string>('');
     const [tab, setTab] = useState<string>('1');
     const [isSearch, setIsSearch] = useState<boolean>(false);
+    const [isFocus, setIsFocus] = useState<boolean>(false);
+    const [timer, setTimer] = useState<any>(null);
+
+    const inputRef = useRef(null);
 
     const {
         searchSongsGet,
@@ -72,17 +96,23 @@ const SearechPage: React.FC<IProps> = props => {
         albums,
         searchPlayListsGet,
         searchSongerGet,
-        searchAlbumsGet
+        searchAlbumsGet,
+        searchDefault,
+        getDefault,
+        getSuggest,
+        suggest,
+        clearSuggest
     } = props;
 
     useEffect(() => {
+        getDefault();
         get_hot_search().then(res => setSearchList(res.data));
     }, []);
 
     useEffect(() => {
         const bottom = document.querySelector('#songBottom');
         bottom && observer.observe(bottom);
-    }, [songs.data, searchLoading]);
+    }, [songs.data, songs.data ?.length > 10 ? searchLoading : '' ]);
 
     useEffect(() => {
         const bottom = document.querySelector('#playListsBottom');
@@ -95,8 +125,6 @@ const SearechPage: React.FC<IProps> = props => {
     }, [albums.data, searchLoading]);
 
     const observer = new IntersectionObserver(entries => {
-        const bottom = document.querySelector('#albumsBottom');
-
         // 发生交叉目标元素集合
         entries.forEach((item: any) => {
             // 判断是否发生交叉
@@ -104,24 +132,17 @@ const SearechPage: React.FC<IProps> = props => {
                 if (!searchLoading) {
                     switch (Number(tab)) {
                         case 2:
-                            searchSongsGet({ name: value, type: seatchKey[Number(tab)], limit: songs.limit, offset: songs.offset });
+                            searchSongsGet({ name: value || searchDefault.realkeyword, type: seatchKey[Number(tab)], limit: songs.limit, offset: songs.offset });
                             break;
                         case 3:
-                            searchPlayListsGet({ name: value, type: seatchKey[Number(tab)], limit: playLists.limit, offset: playLists.offset });
-                            break;
-                        case 4:
-                            searchSongerGet({ name: value, type: seatchKey[Number(tab)], limit: 20, offset: 0 });
+                            searchPlayListsGet({ name: value || searchDefault.realkeyword, type: seatchKey[Number(tab)], limit: playLists.limit, offset: playLists.offset });
                             break;
                         case 5:
-                            albums.offset < albums.allCount && searchAlbumsGet({ name: value, type: seatchKey[Number(tab)], limit: 20, offset: albums.offset });
+                            searchAlbumsGet({ name: value || searchDefault.realkeyword, type: seatchKey[Number(tab)], limit: albums.limit, offset: albums.offset });
                             break;
                         default:
                             break;
                     }
-                }
-
-                if (songs.allCount <= songs.data.length) {
-                    // observer.unobserve(bottom);
                 }
             }
         });
@@ -134,34 +155,41 @@ const SearechPage: React.FC<IProps> = props => {
     function handleSearch(e: ChangeEvent<HTMLInputElement>) {
         isSearch && setIsSearch(false);
         setValue(e.target.value);
+        let fn = fangdou(getSuggests, e.target.value);
+        fn();
+    }
+
+    function getSuggests(value: string) {
+        getSuggest(value);
     }
 
     function handleSearchKeyWord() {
-        if (value) {
-            setTab('1');
-            setLoading(true);
-            setIsSearch(true);
-            get_search_detail({ name: value, type: 1018, limit: 20, offset: 0 }).then(res => { setAllData(res.result); setLoading(false) });
-        } else {
-            message.info('请输入内容');
-        }
+        inputRef.current.blur();
+        setIsFocus(false);
+        Search(value || searchDefault.realkeyword);
+    }
 
+    function Search(text: string) {
+        setTab('1');
+        setLoading(true);
+        setIsSearch(true);
+        get_search_detail({ name: text, type: 1018, limit: 20, offset: 0 }).then(res => { setAllData(res.result); setLoading(false) });
     }
 
     function handleTabChange(num: number) {
         setTab(num.toString());
         switch (Number(num)) {
             case 2:
-                searchSongsGet({ name: value, type: seatchKey[num], limit: 20, offset: 0 });
+                searchSongsGet({ name: value || searchDefault.realkeyword, type: seatchKey[num], limit: 20, offset: 0 });
                 break;
             case 3:
-                searchPlayListsGet({ name: value, type: seatchKey[num], limit: 20, offset: 0 });
+                searchPlayListsGet({ name: value || searchDefault.realkeyword, type: seatchKey[num], limit: 20, offset: 0 });
                 break;
             case 4:
-                searchSongerGet({ name: value, type: seatchKey[num], limit: 20, offset: 0 });
+                searchSongerGet({ name: value || searchDefault.realkeyword, type: seatchKey[num], limit: 20, offset: 0 });
                 break;
             case 5:
-                searchAlbumsGet({ name: value, type: seatchKey[num], limit: 20, offset: 0 });
+                searchAlbumsGet({ name: value || searchDefault.realkeyword, type: seatchKey[num], limit: 20, offset: 0 });
                 break;
             default:
                 break;
@@ -189,10 +217,24 @@ const SearechPage: React.FC<IProps> = props => {
 
     function handleHotSearch(str: string) {
         setValue(str);
-        setTab('1');
-        setLoading(true);
-        setIsSearch(true);
-        get_search_detail({ name: str, type: 1018, limit: 20, offset: 0 }).then(res => { setAllData(res.result); setLoading(false) });
+        Search(str);
+    }
+
+    function handleBlur() {
+        setTimeout(() => {
+            setIsFocus(false);
+        }, 0);
+    }
+
+    function handleFocus() {
+        setIsFocus(true);
+    }
+
+    function handleSuggest(text: string) {
+        clearSuggest();
+        setValue(text);
+        setIsFocus(false)
+        Search(text);
     }
 
     const history = useHistory();
@@ -201,19 +243,23 @@ const SearechPage: React.FC<IProps> = props => {
         <div className="searchRoot">
             <section className="head">
                 <Input
-                    placeholder="请搜索"
+                    placeholder={searchDefault.showKeyword}
                     onChange={handleSearch}
                     className="searchInput"
                     prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     value={value}
                     onPressEnter={handleSearchKeyWord}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    ref={inputRef}
+                    allowClear={true}
                 />
                 <span onClick={() => { history.push('/home') }}>取消</span>
             </section>
             <RunIcon style={{ display: loading ? '' : 'none', background: 'red' }} top={12} />
             {
                 allData ? (
-                    <Tabs defaultActiveKey="1" style={{ display: isSearch ? '' : 'none' }} activeKey={tab} onChange={handleTabChange}>
+                    <Tabs defaultActiveKey="1" style={{ display: isSearch && !isFocus ? '' : 'none' }} activeKey={tab} onChange={handleTabChange}>
                         <TabPane tab="综合" key="1">
                             <CompreComp
                                 goMore={(num: number) => handleTabChange(num)}
@@ -224,6 +270,7 @@ const SearechPage: React.FC<IProps> = props => {
                                 getSonger={handleGetSonger}
                                 getAlbums={handleGetAlbums}
                             />
+                            <RunIcon style={{ background: 'red' }} />
                         </TabPane>
                         <TabPane tab="单曲" key="2">
                             <SongsComp data={songs.data} getSong={handleGetSong} />
@@ -247,19 +294,23 @@ const SearechPage: React.FC<IProps> = props => {
                     </Tabs>
                 ) : <p style={{ marginTop: '6vh', textAlign: 'center', display: isSearch ? '' : 'none' }}>暂无数据</p>
             }
-            <HostSeatch data={searchList} isShow={!isSearch} onChoose={handleHotSearch} />
+            <SeatchSuggest isShow={isFocus} data={suggest} search={handleSuggest} />
+            <HostSeatch data={searchList} isShow={!isSearch && !isFocus} onChoose={handleHotSearch} />
         </div>
     )
 }
 
 const mapStateToProps = (state: any) => {
     const { search } = state;
+    const { songs, playLists, songer, albums, loading, suggest } = search;
     return {
-        songs: search.songs,
-        playLists: search.playLists,
-        songers: search.songer,
-        albums: search.albums,
-        searchLoading: search.loading
+        songs: songs,
+        playLists: playLists,
+        songers: songer,
+        albums: albums,
+        searchLoading: loading,
+        searchDefault: search.default,
+        suggest
     };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -287,6 +338,15 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         changeSongOrder: (obj: { all: number, now: number }) => {
             dispatch(actions.setAllAndThisSong(obj));
+        },
+        getDefault: () => {
+            dispatch(getSearchDefault());
+        },
+        clearSuggest: () => {
+            dispatch(searchActions.setSearchSuggest());
+        },
+        getSuggest: (text: string) => {
+            dispatch(getSearchSuggest(text));
         }
     };
 };

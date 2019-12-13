@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import { RunIcon } from '@src/components/RunIcon/index';
 import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
 import { Icon, message } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';

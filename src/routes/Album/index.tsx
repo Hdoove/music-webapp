@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
+import { CircleIcon } from '@src/components/RunIcon/index';
 import actions, { getSongDetail } from '@src/actions/music';
 import { getAlbumInfo } from '@src/actions/songerDetail';
 import { Icon } from 'antd';
@@ -55,7 +55,7 @@ const Album: React.FC<IProps> = props => {
                 <div className="body" style={{
                     display: loading ? 'none' : ''
                 }}>
-                    <Header title="专辑" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} />
+                    <Header title="专辑" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
                     <section className="content">
                         <section className="listDetail">
                             <div className="left" style={{ backgroundImage: `url(${albuminfo ?.album ?.picUrl})` }} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { RunIcon, CircleIcon } from '@src/components/RunIcon/index';
+import { CircleIcon } from '@src/components/RunIcon/index';
 import actions, { getSongDetail } from '@src/actions/music';
 import { Icon } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -43,12 +43,12 @@ const MusicList: React.FC<IProps> = props => {
             <div style={{ display: isShowDetail ? 'none' : '' }}>
                 <div className="bgImg" style={{
                     backgroundImage: `url(${songList.coverImgUrl})`,
-                    display: loading ? 'none' : ''
+                    // display: loading ? 'none' : ''
                 }} />
                 <div className="body" style={{
-                    display: loading ? 'none' : ''
+                    // display: loading ? 'none' : ''
                 }}>
-                    <Header title="歌单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} />
+                    <Header title="歌单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
                     <section className="content">
                         <section className="listDetail" onClick={() => { setIsShowDetail(true) }}>
                             <div className="left" style={{ backgroundImage: `url(${songList.coverImgUrl})` }}>

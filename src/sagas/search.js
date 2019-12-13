@@ -7,10 +7,14 @@ import actions, {
     getSearchSongs,
     getSearchPlayLists,
     getSearchSonger,
-    getSearchAlbums
+    getSearchAlbums,
+    getSearchDefault,
+    getSearchSuggest
 } from '@src/actions/search';
 import {
-    get_search_detail
+    get_search_detail,
+    get_default_search,
+    get_search_suggest
 } from '@src/apis/home';
 import musicAction from '@src/actions/music';
 
@@ -23,7 +27,7 @@ function* fetchSearchSongs(action) {
             yield put(actions.setSearchSongs({
                 limit: 20,
                 offset: action.payload.offset + 20,
-                data: data.result.songs,
+                data: data.result.songs || [],
                 allCount: data.result.songCount
             }));
             yield put(actions.setLoading(false));
@@ -97,9 +101,39 @@ function* fetchSearchAlbums(action) {
     }
 }
 
+// 获取默认搜索关键词
+function* fetchSearchDefault(action) {
+    try {
+        const data = yield call(get_default_search);
+        if (data.code === 200 && data.data) {
+            yield put(actions.setSearchDefault(data.data));
+        } else {
+            yield put(actions.setSearchDefault({}));
+        }
+    } catch (error) {
+        return error;
+    }
+}
+
+// 获取搜索建议
+function* fetchSearchSuggest(action) {
+    try {
+        const data = yield call(get_search_suggest, action.payload);
+        if (data.code === 200 && data.result) {
+            yield put(actions.setSearchSuggest(data.result.allMatch));
+        } else {
+            yield put(actions.setSearchSuggest([]));
+        }
+    } catch (error) {
+        return error;
+    }
+}
+
 export default function* searchSaga() {
     yield takeLatest(getSearchSongs().type, fetchSearchSongs);
     yield takeLatest(getSearchPlayLists().type, fetchSearchPlayLists);
     yield takeLatest(getSearchSonger().type, fetchSearchSonger);
     yield takeLatest(getSearchAlbums().type, fetchSearchAlbums);
+    yield takeLatest(getSearchDefault().type, fetchSearchDefault);
+    yield takeLatest(getSearchSuggest().type, fetchSearchSuggest);
 }

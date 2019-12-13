@@ -106,7 +106,7 @@ const SongerList: React.FC<IProps> = props => {
     return (
         <div className="songerrsRoot">
             <section className="playlists">
-                <Header title="歌手分类" isPlay={music.isPlay} goBack={() => { console.log(1); musicStatusSet({ ...music, isShow: false }), clearSonger() }} />
+                <Header title="歌手分类" isPlay={music.isPlay} goBack={() => { console.log(1); musicStatusSet({ ...music, isShow: false }), clearSonger() }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
                 <div className="content">
                     <div className="header">
                         {

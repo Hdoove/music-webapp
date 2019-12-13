@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './index.less';
 import { get_toplist } from '@src/apis/home';
 import { useHistory } from 'react-router-dom';
-import { RunIcon } from '@src/components/RunIcon/index';
 import { Icon } from 'antd';
 import imgLoading from '../../../public/assets/images/imgLoading.png';
 import { connect } from 'react-redux';
@@ -89,7 +88,7 @@ const Ranking: React.FC<IProps> = props => {
     return (
         <div className="rangkingRoot">
             <section className="playlists">
-                <Header title="榜单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} color="#000" />
+                <Header title="榜单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} color="#000" goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
                 <div style={{ textAlign: 'center', marginTop: '8vh' }}>
                     {
                         topList.map((item: { playCount: number, picUrl: string, name: string, id: number }) => {

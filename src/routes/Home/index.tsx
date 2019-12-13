@@ -4,7 +4,8 @@ import musicIcon from '../../../public/assets/images/music.png';
 import goMusicIcon from '../../../public/assets/images/goMusic.png';
 import searchIcon from '../../../public/assets/images/search.png';
 import { useHistory } from 'react-router-dom';
-import actions, { getBanners, getSongSheet, getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
+import actions, { getBanners, getSongSheet, getPlaySongGeci, getPlaySongInfo } from '@src/actions/music';
+import { getSearchDefault } from '@src/actions/search';
 import { connect } from 'react-redux';
 import { Carousel, Icon } from 'antd';
 import SongSheet from '@src/components/SongSheet';
@@ -20,6 +21,11 @@ interface IProps {
   };
   banners: any;
   songSheet: any;
+  searchDefault: {
+    realkeyword: string,
+    showKeyword: string
+  };
+  getDefault: () => void;
   playSongGeciGet: (id: number) => void;
   playSongInfoGet: (id: number) => void;
   changeSongOrder: (obj: { all: number, now: number }) => void;
@@ -47,13 +53,26 @@ const buttons: Ibuttons[] = [
 
 const Home: React.FC<IProps> = props => {
   const history = useHistory();
-  const { musicStatusSet, music, bannersSet, songSheetSet, banners, songSheet, playSongGeciGet, playSongInfoGet, changeSongOrder } = props;
+  const {
+    musicStatusSet,
+    music,
+    bannersSet,
+    songSheetSet,
+    banners,
+    songSheet,
+    playSongGeciGet,
+    playSongInfoGet,
+    changeSongOrder,
+    getDefault,
+    searchDefault
+  } = props;
 
   useEffect(() => {
     if (banners.length === 0 || songSheet.length === 0) {
       bannersSet();
       songSheetSet();
     }
+    getDefault();
   }, []);
 
   function handleGoMisic(item: any) {
@@ -72,7 +91,7 @@ const Home: React.FC<IProps> = props => {
     >
       <header className="header">
         <img src={musicIcon} alt="" />
-        <input onClick={() => { history.push('/search') }} type="text" placeholder="请搜索" style={{ backgroundImage: `url(${searchIcon})` }} />
+        <input onClick={() => { history.push('/search') }} type="text" placeholder={searchDefault.showKeyword} style={{ backgroundImage: `url(${searchIcon})` }} />
         <div onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
           <img style={{ display: music.isPlay ? 'none' : 'block' }} src={goMusicIcon} alt="" />
           <RunIcon style={{ display: !music.isPlay ? 'none' : 'block' }} />
@@ -112,12 +131,14 @@ const Home: React.FC<IProps> = props => {
   );
 }
 const mapStateToProps = (state: any) => {
-  const { music } = state;
+  const { music, search } = state;
   const { musicStatus, banners, songSheet } = music;
+
   return {
     music: musicStatus,
     banners: banners,
-    songSheet: songSheet
+    songSheet: songSheet,
+    searchDefault: search.default
   };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -139,6 +160,9 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     changeSongOrder: (obj: { all: number, now: number }) => {
       dispatch(actions.setAllAndThisSong(obj));
+    },
+    getDefault: () => {
+      dispatch(getSearchDefault());
     }
   };
 };

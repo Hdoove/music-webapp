@@ -5,6 +5,7 @@ import actions from '../actions/search';
 import Immutable from "seamless-immutable";
 
 const defaultState = Immutable({
+  default: {},
   songs: {
     offset: 0,
     limit: 20,
@@ -24,12 +25,19 @@ const defaultState = Immutable({
     data: [],
     allCount: 0
   },
-  loading: false
+  loading: false,
+  suggest: []
 });
 
 
 const reducer = handleActions(
   new Map([
+    [
+      actions.setSearchDefault,
+      (state, {
+        payload
+      }) => state.set("default", payload)
+    ],
     [
       actions.setSearchSongs,
       (state, {
@@ -75,6 +83,14 @@ const reducer = handleActions(
         payload
       }) =>
       state.set("loading", payload)
+
+    ],
+    [
+      actions.setSearchSuggest,
+      (state, {
+        payload
+      }) =>
+      state.set("suggest", payload)
 
     ]
   ]),
