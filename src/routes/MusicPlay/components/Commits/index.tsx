@@ -48,6 +48,7 @@ const CommitsList: React.FC<IProps> = props => {
                 if (!loading) {
                     commitsGet({ offset: commit.offset, id: data.id });
                 }
+                observer.unobserve(item.target);
             }
         });
     }, {

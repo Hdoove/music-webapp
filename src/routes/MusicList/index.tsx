@@ -42,28 +42,25 @@ const MusicList: React.FC<IProps> = props => {
         >
             <div style={{ display: isShowDetail ? 'none' : '' }}>
                 <div className="bgImg" style={{
-                    backgroundImage: `url(${songList.coverImgUrl})`,
-                    // display: loading ? 'none' : ''
+                    backgroundImage: `url(${songList.coverImgUrl})`
                 }} />
-                <div className="body" style={{
-                    // display: loading ? 'none' : ''
-                }}>
+                <div className="body">
                     <Header title="歌单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
                     <section className="content">
                         <section className="listDetail" onClick={() => { setIsShowDetail(true) }}>
                             <div className="left" style={{ backgroundImage: `url(${songList.coverImgUrl})` }}>
                                 <div className="listenNum">
                                     <img src={playIcon} />
-                                    <span>{Math.ceil(songList.playCount / 10000)}万</span>
+                                    <span>{songList.playCount ? Math.ceil(songList.playCount / 10000) : 0}万</span>
                                 </div>
                             </div>
                             <div className="right">
                                 <p className="title" style={{ '-webkit-box-orient': 'vertical' }}>
-                                    {songList.name}
+                                    {songList.name || '暂无数据'}
                                 </p>
                                 <div className="createor">
                                     <img src={songList.creator ?.avatarUrl} alt="" />
-                                    <span>{songList.creator ?.nickname}</span>
+                                    <span>{songList.creator ?.nickname || '暂无数据'}</span>
                                     <Icon type="right" />
                                 </div>
                                 <div className="description">

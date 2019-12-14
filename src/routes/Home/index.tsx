@@ -124,7 +124,7 @@ const Home: React.FC<IProps> = props => {
       </section>
       <hr />
       <section className="playlists">
-        <h3 style={{ fontSize: '4vw' }}>推荐歌单</h3>
+        <h3 style={{ fontSize: '4vw', marginTop: '2vh' }}>推荐歌单</h3>
         <SongSheet data={songSheet} />
       </section>
     </div >

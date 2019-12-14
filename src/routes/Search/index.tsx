@@ -144,6 +144,7 @@ const SearechPage: React.FC<IProps> = props => {
                             break;
                     }
                 }
+                observer.unobserve(item.target);
             }
         });
     }, {
@@ -160,7 +161,7 @@ const SearechPage: React.FC<IProps> = props => {
     }
 
     function getSuggests(value: string) {
-        getSuggest(value);
+        value && getSuggest(value);
     }
 
     function handleSearchKeyWord() {
@@ -233,7 +234,7 @@ const SearechPage: React.FC<IProps> = props => {
     function handleSuggest(text: string) {
         clearSuggest();
         setValue(text);
-        setIsFocus(false)
+        setIsFocus(false);
         Search(text);
     }
 

@@ -65,14 +65,15 @@ const SongSheetList: React.FC<IProps> = props => {
         entries.forEach((item: any) => {
             // 判断是否发生交叉
             if (item.isIntersecting) {
-                if (!loading) {
+                if (!loading && list.offset !== 0) {
                     getSheetList({ text: tag, offset: list.offset });
                 }
+                observer.unobserve(item.target);
             }
         });
     }, {
             root: null, // 父级元素
-            rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
+            rootMargin: '0px 0px 0px 0px'
         });
 
     return (
@@ -91,7 +92,7 @@ const SongSheetList: React.FC<IProps> = props => {
                     {
                         Object.keys(types).map(item => {
                             return (
-                                <div>
+                                <div style={{ margin: '1vh 0' }}>
                                     <h4>{item}</h4>
                                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                                         {
@@ -129,9 +130,9 @@ const SongSheetList: React.FC<IProps> = props => {
             </section>
             <section style={{ display: !showMore ? '' : 'none' }}>
                 <SongSheet data={list.data} />
-                <div id="sheetListsBottom" style={{ border: '1px solid transparent' }}></div>
+                <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }} />
+                <div id="sheetListsBottom" style={{ border: '1px solid transparent', display: loading ? 'none' : '' }}></div>
             </section>
-            <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }} />
             <CircleIcon style={{
                 position: 'absolute',
                 top: '30vh',

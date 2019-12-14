@@ -13,7 +13,6 @@ interface IProps {
     playSongGeciGet: (id: number) => void;
     playSongInfoGet: (id: number) => void;
     musicStatusSet: Function,
-    songListGet: (id: number) => void,
     changeSongOrder: (obj: { all: number, now: number }) => void,
     playSong: any;
     loading: boolean;
@@ -23,7 +22,7 @@ interface IProps {
 }
 const List: React.FC<IProps> = props => {
 
-    const { songList, music, playSongGeciGet, playSongInfoGet, musicStatusSet, songListGet, playSong, loading, changeSongOrder, data, title, ratio } = props;
+    const { songList, music, playSongGeciGet, playSongInfoGet, musicStatusSet, playSong, loading, changeSongOrder, data, title, ratio } = props;
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const history = useHistory();
     const location = useLocation();
@@ -79,7 +78,7 @@ const List: React.FC<IProps> = props => {
                 <div className="left">
                     <Icon type="play-circle" onClick={handlePlayAll} />
                     <span>播放全部</span>
-                    <span>(共{`${data && data.length}首`})</span>
+                    <span>(共{`${data ?.length || 0}首`})</span>
                 </div>
             </div>
             <ul className="songs">
@@ -144,9 +143,6 @@ const mapDispatchToProps = (dispatch: any) => {
         },
         playSongInfoGet: (id: number) => {
             dispatch(getPlaySongInfo(id));
-        },
-        songListGet: (id: number) => {
-            dispatch(getSongDetail(id));
         },
         changeSongOrder: (obj: { all: number, now: number }) => {
             dispatch(actions.setAllAndThisSong(obj));

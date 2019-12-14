@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './index.less';
 import { useHistory, withRouter } from 'react-router-dom';
 import { RunIcon } from '@src/components/RunIcon/index';
@@ -38,6 +38,7 @@ const SongerList: React.FC<IProps> = props => {
     const history = useHistory();
     const { music, musicStatusSet, songerGet, songers, loading, topSongerGet, clearSonger } = props;
     const [isSearch, setIsSearch] = useState<boolean>(false);
+    const ulRef = useRef(null);
 
     useEffect(() => {
         songerGet(songers.offset);
@@ -86,6 +87,7 @@ const SongerList: React.FC<IProps> = props => {
                         songerGet(songers.offset);
                     }
                 }
+                observer.unobserve(item.target);
             }
         });
     }, {
@@ -98,6 +100,7 @@ const SongerList: React.FC<IProps> = props => {
             !isSearch && setIsSearch(true);
             sessionStorage.setItem('type', type + sex);
             sessionStorage.setItem('isSearch', true);
+            // ulRef.current !== null && ulRef.current.innerHTML = '';
             topSongerGet({ type: type + sex, offset: 0 });
         }
 
@@ -133,7 +136,7 @@ const SongerList: React.FC<IProps> = props => {
                     </div>
                     <div style={{ position: 'relative', top: '10vh', height: '82vh', overflow: 'auto' }} >
                         <h4>热门歌手</h4>
-                        <ul>
+                        <ul ref={ulRef}>
                             {
                                 songers && songers.data.map((songer: ISongers) => {
                                     return (

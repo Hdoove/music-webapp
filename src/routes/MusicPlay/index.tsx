@@ -113,7 +113,7 @@ const Music: React.FC<IProps> = props => {
             current.addEventListener("ended", function () {
                 if (songList.tracks) {
                     handleNextSong();
-                }else if(playStatus === 1){
+                } else if (playStatus === 1) {
                     publicChangeSong(musicInfo[0].id, 1);
                 } else {
                     setPlayLen(0);
@@ -314,7 +314,7 @@ const Music: React.FC<IProps> = props => {
                         onClick={() => { musicinfoSet({ ...music, isShow: false }); setIsShowList(false); }}
                     />
                     <div>
-                        <span>{musicInfo[0] ?.name}</span>
+                        <span>{musicInfo[0] ?.name || '加载中'}</span>
                         <span>
                             {
                                 musicInfo[0] ?.ar && musicInfo[0] ?.ar.map((ars, index: number) => {
@@ -340,6 +340,7 @@ const Music: React.FC<IProps> = props => {
                                         className={`nomal ${index === selectGeciNum ? 'active' : ''}`}
                                         style={{
                                             top: `${index * 2.8 - (moveTip) * 2.8}rem`
+                                            // transform: `translateY(${index * 2.8 - (moveTip) * 2.8}rem)`
                                         }}
                                     >
                                         {item ?.text}
