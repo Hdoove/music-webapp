@@ -97,7 +97,7 @@ const Music: React.FC<IProps> = props => {
         sessionStorage.setItem('isMove', '0');
         const current = audioRef.current;
         if (current) {
-            current.addEventListener('canplay', function () {
+            current.addEventListener('canplaythrough', function () {
                 setAllTime(current.duration);
             });
             current.addEventListener('timeupdate', function () { timeupdate(); });
@@ -340,7 +340,6 @@ const Music: React.FC<IProps> = props => {
                                         className={`nomal ${index === selectGeciNum ? 'active' : ''}`}
                                         style={{
                                             top: `${index * 2.8 - (moveTip) * 2.8}rem`
-                                            // transform: `translateY(${index * 2.8 - (moveTip) * 2.8}rem)`
                                         }}
                                     >
                                         {item ?.text}
