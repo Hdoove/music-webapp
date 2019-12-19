@@ -65,10 +65,12 @@ const List: React.FC<IProps> = props => {
     }
 
     function handlePlayAll() {
-        const okPlay = data.filter(item => {
+        const copyData = JSON.parse(JSON.stringify(data));
+        const okPlay = copyData.filter((item, index: number) => {
+            item['index'] = index;
             return item.fee === 8 || item.fee === 0
         });
-        publicPlay(okPlay[0].id, okPlay[0].no, true, false);
+        publicPlay(okPlay[0].id, okPlay[0].index, true, false);
     }
 
     return (

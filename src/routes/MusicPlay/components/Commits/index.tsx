@@ -146,7 +146,7 @@ const mapStateToProps = (state: any) => {
     const { music, songSheet } = state;
     return {
         music: music.musicStatus,
-        loading: music.loading,
+        loading: music.commitLoading,
         commit: music.commits
     };
 };

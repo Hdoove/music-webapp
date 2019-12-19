@@ -159,7 +159,7 @@ function* fetchTopSongers(action) {
 // 获取歌曲评论
 function* fetchSongCommit(action) {
   try {
-    yield put(actions.setLoading(true));
+    yield put(actions.setCommitLoading(true));
     const data = yield call(get_song_commits, action.payload);
     if (data.code === 200 && data.comments) {
       yield put(actions.setPlayMusicCommit({
@@ -168,10 +168,10 @@ function* fetchSongCommit(action) {
         hot: data.hotComments,
         total: data.total
       }));
-      yield put(actions.setLoading(false));
+      yield put(actions.setCommitLoading(false));
     } else {
       yield put(actions.setPlayMusicCommit([]));
-      yield put(actions.setLoading(false));
+      yield put(actions.setCommitLoading(false));
     }
   } catch (error) {
     return error;

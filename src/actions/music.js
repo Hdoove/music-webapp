@@ -12,6 +12,7 @@ const actions = createActions({
   SET_PLAY_MUSIC_INFO: info => info,
   SET_PLAY_MUSIC_GECI: info => info,
   SET_LOADING: loading => loading,
+  SET_COMMIT_LOADING: loading => loading,
   SET_ALL_AND_THIS_SONG: num => num,
   SET_TOPLIST_DETAIL: detail => detail,
   SET_SONGERS: songers => songers,

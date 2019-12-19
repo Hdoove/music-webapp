@@ -36,7 +36,8 @@ const SongerDetail: React.FC<IProps> = props => {
 
     useEffect(() => {
         const id = location.pathname.split('/')[2];
-        if (id) {
+        if (id && id != songerDetail ?.info ?.id) {
+            console.log(1);
             songerSongsGet({ id: Number(id) });
         }
     }, []);

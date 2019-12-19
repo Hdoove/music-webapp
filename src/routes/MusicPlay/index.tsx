@@ -358,7 +358,7 @@ const Music: React.FC<IProps> = props => {
                 </div>
                 <div className="prosessControl">
                     <audio autoplay='autoplay' ref={audioRef} src={`https://music.163.com/song/media/outer/url?id=${musicInfo[0] ?.id}.mp3`}></audio>
-                    <div className="process" style={{ background: '#fff', width: `${playLen}%`, zIndex: 10 }}></div>
+                    <div className="process" style={{ background: 'red', width: `${playLen}%`, zIndex: 10 }}></div>
                     <div className="process" style={{ background: '#333', width: `${bufferLen}%`, zIndex: 9 }}></div>
                     <div className="process"></div>
                     <div
