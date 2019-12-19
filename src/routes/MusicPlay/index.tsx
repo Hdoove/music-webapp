@@ -104,25 +104,28 @@ const Music: React.FC<IProps> = props => {
         }
     }, []);
 
+    function changeNextSong() {
+        if (songList.tracks) {
+            handleNextSong();
+        } else if (playStatus === 1) {
+            publicChangeSong(musicInfo[0].id, 1);
+        } else {
+            setPlayLen(0);
+            setCurrentTiem(0);
+            musicinfoSet({ ...music, isPlay: false });
+        }
+    }
+
     useEffect(() => {
         const current = audioRef.current;
         if (current) {
-            current.removeEventListener("ended", function () {
-                handleNextSong();
-            });
-            current.addEventListener("ended", function () {
-                if (songList.tracks) {
-                    handleNextSong();
-                } else if (playStatus === 1) {
-                    publicChangeSong(musicInfo[0].id, 1);
-                } else {
-                    setPlayLen(0);
-                    setCurrentTiem(0);
-                    musicinfoSet({ ...music, isPlay: false });
-                }
-            });
+
+            current.removeEventListener("ended", changeNextSong);
+
+            current.addEventListener("ended", changeNextSong);
         }
-    }, [orderSongs, playStatus]);
+
+    }, [orderSongs.now, playStatus]);
 
     function changeTimeToSplit(time: string): number {
         if (time) {
@@ -221,8 +224,8 @@ const Music: React.FC<IProps> = props => {
 
     function publicChangeSong(songId: number, songIndex: number) {
         musicinfoSet({ ...music, isPlay: true });
-        clearMusicInfo();
         changeSongOrder({ ...orderSongs, now: songIndex });
+        clearMusicInfo();
         playSongGeciGet(songId);
         playSongInfoGet(songId);
     }
@@ -263,7 +266,10 @@ const Music: React.FC<IProps> = props => {
                 vip(nextNum);
             }
         }
-        publicChangeSong(songList.tracks[nextNum].id, nextNum);
+        console.log(orderSongs.now);
+        if (nextNum > orderSongs.now || nextNum === 0) {
+            publicChangeSong(songList.tracks[nextNum].id, nextNum);
+        }
     }
 
     function handlePlay(id: number, index: number) {

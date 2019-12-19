@@ -98,7 +98,7 @@ const Home: React.FC<IProps> = props => {
         </div>
       </header>
       <section className="banners">
-        <Carousel>
+        <Carousel autoplay={true}>
           {
             banners.map((item: { pic: string }) => {
               return (

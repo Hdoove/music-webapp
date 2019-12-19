@@ -15,7 +15,7 @@ interface IProps {
 interface IArr {
     [name: string]: number;
 }
-const contentId: IArr = {
+export const contentId: IArr = {
     '云音乐新歌榜': 0,
     '云音乐热歌榜': 1,
     '网易原创歌曲榜': 2,
@@ -41,7 +41,6 @@ const contentId: IArr = {
     '云音乐ACG音乐榜': 22,
     '云音乐说唱榜': 23,
     '云音乐古典音乐榜': 24,
-    // '云音乐电音榜': 25,
     '抖音排行榜': 26,
     '新声榜': 27,
     '云音乐韩语榜': 28,

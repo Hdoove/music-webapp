@@ -5,6 +5,7 @@ import actions, { getToplistDetail } from '@src/actions/music';
 import { Icon } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
 import List from '@src/components/SongList/index';
+import { contentId } from '../index';
 import './index.less';
 
 interface IProps {
@@ -22,7 +23,7 @@ const Toplist: React.FC<IProps> = props => {
 
     useEffect(() => {
         const id = location.pathname.split('/')[2];
-        if (id && id != songList.id) {
+        if (id && Number(id) !== contentId[songList.name]) {
             toplistDetailGet(Number(id));
         }
     }, []);

@@ -83,7 +83,7 @@ const SongSheetList: React.FC<IProps> = props => {
                 <span style={{ fontSize: '4vw' }}>歌单广场</span>
                 <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
                     <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'block' }} />
-                    <RunIcon style={{ display: !music.isPlay ? 'none' : 'block', background: '#fff' }} />
+                    <RunIcon style={{ display: !music.isPlay ? 'none' : 'block', background: '#000' }} />
                 </div>
             </header>
             <section className="moreTags" style={{ display: showMore ? '' : 'none' }}>

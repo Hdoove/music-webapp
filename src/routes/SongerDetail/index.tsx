@@ -37,7 +37,6 @@ const SongerDetail: React.FC<IProps> = props => {
     useEffect(() => {
         const id = location.pathname.split('/')[2];
         if (id && id != songerDetail ?.info ?.id) {
-            console.log(1);
             songerSongsGet({ id: Number(id) });
         }
     }, []);
@@ -68,9 +67,7 @@ const SongerDetail: React.FC<IProps> = props => {
                 }} />
                 <div className="body">
                     <Header title="歌手" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
-                    <section className="content" style={{
-                        display: loading ? 'none' : ''
-                    }}>
+                    <section className="content">
                         <section className="listDetail">
                             <span className="songerName">{songerDetail.info ?.name }</span>
                             <span className="detailName">
