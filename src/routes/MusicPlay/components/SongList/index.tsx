@@ -50,7 +50,7 @@ const SongList: React.FC<IProps> = props => {
                                     const isThis = playId === item.id;
                                     return (
                                         <li onClick={() => { canPlay ? onPlay(item.id, index) : alert('此歌曲为vip专享'); onClose() }}>
-                                            <p className="nowrap" style={{ '-webkit-box-orient': 'vertical' }}>
+                                            <p className="nowrap" style={{ '-webkit-box-orient': 'vertical', '-webkit-line-clamp': 1 }}>
                                                 <Icon type="sound" className="sound" style={{ color: isThis ? 'red' : '', display: isThis ? '' : 'none' }} />
                                                 <span className="songName" style={{ color: isThis ? 'red' : '' }}>{item.name}</span>
                                                 <span className="vip" style={{ display: !canPlay ? '' : 'none' }}>vip</span>

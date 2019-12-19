@@ -68,7 +68,9 @@ const SongerDetail: React.FC<IProps> = props => {
                 }} />
                 <div className="body">
                     <Header title="歌手" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
-                    <section className="content">
+                    <section className="content" style={{
+                        display: loading ? 'none' : ''
+                    }}>
                         <section className="listDetail">
                             <span className="songerName">{songerDetail.info ?.name }</span>
                             <span className="detailName">

@@ -42,11 +42,13 @@ const MusicList: React.FC<IProps> = props => {
         >
             <div style={{ display: isShowDetail ? 'none' : '' }}>
                 <div className="bgImg" style={{
-                    backgroundImage: `url(${songList.coverImgUrl})`
+                    backgroundImage: `url(${songList.coverImgUrl})`,
                 }} />
                 <div className="body">
                     <Header title="歌单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
-                    <section className="content">
+                    <section className="content" style={{
+                        display: loading ? 'none' : ''
+                    }}>
                         <section className="listDetail" onClick={() => { setIsShowDetail(true) }}>
                             <div className="left" style={{ backgroundImage: `url(${songList.coverImgUrl})` }}>
                                 <div className="listenNum">
