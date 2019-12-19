@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch,
-  withRouter
+  Switch
 } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
-import LazyLoad from './components/LazyLoad/index.tsx';
-import PrivateRoute from './components/PrivateRoute';
+import LazyLoad from './components/LazyLoad';
 import Music from './routes/MusicPlay/index';
 import './App.css';
 
@@ -26,12 +24,13 @@ export interface AppProps {
 const App: React.FC<AppProps> = AppProps => {
 
   const { music } = AppProps;
+
   return (
     <div>
       <div className="bofangqi" style={{ visibility: music.isShow ? 'visible' : 'hidden' }}>
         <Music />
       </div>
-      <div style={{ display: !music.isShow ? '' : 'none', overflow: 'hidden' }}>
+      <div style={{ overflow: 'hidden' }}>
         <Router>
           <Switch>
             <Redirect exact from="/" to="/home" />
@@ -94,7 +93,7 @@ const mapStateToProps = (state: any) => {
     music: music.musicStatus
   };
 };
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = () => {
   return {};
 };
 const connectApp = connect(

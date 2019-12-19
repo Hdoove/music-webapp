@@ -9,6 +9,8 @@
     "@types/react-dom": "^16.9.3",
     "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^5.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
     "add-asset-html-webpack-plugin": "3.1.3",
     "antd": "^3.25.2",
     "axios": "0.18.0",
@@ -81,9 +83,9 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --progress",
+    "dev-start": "cross-env NODE_ENV=development DEPLOY=2 webpack-dev-server",
     "build": "cross-env NODE_ENV=production DEPLOY=1 webpack",
-    "build-dev": "cross-env NODE_ENV=development DEPLOY=1 webpack",
-    "build-test": "cross-env NODE_ENV=production DEPLOY=1 ANALYZE=1 webpack --progress"
+    "build-dev": "cross-env NODE_ENV=development DEPLOY=1 webpack"
   },
   "author": "ljhd",
   "license": "ISC"

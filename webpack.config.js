@@ -3,12 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const {
-  BundleAnalyzerPlugin
-} = require('webpack-bundle-analyzer');
 const templateConfig = require('./configs/templateConfig');
 const devServerConfig = require('./configs/devServerConfig');
 
@@ -25,14 +20,8 @@ const plugins = [
     analyzer
   }),
   new HtmlWebpackPlugin(templateConfig.indexConfig),
-  new HardSourceWebpackPlugin(),
-  // new BundleAnalyzerPlugin()
+  new HardSourceWebpackPlugin()
 ];
-
-// if (analyzer) {
-//   const bundleAnalyzerPlugin = new BundleAnalyzerPlugin();
-//   plugins.push(bundleAnalyzerPlugin);
-// }
 
 if (isDeploy) {
   plugins.push(cleanWebpackPlugin);

@@ -340,7 +340,6 @@ const Music: React.FC<IProps> = props => {
                                         className={`nomal ${index === selectGeciNum ? 'active' : ''}`}
                                         style={{
                                             top: `${index * 2.8 - (moveTip) * 2.8}rem`
-                                            // transform: `translateY(${index * 2.8 - (moveTip) * 2.8}rem)`
                                         }}
                                     >
                                         {item ?.text}

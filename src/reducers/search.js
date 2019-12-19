@@ -1,8 +1,6 @@
-import {
-  handleActions
-} from 'redux-actions';
+import { handleActions } from 'redux-actions';
+import Immutable from 'seamless-immutable';
 import actions from '../actions/search';
-import Immutable from "seamless-immutable";
 
 const defaultState = Immutable({
   default: {},
@@ -29,69 +27,56 @@ const defaultState = Immutable({
   suggest: []
 });
 
-
 const reducer = handleActions(
   new Map([
     [
       actions.setSearchDefault,
-      (state, {
-        payload
-      }) => state.set("default", payload)
+      (state, { payload }) => state.set('default', payload)
     ],
     [
       actions.setSearchSongs,
-      (state, {
-        payload
-      }) => {
-        return state.set("songs", {
+      (state, { payload }) => {
+        return state.set('songs', {
           ...payload,
-          data: payload.offset === 20 ? payload.data : state.songs.data.concat(payload.data)
+          data:
+            payload.offset === 20
+              ? payload.data
+              : state.songs.data.concat(payload.data)
         })
       }
     ],
     [
       actions.setSearchPlayLists,
-      (state, {
-        payload
-      }) => {
-        return state.set("playLists", {
+      (state, { payload }) => {
+        return state.set('playLists', {
           ...payload,
-          data: payload.offset === 20 ? payload.data : state.playLists.data.concat(payload.data)
-        })
+          data:
+            payload.offset === 20
+              ? payload.data
+              : state.playLists.data.concat(payload.data)
+        });
       }
     ],
     [
       actions.setSearchSonger,
-      (state, {
-        payload
-      }) => state.set("songer", payload)
+      (state, { payload }) => state.set('songer', payload)
     ],
     [
       actions.setSearchAlbums,
-      (state, {
-        payload
-      }) => {
-        return state.set("albums", {
+      (state, { payload }) => {
+        return state.set('albums', {
           ...payload,
-          data: payload.offset === 20 ? payload.data : state.albums.data.concat(payload.data)
-        })
+          data:
+            payload.offset === 20
+              ? payload.data
+              : state.albums.data.concat(payload.data)
+        });
       }
     ],
-    [
-      actions.setLoading,
-      (state, {
-        payload
-      }) =>
-      state.set("loading", payload)
-
-    ],
+    [actions.setLoading, (state, { payload }) => state.set('loading', payload)],
     [
       actions.setSearchSuggest,
-      (state, {
-        payload
-      }) =>
-      state.set("suggest", payload)
-
+      (state, { payload }) => state.set('suggest', payload)
     ]
   ]),
   defaultState
