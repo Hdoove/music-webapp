@@ -319,6 +319,13 @@ const Music: React.FC<IProps> = props => {
         fn();
     }, [currentTime]);
 
+    const isLoadingEnd = orderSongs.now === -1 ? 'none' : allTime > 0;
+
+    function changePlayStatus() {
+        !music.isPlay ? audioRef.current.play() : audioRef.current.pause();
+        musicinfoSet({ ...music, isPlay: !music.isPlay })
+    }
+
     return (
         <div
             className="musicRoot"
@@ -372,7 +379,7 @@ const Music: React.FC<IProps> = props => {
                 <div className="btns">
                     <Icon onClick={handleNoSupport} type="heart" style={{ color: '#000' }} />
                     <Icon onClick={handleNoSupport} type="cloud-download" style={{ color: '#000' }} />
-                    <Icon onClick={() => { setIsShowCommit(true) }} type="form" style={{ color: '#fff' }} />
+                    <Icon onClick={() => { isLoadingEnd ? setIsShowCommit(true) : null }} type="form" style={{ color: '#fff' }} />
                     <Icon onClick={handleNoSupport} type="dash" style={{ color: '#000' }} rotate={90} />
                 </div>
                 <div className="prosessControl">
@@ -399,19 +406,18 @@ const Music: React.FC<IProps> = props => {
                         width: '4vh',
                         height: '4vh'
                     }}
-                        onClick={handleChangePlayStatus}
+                        onClick={() => { isLoadingEnd ? handleChangePlayStatus() : null }}
                     />
-                    <Icon type="left" style={{ color: '#fff' }} onClick={handleLastSong} />
+                    <Icon type="left" style={{ color: '#fff' }} onClick={() => { isLoadingEnd ? handleLastSong() : null }} />
                     <Icon
                         onClick={() => {
-                            !music.isPlay ? audioRef.current.play() : audioRef.current.pause();
-                            musicinfoSet({ ...music, isPlay: !music.isPlay })
-                        }}
+                            isLoadingEnd ? changePlayStatus() : null }
+                        }
                         type={allTime > 0 ? music.isPlay ? 'pause' : 'play-circle' : 'play-circle'}
                         style={{ color: '#fff', fontSize: '6vh' }}
                     />
-                    <Icon type="right" style={{ color: '#fff' }} onClick={handleNextSong} />
-                    <Icon type="bars" style={{ color: '#fff' }} onClick={() => setIsShowList(true)} />
+                    <Icon type="right" style={{ color: '#fff' }} onClick={() => { isLoadingEnd ? handleNextSong() : null }} />
+                    <Icon type="bars" style={{ color: '#fff' }} onClick={() => { isLoadingEnd ? setIsShowList(true) : null }} />
                 </footer>
             </div>
             <div className="goBack" style={{ display: orderSongs.now === -1 ? 'flex' : 'none' }}>
@@ -420,10 +426,11 @@ const Music: React.FC<IProps> = props => {
             </div>
 
             <CircleIcon style={{
+                zIndex: 11,
                 position: 'absolute',
                 top: '46%',
                 left: '46%',
-                display: orderSongs.now === -1 ? 'none' : allTime > 0 ? 'none' : ''
+                display: isLoadingEnd ? 'none' : ''
             }} />
             <SongList
                 playId={musicInfo[0] ?.id}
