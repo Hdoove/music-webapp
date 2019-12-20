@@ -3,7 +3,13 @@ import { Icon } from 'antd';
 import './index.less';
 
 interface IProps {
-    data: any;
+    data: {
+        picUrl: string;
+        name: string;
+        company: string;
+        subType: string;
+        description: string;
+    };
     isShow: boolean;
     onClose: () => void;
 }
@@ -24,7 +30,7 @@ const AlbumDetail: React.FC<IProps> = props => {
                         {
                             data ?.company ? <span className="tagTitle">发行公司:{data ?.company}</span> : ''
                         }
-                        <br/>
+                        <br />
                         {
                             data ?.subType ? <span className="tagTitle">专辑类别:{data ?.subType}</span> : ''
                         }

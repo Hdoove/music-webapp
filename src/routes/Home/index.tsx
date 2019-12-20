@@ -19,7 +19,7 @@ interface IProps {
     isShow: boolean,
     isPlay: boolean
   };
-  banners: any;
+  banners: { pic: string }[];
   songSheet: any;
   searchDefault: {
     realkeyword: string,

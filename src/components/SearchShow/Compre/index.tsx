@@ -7,7 +7,20 @@ import { ISongs } from '../Songs/index';
 import './index.less';
 
 interface IProps {
-    data: any;
+    data: {
+        song: {
+            songs: ISongs
+        },
+        artist: {
+            artists: ISongers
+        },
+        album: {
+            albums: IAlbum
+        },
+        playList: {
+            playLists: IPlayList
+        }
+    };
     isShow: boolean;
     getSong: (id: number) => void;
     getPlayList: (id: number) => void;
@@ -124,8 +137,6 @@ const SearechPage: React.FC<IProps> = props => {
                     <span className="moreText" onClick={() => goMore(3)}>{data ?.playList ?.moreText}</span>
                 </ul>
             </div>
-            <div></div>
-            <div></div>
         </div>
     )
 }

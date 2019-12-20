@@ -9,12 +9,33 @@ import actions from '@src/actions/music';
 import Header from '@src/components/Header/index';
 
 interface IProps {
-    music: any;
+    music: {
+        isShow: boolean;
+        isPlay: boolean;
+    };
     musicStatusSet: Function,
 }
 interface IArr {
     [name: string]: number;
 }
+
+interface IList {
+    playCount: number;
+    picUrl: string;
+    name: string;
+    id: number;
+    coverImgUrl: string;
+    updateFrequency: string;
+}
+
+interface Itracks {
+    first: string;
+    second: string;
+}
+interface ITopList extends IList {
+    tracks: Itracks[];
+}
+
 export const contentId: IArr = {
     '云音乐新歌榜': 0,
     '云音乐热歌榜': 1,
@@ -91,7 +112,7 @@ const Ranking: React.FC<IProps> = props => {
                 <div style={{ textAlign: 'center', marginTop: '8vh' }}>
                     <h4>官方榜</h4>
                     {
-                        topList.length > 0 ? topList.slice(0, 4).map(item => {
+                        topList.length > 0 ? topList.slice(0, 4).map((item: ITopList) => {
                             return (
                                 <div className="playlistTop3" onClick={() => { history.push(`/ranking/${contentId[item.name]}`) }}>
                                     <div className="playsInfo">
@@ -100,18 +121,18 @@ const Ranking: React.FC<IProps> = props => {
                                     </div>
                                     <ul>
                                         {
-                                            item.tracks.map((item: { first: string, second: string }, index: number) => {
+                                            item.tracks.map((item: Itracks, index: number) => {
                                                 return <p style={{ '-webkit-box-orient': 'vertical' }}>{`${index + 1}. ${item.first}-${item.second}`}</p>
                                             })
                                         }
                                     </ul>
                                 </div>
                             )
-                        }) : ''
+                        }) : '加载中...'
                     }
                     <h4>推荐榜</h4>
                     {
-                        topList.length > 0 ? topList.slice(4).map((item: { playCount: number, picUrl: string, name: string, id: number, coverImgUrl: string }) => {
+                        topList.length > 0 ? topList.slice(4).map((item: IList) => {
                             return (
                                 <div className="playlist" onClick={() => { history.push(`/ranking/${contentId[item.name]}`) }}>
                                     <div className="playsInfo">
@@ -121,7 +142,7 @@ const Ranking: React.FC<IProps> = props => {
                                     <span className="playsTitle" style={{ '-webkit-box-orient': 'vertical' }}>{item.name}</span>
                                 </div>
                             )
-                        }) : ''
+                        }) : '加载中...'
                     }
                 </div>
             </section>
@@ -132,7 +153,6 @@ const Ranking: React.FC<IProps> = props => {
 const mapStateToProps = (state: any) => {
     const { music } = state;
     return {
-        songList: music.songListDetail,
         music: music.musicStatus,
         playSong: music.playMusicInfo,
         loading: music.loading

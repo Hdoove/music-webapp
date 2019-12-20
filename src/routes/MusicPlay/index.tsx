@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CircleIcon } from '@src/components/RunIcon/index';
 import changpianIcon from '../../../public/assets/images/changpian.jpg';
+import zhuanpanIcon from '../../../public/assets/images/zhuanpan.png';
 import actions, { getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
 import { Icon } from 'antd';
 import onlySong from '../../../public/assets/images/only.png';
@@ -40,6 +41,20 @@ interface IGeci {
     time: number,
     text: string
 }[];
+
+let previous = 0;
+
+function throttle(func: Function, delay: number) {
+    return function () {
+        let now = Date.now();
+        let context = this;
+        let args = arguments;
+        if (now - previous > delay) {
+            func.apply(context, args);
+            previous = now;
+        }
+    };
+}
 
 const Music: React.FC<IProps> = props => {
     const [playLen, setPlayLen] = useState<number>(0);// 播放进度条
@@ -285,7 +300,7 @@ const Music: React.FC<IProps> = props => {
 
     const moveTip = (selectGeciNum + 1) > center ? selectGeciNum - center + 1 : 0;
 
-    useEffect(() => {
+    function getChangeGecis() {
         for (let i = 0, len = geci.length; i < len; i++) {
             if (geci[i] && geci[i].time <= currentTime && geci[i + 1] && geci[i + 1].time > currentTime) {
                 i !== selectGeciNum ? setSelectGeciNum(i) : '';
@@ -294,9 +309,14 @@ const Music: React.FC<IProps> = props => {
                 i !== geci.length - 1 ? setSelectGeciNum(geci.length - 1) : '';
             }
         }
-        if (currentTime === allTime && allTime !== 0) {
+        if (currentTime + 0.5 >= allTime && allTime !== 0) {
             changeNextSong();
         }
+    }
+
+    useEffect(() => {
+        let fn = throttle(getChangeGecis, 500);
+        fn();
     }, [currentTime]);
 
     return (
@@ -326,8 +346,9 @@ const Music: React.FC<IProps> = props => {
                 <div className="content">
                     <div style={{ display: isShowGeci ? 'none' : '' }}>
                         <img className="changpian" src={changpianIcon} alt="" style={{ transform: `translate(42%) rotate(${music.isPlay && allTime > 0 ? 30 : 0}deg)` }} />
-                        <div className='cricle' onClick={() => { setIsShowGeci(!isShowGeci) }}>
+                        <div style={{ backgroundImage: `url(${zhuanpanIcon})` }} className='cricle' onClick={() => { setIsShowGeci(!isShowGeci) }}>
                             <img className="animation" src={musicInfo[0] ?.al ?.picUrl} style={{ animationPlayState: music.isPlay && allTime > 0 ? 'running' : 'paused' }} />
+                            <img className="zhuanpan" src={zhuanpanIcon} />
                         </div>
                     </div>
                     <div style={{ display: !isShowGeci ? 'none' : '' }} onClick={() => { setIsShowGeci(!isShowGeci) }}>

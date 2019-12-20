@@ -2,7 +2,9 @@ import React from 'react';
 import './index.less';
 
 interface IProps {
-    style?: any;
+    style?: {
+        [props: string]: string | number;
+    };
     top?: number;
 }
 

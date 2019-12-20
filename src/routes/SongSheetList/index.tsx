@@ -14,18 +14,21 @@ interface IProps {
         isPlay: boolean,
         isShow: boolean
     };
+
+    hotType: Array<any>;
+    types: {
+        [props: string]: string
+    };
+    list: {
+        offset: number,
+        total: number,
+        data: Array<any>
+    };
+    loading: boolean;
     musicStatusSet: Function,
     getHotType: () => void;
     getMoreType: () => void;
     getSheetList: (obj: { offset: number, text: string }) => void;
-    hotType: Array<any>;
-    types: any;
-    list: {
-        offset: number,
-        total: number,
-        data: any
-    };
-    loading: boolean;
 }
 
 const SongSheetList: React.FC<IProps> = props => {

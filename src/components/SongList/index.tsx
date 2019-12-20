@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, RefObject } from 'react';
 import { connect } from 'react-redux';
 import actions, { getPlaySongGeci, getPlaySongInfo, getSongDetail } from '@src/actions/music';
 import { Icon, message } from 'antd';
@@ -8,21 +8,27 @@ import playIcon from '../../../public/assets/images/play.png';
 import './index.less';
 
 interface IProps {
-    songList: any;
-    music: any;
+    songList: {
+        id: number
+    };
+    music: {
+        isShow: boolean;
+        isPlay: boolean;
+    };
     orderSongs: {
         all: number,
         now: number
     };
-    playSongGeciGet: (id: number) => void;
-    playSongInfoGet: (id: number) => void;
-    musicStatusSet: Function,
-    changeSongOrder: (obj: { all: number, now: number }) => void,
     playSong: any;
     loading: boolean;
     data: any;
     title: string;
-    ratio?: any;
+    ratio?: { ratio: number }[];
+    musicStatusSet: Function,
+    playSongGeciGet: (id: number) => void;
+    playSongInfoGet: (id: number) => void;
+    changeSongOrder: (obj: { all: number, now: number }) => void,
+
 }
 const List: React.FC<IProps> = props => {
 
@@ -70,11 +76,16 @@ const List: React.FC<IProps> = props => {
 
     function handlePlayAll() {
         const copyData = JSON.parse(JSON.stringify(data));
-        const okPlay = copyData.filter((item, index: number) => {
+        const okPlay = copyData.filter((item: { fee: number, index: number }, index: number) => {
             item['index'] = index;
             return item.fee === 8 || item.fee === 0
         });
-        orderSongs.now === 0 && songList.id === location.pathname.split('/')[2] ? '' : publicPlay(okPlay[0].id, okPlay[0].index, true, false);
+        if (orderSongs.now === 0 && sessionStorage.getItem('listId') == location.pathname.split('/')[2]) {
+            return '';
+        } else {
+            publicPlay(okPlay[0].id, okPlay[0].index, true, false);
+            sessionStorage.setItem('listId', location.pathname.split('/')[2]);
+        }
     }
 
     return (

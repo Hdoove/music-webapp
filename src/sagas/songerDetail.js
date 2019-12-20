@@ -24,7 +24,8 @@ function* fetchSongerSongs(action) {
             yield put(actions.setSongerSongs(data.hotSongs));
             yield put(actions.setSongerInfo(data.artist));
             yield put(musicAction.setSongDetail({
-                tracks: data.hotSongs
+                tracks: data.hotSongs,
+                id: action.payload.id
             }));
             yield put(actions.setLoading(false));
         } else {
@@ -60,7 +61,8 @@ function* fetchAlbumInfo(action) {
             yield put(actions.setAlbumInfo(data));
             yield put(actions.setLoading(false));
             yield put(musicAction.setSongDetail({
-                tracks: data.songs
+                tracks: data.songs,
+                id: action.payload.id
             }));
         } else {
             yield put(actions.setLoading(false));

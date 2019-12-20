@@ -2,7 +2,7 @@ import React from 'react';
 import './index.less';
 
 export interface IProps {
-    data: any;
+    data: IAlbum[];
     getAlbums: (id: number) => void;
 }
 

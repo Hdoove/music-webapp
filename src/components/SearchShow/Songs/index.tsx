@@ -3,7 +3,7 @@ import { message } from 'antd';
 import './index.less';
 
 export interface IProps {
-    data: any;
+    data: ISongs[];
     getSong: (id: number) => void;
 }
 

@@ -11,19 +11,20 @@ import './index.less';
 import Header from '@src/components/Header/index';
 
 interface IProps {
-    songList: any;
-    music: any;
+    music: {
+        isShow: boolean;
+        isPlay: boolean;
+    };
+    albuminfo: any;
     musicStatusSet: Function,
     songListGet: (id: number) => void,
-    playSong: any;
     loading: boolean;
     albumInfo: (obj: { id: number }) => void;
-    albuminfo: any;
 }
 
 const Album: React.FC<IProps> = props => {
 
-    const { songList, music, musicStatusSet, loading, albumInfo, albuminfo } = props;
+    const { music, musicStatusSet, loading, albumInfo, albuminfo } = props;
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const history = useHistory();
     const location = useLocation();
@@ -97,9 +98,7 @@ const Album: React.FC<IProps> = props => {
 const mapStateToProps = (state: any) => {
     const { music, songerDetail } = state;
     return {
-        songList: music.songListDetail,
         music: music.musicStatus,
-        playSong: music.playMusicInfo,
         loading: songerDetail.loading,
         albuminfo: songerDetail.albumInfo
     };

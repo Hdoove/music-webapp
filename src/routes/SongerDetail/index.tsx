@@ -15,7 +15,6 @@ interface IObj {
     id: number
 }
 interface IProps {
-    songList: any;
     music: {
         isPlay: boolean,
         isShow: boolean
@@ -121,7 +120,6 @@ const mapStateToProps = (state: any) => {
     const { songerDetail, music } = state;
     return {
         songerDetail,
-        songList: music.songListDetail,
         music: music.musicStatus,
         loading: songerDetail.loading
     };

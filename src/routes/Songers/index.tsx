@@ -10,7 +10,10 @@ import imgLoading from '../../../public/assets/images/imgLoading.png';
 import Header from '@src/components/Header/index';
 
 interface IProps {
-    music: any;
+    music: {
+        isShow: boolean;
+        isPlay: boolean;
+    };
     musicStatusSet: Function;
     songers: any;
     loading: boolean;

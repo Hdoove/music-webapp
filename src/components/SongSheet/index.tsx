@@ -5,7 +5,15 @@ import imgLoading from '../../../public/assets/images/imgLoading.png';
 import './index.less';
 
 interface IProps {
-    data: any;
+    data: ISheet[];
+}
+
+interface ISheet {
+    playCount: number;
+    picUrl: string;
+    name: string;
+    id: number;
+    coverImgUrl?: string;
 }
 
 const SongSheet: React.FC<IProps> = props => {
@@ -34,14 +42,14 @@ const SongSheet: React.FC<IProps> = props => {
         });
     }, {
             root: null, // 父级元素
-            rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
+            rootMargin: '0px 0px 0px 0px'
         });
 
     return (
         <div className="songSheetRoot">
             <div style={{ textAlign: 'center' }}>
                 {
-                    data.map((item: { playCount: number, picUrl: string, name: string, id: number, coverImgUrl?: string }) => {
+                    data.map((item: ISheet) => {
                         return (
                             <div className="playlist" onClick={() => { history.push(`/list/${item.id}`) }}>
                                 <div className="playsInfo">

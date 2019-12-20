@@ -12,10 +12,12 @@ import './index.less';
 
 interface IProps {
     songList: any;
-    music: any;
+    music: {
+        isShow: boolean;
+        isPlay: boolean;
+    };
     musicStatusSet: Function,
     songListGet: (id: number) => void,
-    playSong: any;
     loading: boolean;
 }
 const MusicList: React.FC<IProps> = props => {
@@ -94,7 +96,6 @@ const mapStateToProps = (state: any) => {
     return {
         songList: music.songListDetail,
         music: music.musicStatus,
-        playSong: music.playMusicInfo,
         loading: music.loading
     };
 };

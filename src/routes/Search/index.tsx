@@ -61,7 +61,7 @@ interface IProps {
 
 let timer: any = null;
 
-function fangdou(fn: Function, text: string) {
+function debounce(fn: Function, text: string) {
     return function () {
         if (timer) clearTimeout(timer);
         timer = setTimeout(() => {
@@ -156,7 +156,7 @@ const SearechPage: React.FC<IProps> = props => {
     function handleSearch(e: ChangeEvent<HTMLInputElement>) {
         isSearch && setIsSearch(false);
         setValue(e.target.value);
-        let fn = fangdou(getSuggests, e.target.value);
+        let fn = debounce(getSuggests, e.target.value);
         fn();
     }
 
