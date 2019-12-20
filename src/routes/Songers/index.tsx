@@ -6,7 +6,7 @@ import { Icon } from 'antd';
 import { connect } from 'react-redux';
 import actions, { getSongers, getTopSongers } from '@src/actions/music';
 import { ISongers } from '@src/components/SearchShow/Songers/index';
-import imgLoading from '../../../public/assets/images/imgLoading.png';
+import imgLoading from '../../../public/assets/images/person-filled.png';
 import Header from '@src/components/Header/index';
 
 interface IProps {
@@ -83,7 +83,7 @@ const SongerList: React.FC<IProps> = props => {
         entries.forEach((item: any) => {
             // 判断是否发生交叉
             if (item.isIntersecting) {
-                if (!loading) {
+                if (!loading && songers.offset !== 0) {
                     if (sessionStorage.getItem('isSearch')) {
                         topSongerGet({ type: sessionStorage.getItem('type') as string, offset: songers.offset });
                     } else {
