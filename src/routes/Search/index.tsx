@@ -271,7 +271,7 @@ const SearechPage: React.FC<IProps> = props => {
                                 getSonger={handleGetSonger}
                                 getAlbums={handleGetAlbums}
                             />
-                            {/* <RunIcon style={{ background: 'red' }} /> */}
+                            <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }} />
                         </TabPane>
                         <TabPane tab="单曲" key="2">
                             <SongsComp data={songs.data} getSong={handleGetSong} />

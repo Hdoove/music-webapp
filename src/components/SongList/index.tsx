@@ -10,6 +10,10 @@ import './index.less';
 interface IProps {
     songList: any;
     music: any;
+    orderSongs: {
+        all: number,
+        now: number
+    };
     playSongGeciGet: (id: number) => void;
     playSongInfoGet: (id: number) => void;
     musicStatusSet: Function,
@@ -22,7 +26,7 @@ interface IProps {
 }
 const List: React.FC<IProps> = props => {
 
-    const { songList, music, playSongGeciGet, playSongInfoGet, musicStatusSet, playSong, loading, changeSongOrder, data, title, ratio } = props;
+    const { songList, music, playSongGeciGet, playSongInfoGet, musicStatusSet, playSong, loading, changeSongOrder, data, title, ratio, orderSongs } = props;
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const history = useHistory();
     const location = useLocation();
@@ -70,7 +74,7 @@ const List: React.FC<IProps> = props => {
             item['index'] = index;
             return item.fee === 8 || item.fee === 0
         });
-        publicPlay(okPlay[0].id, okPlay[0].index, true, false);
+        orderSongs.now === 0 && songList.id === location.pathname.split('/')[2] ? '' : publicPlay(okPlay[0].id, okPlay[0].index, true, false);
     }
 
     return (
@@ -132,7 +136,8 @@ const mapStateToProps = (state: any) => {
         songList: music.songListDetail,
         music: music.musicStatus,
         playSong: music.playMusicInfo,
-        loading: music.loading
+        loading: music.loading,
+        orderSongs: music.orderSongs
     };
 };
 const mapDispatchToProps = (dispatch: any) => {

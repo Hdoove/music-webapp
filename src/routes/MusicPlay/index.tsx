@@ -40,6 +40,7 @@ interface IGeci {
     time: number,
     text: string
 }[];
+
 const Music: React.FC<IProps> = props => {
     const [playLen, setPlayLen] = useState<number>(0);// 播放进度条
     const [bufferLen, setBufferLen] = useState<number>(0); // 缓存时长    
@@ -115,17 +116,6 @@ const Music: React.FC<IProps> = props => {
             musicinfoSet({ ...music, isPlay: false });
         }
     }
-
-    useEffect(() => {
-        const current = audioRef.current;
-        if (current) {
-
-            current.removeEventListener("ended", changeNextSong);
-
-            current.addEventListener("ended", changeNextSong);
-        }
-
-    }, [orderSongs.now, playStatus]);
 
     function changeTimeToSplit(time: string): number {
         if (time) {
@@ -266,7 +256,6 @@ const Music: React.FC<IProps> = props => {
                 vip(nextNum);
             }
         }
-        console.log(orderSongs.now);
         if (nextNum > orderSongs.now || nextNum === 0) {
             publicChangeSong(songList.tracks[nextNum].id, nextNum);
         }
@@ -304,6 +293,9 @@ const Music: React.FC<IProps> = props => {
             if (currentTime > geci[geci.length - 1].time) {
                 i !== geci.length - 1 ? setSelectGeciNum(geci.length - 1) : '';
             }
+        }
+        if (currentTime === allTime && allTime !== 0) {
+            changeNextSong();
         }
     }, [currentTime]);
 

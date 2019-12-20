@@ -87,19 +87,41 @@ const Ranking: React.FC<IProps> = props => {
     return (
         <div className="rangkingRoot">
             <section className="playlists">
-                <Header title="榜单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} color="#000" goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
+                <Header title="榜单" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }); history.push('/home'); }} color="#000" goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
                 <div style={{ textAlign: 'center', marginTop: '8vh' }}>
+                    <h4>官方榜</h4>
                     {
-                        topList.map((item: { playCount: number, picUrl: string, name: string, id: number }) => {
+                        topList.length > 0 ? topList.slice(0, 4).map(item => {
+                            return (
+                                <div className="playlistTop3" onClick={() => { history.push(`/ranking/${contentId[item.name]}`) }}>
+                                    <div className="playsInfo">
+                                        <img data-src={item.coverImgUrl} src={imgLoading} className="bgPic" />
+                                        <span className="update">{item.updateFrequency}</span>
+                                    </div>
+                                    <ul>
+                                        {
+                                            item.tracks.map((item: { first: string, second: string }, index: number) => {
+                                                return <p style={{ '-webkit-box-orient': 'vertical' }}>{`${index + 1}. ${item.first}-${item.second}`}</p>
+                                            })
+                                        }
+                                    </ul>
+                                </div>
+                            )
+                        }) : ''
+                    }
+                    <h4>推荐榜</h4>
+                    {
+                        topList.length > 0 ? topList.slice(4).map((item: { playCount: number, picUrl: string, name: string, id: number, coverImgUrl: string }) => {
                             return (
                                 <div className="playlist" onClick={() => { history.push(`/ranking/${contentId[item.name]}`) }}>
                                     <div className="playsInfo">
                                         <img data-src={item.coverImgUrl} src={imgLoading} className="bgPic" />
+                                        <span className="update">{item.updateFrequency}</span>
                                     </div>
                                     <span className="playsTitle" style={{ '-webkit-box-orient': 'vertical' }}>{item.name}</span>
                                 </div>
                             )
-                        })
+                        }) : ''
                     }
                 </div>
             </section>

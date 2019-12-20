@@ -18,7 +18,7 @@ const Header: React.FC<IProps> = props => {
 
     return (
         <header>
-            <Icon type="left" onClick={() => { history.goBack(); goBack() }} />
+            <Icon type="left" onClick={() => { goBack() }} />
             <span style={{ fontSize: '4vw' }}>{title}</span>
             <div style={{ display: 'flex' }} onClick={() => goMusic()}>
                 <Icon type="align-left" rotate={-90} style={{ display: isPlay ? 'none' : 'block' }} />

@@ -61,7 +61,7 @@ export const get_album_detail = ({
 
 //获取榜单
 export const get_toplist = () =>
-    request.get(`${PORT}/toplist`).then(res => res);
+    request.get(`${PORT}/toplist/detail`).then(res => res);
 
 //获取榜单详情
 export const get_toplist_detail = (id) =>

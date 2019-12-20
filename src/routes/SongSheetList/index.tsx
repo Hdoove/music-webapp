@@ -79,7 +79,7 @@ const SongSheetList: React.FC<IProps> = props => {
     return (
         <div className="songSheetListRoot">
             <header className="header" style={{ display: !showMore ? '' : 'none' }}>
-                <Icon type="left" onClick={() => { history.goBack() }} />
+                <Icon type="left" onClick={() => { history.push('/'); }} />
                 <span style={{ fontSize: '4vw' }}>歌单广场</span>
                 <div style={{ display: 'flex' }} onClick={() => { musicStatusSet({ ...music, isShow: true }) }}>
                     <Icon type="align-left" rotate={-90} style={{ display: music.isPlay ? 'none' : 'block' }} />

@@ -55,7 +55,7 @@ const Album: React.FC<IProps> = props => {
                 <div className="body" style={{
                     display: loading ? 'none' : ''
                 }}>
-                    <Header title="专辑" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }) }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
+                    <Header title="专辑" isPlay={music.isPlay} goBack={() => { musicStatusSet({ ...music, isShow: false }); history.goBack(); }} goMusic={() => { musicStatusSet({ ...music, isShow: true }) }} />
                     <section className="content">
                         <section className="listDetail">
                             <div className="left" style={{ backgroundImage: `url(${albuminfo ?.album ?.picUrl})` }} />
@@ -72,7 +72,7 @@ const Album: React.FC<IProps> = props => {
                                 </div>
                                 <div className="description" onClick={() => { setIsShowDetail(true) }}>
                                     <p style={{ '-webkit-box-orient': 'vertical' }}>
-                                        {albuminfo ?.album ?.description}
+                                        {albuminfo ?.album ?.description || '暂无介绍'}
                                     </p>
                                     <Icon type="right" />
                                 </div>
