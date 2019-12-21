@@ -163,6 +163,21 @@
                 margin-left: 9.4%;
             }
 
+            .changeColor {
+                animation: colors 1.5s linear infinite;
+            }
+            @keyframes colors {
+                0% {
+                    background: red;
+                }
+                50% {
+                    background: #fff;
+                }
+                100% {
+                    background: red;
+                }
+            }
+
             .currentTime {
                 position: absolute;
                 left: 2%;
@@ -203,6 +218,7 @@
         height: 100vh;
         flex-direction: column;
         background: #fff;
+        z-index: 11;
 
         span {
             font-size: 5vw;

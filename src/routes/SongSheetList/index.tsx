@@ -75,9 +75,9 @@ const SongSheetList: React.FC<IProps> = props => {
             }
         });
     }, {
-            root: null, // 父级元素
-            rootMargin: '0px 0px 0px 0px'
-        });
+        root: null, // 父级元素
+        rootMargin: '0px 0px 0px 0px'
+    });
 
     return (
         <div className="songSheetListRoot">
@@ -93,7 +93,7 @@ const SongSheetList: React.FC<IProps> = props => {
                 <Icon type="close" style={{ float: 'right', fontSize: '5vw', position: 'relative', top: '-4vh' }} onClick={() => setShowMore(false)} />
                 <div style={{ marginTop: '8vh' }}>
                     {
-                        Object.keys(types).map(item => {
+                        Object.keys(types).length > 0 ? Object.keys(types).map(item => {
                             return (
                                 <div style={{ margin: '1vh 0' }}>
                                     <h4>{item}</h4>
@@ -114,7 +114,11 @@ const SongSheetList: React.FC<IProps> = props => {
                                     </div>
                                 </div>
                             )
-                        })
+                        }) : <>
+                                <RunIcon style={{ background: 'red' }}>
+                                    <span style={{ marginLeft: 12 }}>加载中...</span>
+                                </RunIcon>
+                            </>
                     }
                 </div>
             </section>
@@ -133,7 +137,9 @@ const SongSheetList: React.FC<IProps> = props => {
             </section>
             <section style={{ display: !showMore ? '' : 'none' }}>
                 <SongSheet data={list.data} />
-                <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }} />
+                <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }}>
+                    <span style={{ marginLeft: 12, display: loading ? '' : 'none' }}>加载中...</span>
+                </RunIcon>
                 <div id="sheetListsBottom" style={{ border: '1px solid transparent', display: loading ? 'none' : '' }}></div>
             </section>
             <CircleIcon style={{

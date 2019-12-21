@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { changeTime } from '@src/utilities/changeTime';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { CircleIcon } from '@src/components/RunIcon/index';
 import changpianIcon from '../../../public/assets/images/changpian.jpg';
 import zhuanpanIcon from '../../../public/assets/images/zhuanpan.png';
 import actions, { getPlaySongGeci, getPlaySongInfo } from '../../actions/music';
@@ -92,7 +91,6 @@ const Music: React.FC<IProps> = props => {
     } else {
         center = 9;
     }
-    const history = useHistory();
 
     function timeupdate() {
         const current = audioRef.current;
@@ -388,10 +386,10 @@ const Music: React.FC<IProps> = props => {
                     <div className="process" style={{ background: '#333', width: `${bufferLen}%`, zIndex: 9 }}></div>
                     <div className="process"></div>
                     <div
-                        className="dropBtn"
+                        className= {`dropBtn ${ isLoadingEnd ? '' : 'changeColor' } `}
                         style={{ left: `${playLen}%`, zIndex: 11 }}
+                        onTouchMove={ () => { isLoadingEnd ? handleTouchMove() : null } }
                         onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
                         onMouseDown={handleTouchStart}
                         onMouseMove={handleTouchMove}
@@ -424,14 +422,6 @@ const Music: React.FC<IProps> = props => {
                 <span>先去挑一首自己喜欢的歌吧~</span>
                 <Icon type="left" onClick={() => { musicinfoSet({ ...music, isShow: false }); }} />
             </div>
-
-            <CircleIcon style={{
-                zIndex: 11,
-                position: 'absolute',
-                top: '46%',
-                left: '46%',
-                display: isLoadingEnd ? 'none' : ''
-            }} />
             <SongList
                 playId={musicInfo[0] ?.id}
                 songList={songList}

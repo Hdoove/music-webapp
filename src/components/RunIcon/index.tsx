@@ -9,19 +9,21 @@ interface IProps {
 }
 
 export const RunIcon: React.FC<IProps> = props => {
-    const { style, top } = props;
+    const { style, top, children } = props;
+    console.log(props);
     return (
         <div
             className="barRoot"
             style={{ top: `${top}vh` }}
         >
             {
-                [1, 2, 3, 4].map(item => {
+                [1, 2, 3, 4].map(() => {
                     return (
                         <div style={style} />
                     )
                 })
             }
+            <span>{children}</span> 
         </div >
     );
 }

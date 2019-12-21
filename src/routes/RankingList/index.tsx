@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './index.less';
 import { get_toplist } from '@src/apis/home';
 import { useHistory } from 'react-router-dom';
-import { Icon } from 'antd';
+import { RunIcon } from '@src/components/RunIcon';
 import imgLoading from '../../../public/assets/images/imgLoading.png';
 import { connect } from 'react-redux';
 import actions from '@src/actions/music';
@@ -101,9 +101,9 @@ const Ranking: React.FC<IProps> = props => {
             }
         });
     }, {
-            root: null, // 父级元素
-            rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
-        });
+        root: null, // 父级元素
+        rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
+    });
 
     return (
         <div className="rangkingRoot">
@@ -128,7 +128,11 @@ const Ranking: React.FC<IProps> = props => {
                                     </ul>
                                 </div>
                             )
-                        }) : '加载中...'
+                        }) : <>
+                                <RunIcon style={{ background: 'red' }}>
+                                    <span style={{ marginLeft: 12 }}>加载中...</span>
+                                </RunIcon>
+                            </>
                     }
                     <h4>推荐榜</h4>
                     {
@@ -142,7 +146,11 @@ const Ranking: React.FC<IProps> = props => {
                                     <span className="playsTitle" style={{ '-webkit-box-orient': 'vertical' }}>{item.name}</span>
                                 </div>
                             )
-                        }) : '加载中...'
+                        }) : <>
+                        <RunIcon style={{ background: 'red' }}>
+                            <span style={{ marginLeft: 12 }}>加载中...</span>
+                        </RunIcon>
+                    </>
                     }
                 </div>
             </section>

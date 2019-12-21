@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useState, useEffect, useMemo, useRef } from 'react';
+import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Input, Icon, Tabs, message } from 'antd';
+import { Input, Icon, Tabs } from 'antd';
 const { TabPane } = Tabs;
 import { get_hot_search, get_search_detail } from '@src/apis/home';
 import HostSeatch from './component/HotSearch/index';
@@ -148,9 +148,9 @@ const SearechPage: React.FC<IProps> = props => {
             }
         });
     }, {
-            root: null, // 父级元素
-            rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
-        });
+        root: null, // 父级元素
+        rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
+    });
 
 
     function handleSearch(e: ChangeEvent<HTMLInputElement>) {
@@ -257,7 +257,6 @@ const SearechPage: React.FC<IProps> = props => {
                 />
                 <span onClick={() => { history.push('/home') }}>取消</span>
             </section>
-            <RunIcon style={{ display: loading ? '' : 'none', background: 'red' }} top={12} />
             {
                 allData ? (
                     <Tabs defaultActiveKey="1" style={{ display: isSearch && !isFocus ? '' : 'none' }} activeKey={tab} onChange={handleTabChange}>
@@ -271,26 +270,36 @@ const SearechPage: React.FC<IProps> = props => {
                                 getSonger={handleGetSonger}
                                 getAlbums={handleGetAlbums}
                             />
-                            <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }} />
+                            <RunIcon style={{ background: 'red', display: loading ? '' : 'none' }}>
+                                <span style={{ marginLeft: 12 }}>加载中...</span>
+                            </RunIcon>
                         </TabPane>
                         <TabPane tab="单曲" key="2">
                             <SongsComp data={songs.data} getSong={handleGetSong} />
                             <div id="songBottom" style={{ border: '1px solid transparent' }}></div>
-                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
+                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }}>
+                            <span style={{ marginLeft: 12, display: searchLoading ? '' : 'none' }}>加载中...</span>
+                            </RunIcon>
                         </TabPane>
                         <TabPane tab="歌单" key="3">
                             <PlayListComp data={playLists.data} getPlayList={handleGetPlayList} />
                             <div id="playListsBottom" style={{ border: '1px solid transparent' }}></div>
-                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
+                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }}>
+                            <span style={{ marginLeft: 12, display: searchLoading ? '' : 'none' }}>加载中...</span>
+                            </RunIcon>
                         </TabPane>
                         <TabPane tab="歌手" key="4">
                             <SongersComp data={songers} getSonger={handleGetSonger} />
-                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
+                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }}>
+                                <span style={{ marginLeft: 12, display: searchLoading ? '' : 'none' }}>加载中...</span>
+                            </RunIcon>
                         </TabPane>
                         <TabPane tab="专辑" key="5">
                             <AlbumsComp data={albums.data} getAlbums={handleGetAlbums} />
                             <div id="albumsBottom" style={{ border: '1px solid transparent' }}></div>
-                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none' }} />
+                            <RunIcon style={{ background: 'red' }}>
+                                <span style={{ marginLeft: 12, display: searchLoading ? '' : 'none' }}>加载中...</span>
+                            </RunIcon>
                         </TabPane>
                     </Tabs>
                 ) : <p style={{ marginTop: '6vh', textAlign: 'center', display: isSearch ? '' : 'none' }}>暂无数据</p>
