@@ -10,7 +10,6 @@ interface IProps {
 
 export const RunIcon: React.FC<IProps> = props => {
     const { style, top, children } = props;
-    console.log(props);
     return (
         <div
             className="barRoot"
