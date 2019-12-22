@@ -52,7 +52,7 @@ const Toplist: React.FC<IProps> = props => {
                         <section className="listDetail">
                             <div className="left" style={{ backgroundImage: `url(${songList.coverImgUrl})` }} />
                             <div className="right">
-                                <span style={{ color: '#fff' }}>最近更新：{new Date(songList.createTime).toLocaleDateString()}</span>
+                                <span style={{ color: '#fff' }}>最近更新：{new Date(songList.updateTime).toLocaleDateString()}</span>
                                 <div className="description">
                                     <p style={{ '-webkit-box-orient': 'vertical' }}>
                                         {songList.description || '暂无简介'}

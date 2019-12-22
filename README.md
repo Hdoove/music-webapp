@@ -1,7 +1,7 @@
 ### 仿网易云webApp（持续更新中）
 
 在线访问地址 http://music.hdove.top
-
+项目介绍 https://juejin.im/post/5df1dccfe51d45582248d5ec
 ### 配置安装
 
 开发环境

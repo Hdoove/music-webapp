@@ -79,7 +79,6 @@ const SearechPage: React.FC<IProps> = props => {
     const [tab, setTab] = useState<string>('1');
     const [isSearch, setIsSearch] = useState<boolean>(false);
     const [isFocus, setIsFocus] = useState<boolean>(false);
-    const [timer, setTimer] = useState<any>(null);
 
     const inputRef = useRef(null);
 
@@ -297,7 +296,7 @@ const SearechPage: React.FC<IProps> = props => {
                         <TabPane tab="专辑" key="5">
                             <AlbumsComp data={albums.data} getAlbums={handleGetAlbums} />
                             <div id="albumsBottom" style={{ border: '1px solid transparent' }}></div>
-                            <RunIcon style={{ background: 'red' }}>
+                            <RunIcon style={{ background: 'red', display: searchLoading ? '' : 'none'  }}>
                                 <span style={{ marginLeft: 12, display: searchLoading ? '' : 'none' }}>加载中...</span>
                             </RunIcon>
                         </TabPane>

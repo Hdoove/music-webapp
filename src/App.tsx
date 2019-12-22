@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -25,11 +25,8 @@ const App: React.FC<AppProps> = AppProps => {
 
   const { music } = AppProps;
 
-  return (
-    <div>
-      <div className="bofangqi" style={{ visibility: music.isShow ? 'visible' : 'hidden' }}>
-        <Music />
-      </div>
+  const Routers = useMemo(() => {
+    return (
       <div style={{ overflow: 'hidden' }}>
         <Router>
           <Switch>
@@ -82,6 +79,15 @@ const App: React.FC<AppProps> = AppProps => {
           </Switch>
         </Router>
       </div>
+    )
+  }, []);
+
+  return (
+    <div>
+      <div className="bofangqi" style={{ visibility: music.isShow ? 'visible' : 'hidden' }}>
+        <Music />
+      </div>
+      {Routers}
     </div>
 
   );
