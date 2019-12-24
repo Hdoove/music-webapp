@@ -14,6 +14,7 @@ const defaultState = Immutable({
     type: {},
     hotType: [],
     loading: false,
+    rank: []
 });
 
 
@@ -48,6 +49,14 @@ const reducer = handleActions(
                 payload
             }) =>
             state.set("loading", payload)
+
+        ],
+        [
+            actions.setSongRank,
+            (state, {
+                payload
+            }) =>
+            state.set("rank", payload)
 
         ]
     ]),

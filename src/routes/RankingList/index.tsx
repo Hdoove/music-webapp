@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
-import { get_toplist } from '@src/apis/home';
 import { useHistory } from 'react-router-dom';
 import { RunIcon } from '@src/components/RunIcon';
 import imgLoading from '../../../public/assets/images/imgLoading.png';
 import { connect } from 'react-redux';
 import actions from '@src/actions/music';
 import Header from '@src/components/Header/index';
+import { getSongRank } from '@src/actions/songSheet';
 
 interface IProps {
     music: {
         isShow: boolean;
         isPlay: boolean;
     };
-    musicStatusSet: Function,
+    musicStatusSet: Function;
+    getTopList: () => void;
+    topList: Array<any>
 }
 interface IArr {
     [name: string]: number;
@@ -73,12 +75,11 @@ export const contentId: IArr = {
 }
 
 const Ranking: React.FC<IProps> = props => {
-    const [topList, setTopList] = useState([]);
     const history = useHistory();
-    const { music, musicStatusSet } = props;
+    const { music, musicStatusSet, getTopList, topList } = props;
 
     useEffect(() => {
-        get_toplist().then(res => setTopList(res.list));
+        topList.length === 0 && getTopList();
     }, []);
 
     useEffect(() => {
@@ -101,9 +102,9 @@ const Ranking: React.FC<IProps> = props => {
             }
         });
     }, {
-        root: null, // 父级元素
-        rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
-    });
+            root: null, // 父级元素
+            rootMargin: '0px 0px 0px 0px' // 设置偏移 我们可以设置在目标元素距离底部100px的时候发送请求
+        });
 
     return (
         <div className="rangkingRoot">
@@ -138,7 +139,7 @@ const Ranking: React.FC<IProps> = props => {
                     {
                         topList.length > 0 ? topList.slice(4).map((item: IList) => {
                             return (
-                                <div className="playlist" onClick={() => { history.push(`/ranking/${contentId[item.name]}`) }}>
+                                <div className="playlist" onClick={() => { history.push(`/ranking/${contentId[item.name] || 3}`) }}>
                                     <div className="playsInfo">
                                         <img data-src={item.coverImgUrl} src={imgLoading} className="bgPic" />
                                         <span className="update">{item.updateFrequency}</span>
@@ -147,10 +148,10 @@ const Ranking: React.FC<IProps> = props => {
                                 </div>
                             )
                         }) : <>
-                        <RunIcon style={{ background: 'red' }}>
-                            <span style={{ marginLeft: 12 }}>加载中...</span>
-                        </RunIcon>
-                    </>
+                                <RunIcon style={{ background: 'red' }}>
+                                    <span style={{ marginLeft: 12 }}>加载中...</span>
+                                </RunIcon>
+                            </>
                     }
                 </div>
             </section>
@@ -159,11 +160,12 @@ const Ranking: React.FC<IProps> = props => {
 }
 
 const mapStateToProps = (state: any) => {
-    const { music } = state;
+    const { music, songSheet } = state;
     return {
         music: music.musicStatus,
         playSong: music.playMusicInfo,
-        loading: music.loading
+        loading: music.loading,
+        topList: songSheet.rank
     };
 };
 const mapDispatchToProps = (dispatch: any) => {
@@ -171,6 +173,9 @@ const mapDispatchToProps = (dispatch: any) => {
         musicStatusSet: (item: { isShow: boolean }) => {
             dispatch(actions.setMusicStatus(item));
         },
+        getTopList: () => {
+            dispatch(getSongRank());
+        }
     };
 };
 const ConRanking = connect(

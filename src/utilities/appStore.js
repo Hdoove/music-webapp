@@ -20,7 +20,7 @@ if (!process.env.isProd) {
   const {
     logger
   } = require('redux-logger');
-  // middlewares.push(logger);
+  middlewares.push(logger);
 }
 
 export default function configureStore(preloadedState) {

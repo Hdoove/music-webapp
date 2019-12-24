@@ -7,12 +7,14 @@ import {
 import actions, {
     getSheetList,
     getSheetType,
-    getSheetHotType
+    getSheetHotType,
+    getSongRank
 } from '@src/actions/songSheet';
 import {
     get_playlist_hot_type,
     get_playlist_type,
-    get_sheet_list
+    get_sheet_list,
+    get_toplist
 } from '@src/apis/home';
 
 // 获取热门歌单类型
@@ -74,8 +76,24 @@ function* fetchSheetList(action) {
     }
 }
 
+// 获取排行榜
+function* fetchSongRank(action) {
+    try {
+        const data = yield call(get_toplist);
+        console.log(data);
+        if (data.code === 200 && data.list) {
+            yield put(actions.setSongRank(data.list));
+        } else {
+            yield put(actions.setSongRank([]));
+        }
+    } catch (error) {
+        return error;
+    }
+}
+
 export default function* musicSaga() {
     yield takeLatest(getSheetType().type, fetchSheetType);
     yield takeLatest(getSheetList().type, fetchSheetList);
     yield takeLatest(getSheetHotType().type, fetchSheetHotType);
+    yield takeLatest(getSongRank().type, fetchSongRank);
 }
