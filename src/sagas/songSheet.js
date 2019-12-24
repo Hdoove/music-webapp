@@ -80,7 +80,6 @@ function* fetchSheetList(action) {
 function* fetchSongRank(action) {
     try {
         const data = yield call(get_toplist);
-        console.log(data);
         if (data.code === 200 && data.list) {
             yield put(actions.setSongRank(data.list));
         } else {

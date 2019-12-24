@@ -170,6 +170,8 @@ const Music: React.FC<IProps> = props => {
             }
             newArr.sort((a, b) => a.time - b.time);
             setGeci(newArr);
+        } else {
+            setGeci([]);
         }
     }, [songGeci]);
 
@@ -358,7 +360,7 @@ const Music: React.FC<IProps> = props => {
                     </div>
                     <div style={{ display: !isShowGeci ? 'none' : '' }} onClick={() => { setIsShowGeci(!isShowGeci) }}>
                         {
-                            geci && geci.map((item: { text: string }, index: number) => {
+                            geci.length > 0 ? geci.map((item: { text: string }, index: number) => {
                                 return (
                                     <p
                                         className={`nomal ${index === selectGeciNum ? 'active' : ''}`}
@@ -369,7 +371,7 @@ const Music: React.FC<IProps> = props => {
                                         {item ?.text}
                                     </p>
                                 )
-                            })
+                            }) : <span>暂无歌词</span>
                         }
                     </div>
 
@@ -386,9 +388,9 @@ const Music: React.FC<IProps> = props => {
                     <div className="process" style={{ background: '#333', width: `${bufferLen}%`, zIndex: 9 }}></div>
                     <div className="process"></div>
                     <div
-                        className= {`dropBtn ${ isLoadingEnd ? '' : 'changeColor' } `}
+                        className={`dropBtn ${isLoadingEnd ? '' : 'changeColor'} `}
                         style={{ left: `${playLen}%`, zIndex: 11 }}
-                        onTouchMove={ () => { isLoadingEnd ? handleTouchMove() : null } }
+                        onTouchMove={() => { isLoadingEnd ? handleTouchMove() : null }}
                         onTouchStart={handleTouchStart}
                         onTouchEnd={handleTouchEnd}
                         onMouseDown={handleTouchStart}
@@ -409,7 +411,8 @@ const Music: React.FC<IProps> = props => {
                     <Icon type="left" style={{ color: '#fff' }} onClick={() => { isLoadingEnd ? handleLastSong() : null }} />
                     <Icon
                         onClick={() => {
-                            isLoadingEnd ? changePlayStatus() : null }
+                            isLoadingEnd ? changePlayStatus() : null
+                        }
                         }
                         type={allTime > 0 ? music.isPlay ? 'pause' : 'play-circle' : 'play-circle'}
                         style={{ color: '#fff', fontSize: '6vh' }}
