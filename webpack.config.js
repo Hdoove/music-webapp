@@ -36,7 +36,6 @@ module.exports = {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader?cacheDirectory=true',
-        // loader: ['babel-loader'],
         include: [path.resolve(__dirname, 'src')]
       },
       {
